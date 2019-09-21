@@ -1,0 +1,32 @@
+#adder-menu {
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    grid-template-rows: 1fr;
+
+    height: 100%;
+
+    .adder {
+
+        button {
+            border: none;
+            background: black;
+            height: 60px;
+            width: 60px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);    
+            transition: 0.2s;
+        }
+
+        button:hover {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+            width: 65px;
+            height: 65px;
+        }
+
+        align-self: center;
+        justify-self: center;
+
+        margin: 5px;
+    }
+
+}

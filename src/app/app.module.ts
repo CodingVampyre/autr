@@ -7,6 +7,9 @@ import { ProjectListComponent } from './project-list/project-list.component';
 import { RouterModule } from '@angular/router';
 import { WritingBoardComponent } from './writing-board/writing-board.component';
 import { WritingPanelComponent } from './writing-board/writing-panel/writing-panel.component';
+import { ChapterListComponent } from './writing-board/chapter-list/chapter-list.component';
+import { AdderMenuComponent } from './writing-board/chapter-list/adder-menu/adder-menu.component';
+import { ChapterTreeComponent } from './writing-board/chapter-list/chapter-tree/chapter-tree.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +17,9 @@ import { WritingPanelComponent } from './writing-board/writing-panel/writing-pan
     ProjectListComponent,
     WritingBoardComponent,
     WritingPanelComponent,
+    ChapterListComponent,
+    AdderMenuComponent,
+    ChapterTreeComponent,
   ],
   imports: [
     BrowserModule,
