@@ -1,1 +1,14 @@
-<p>chapter-tree works!</p>
+<div id="chapter-tree">
+    <div id="chapter" *ngFor="let chapter of novelProvider.getDummyNovel().chapters">
+
+        <p>{{ chapter.name }}</p>
+
+        <div class="scene-tree" *ngFor="let scene of chapter.scenes">
+            <div id="scene">
+                <p>{{ scene.name }}</p>
+            </div>
+        </div>
+
+
+    </div>
+</div>

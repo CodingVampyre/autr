@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NovelProjectProviderService } from 'src/app/novel-project-provider.service';
 
 @Component({
   selector: 'app-chapter-tree',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChapterTreeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private novelProvider: NovelProjectProviderService) { }
 
   ngOnInit() {
   }
