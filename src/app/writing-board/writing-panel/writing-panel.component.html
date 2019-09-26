@@ -1,6 +1,6 @@
 <div id="writing-panel">
     
     <div id="writing-toolbar">Toolbar</div>
-    <div id="writing-paper" contenteditable="true">Paper</div>
+    <div id="writing-paper" contenteditable [textContent]="model" (input)="model=$event.target.textContent" (input)="onInput()" (blur)="onBlur()"></div>
 
 </div>
