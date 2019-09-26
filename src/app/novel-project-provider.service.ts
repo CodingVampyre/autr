@@ -34,6 +34,23 @@ export class NovelProjectProviderService {
   public getNovel() {
     return this.novel;
   }
+
+  /**
+   * adds a chapter to the novel
+   */
+  public addChapter(chapterPosition: number): Chapter[] {
+    if (chapterPosition > this.getNovel().chapters.length || chapterPosition < 0) throw new Error('can\'t add chapter after end of novel');
+    return this.getNovel().chapters.splice(chapterPosition, 0, new Chapter());
+  }
+
+  /**
+   * adds a scene to the novel
+   */
+  public addScene(chapterNr: number, scenePosition: number) {
+    if (chapterNr < 0 || chapterNr >= this.getNovel().chapters.length) throw new Error('can\'t add scene to unknown chapter');
+
+    this.getNovel().chapters[chapterNr].scenes.splice(scenePosition, 0, new Scene());
+  }
 }
 
 /** novel containing all metadata */
