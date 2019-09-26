@@ -12,17 +12,13 @@ export class WritingPanelComponent implements OnInit {
     private novelService: NovelProjectProviderService,
   ) { }
 
-  private model: string = "this is my novel text";
+  private text: string;
 
   ngOnInit() {
   }
 
-  onBlur() {
-    console.log(this.model);
-  }
-
-  onInput() {
-    console.log(this.model);
+  onChange() {
+    console.log(this.text);
   }
 
 }
