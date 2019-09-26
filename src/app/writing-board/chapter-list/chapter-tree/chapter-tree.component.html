@@ -4,7 +4,7 @@
         <p>{{ chapter.name }}</p>
 
         <div class="scene-tree" *ngFor="let scene of chapter.scenes; let sceneIndex = index">
-            <div id="scene">
+            <div [ngClass]="{'selected-scene': chapterSwitcher.currentScene === sceneIndex && chapterSwitcher.currentChapter === chapterIndex}" id="scene">
                 <p (click)="selectScene(chapterIndex, sceneIndex)">{{ scene.name }}</p>
             </div>
 
