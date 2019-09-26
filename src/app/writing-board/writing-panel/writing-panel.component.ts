@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NovelProjectProviderService } from 'src/app/novel-project-provider.service';
+import { ChapterSwitcherService } from 'src/app/communication/chapter-switcher.service';
 
 @Component({
   selector: 'app-writing-panel',
@@ -10,6 +11,7 @@ export class WritingPanelComponent implements OnInit {
 
   constructor(
     private novelService: NovelProjectProviderService,
+    private chapterSwitcher: ChapterSwitcherService,
   ) { }
 
   /** chapter that is currently in work */
@@ -28,6 +30,9 @@ export class WritingPanelComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.chapterSwitcher.chapterSwitcher.subscribe((data) => {
+      this.selectScene(data[0], data[1]);
+    })
   }
 
   onChange() {

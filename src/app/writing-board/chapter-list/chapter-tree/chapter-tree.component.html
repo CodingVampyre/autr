@@ -1,11 +1,11 @@
 <div id="chapter-tree">
-    <div id="chapter" *ngFor="let chapter of novelProvider.getNovel().chapters">
+    <div id="chapter" *ngFor="let chapter of novelProvider.getNovel().chapters; let chapterIndex = index">
 
         <p>{{ chapter.name }}</p>
 
-        <div class="scene-tree" *ngFor="let scene of chapter.scenes">
+        <div class="scene-tree" *ngFor="let scene of chapter.scenes; let sceneIndex = index">
             <div id="scene">
-                <p>{{ scene.name }}</p>
+                <p (click)="selectScene(chapterIndex, sceneIndex)">{{ scene.name }}</p>
             </div>
         </div>
 

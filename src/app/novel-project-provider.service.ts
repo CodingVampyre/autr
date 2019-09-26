@@ -17,13 +17,16 @@ export class NovelProjectProviderService {
     const s2 = new Scene();
     const s3 = new Scene();
 
+    s1.name = "Another Morning";
+    s2.name = "The Box of Pandora";
     s1.text = `This is a multiline novel! 
     
     It is very neat!`;
+    s2.text = `Another Scene was openend!`;
 
     c1.scenes = [s1, s2];
     c2.scenes = [s3];
-    n.chapters = [c1, c2, c3, c1, c1, c1, c1, c1, c1];
+    n.chapters = [c1, c2, c3];
 
     this.novel = n;
   }
