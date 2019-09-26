@@ -4,11 +4,10 @@ import { Injectable } from "@angular/core";
   providedIn: "root"
 })
 export class NovelProjectProviderService {
+  private novel: Novel;
 
-  /**
-   * returns a static novel
-   */
-  public getDummyNovel() {
+  constructor() {
+    // TODO this is dummy code. It must be removed in upcoming updates!
     const n = new Novel();
     const c1 = new Chapter();
     const c2 = new Chapter();
@@ -18,14 +17,20 @@ export class NovelProjectProviderService {
     const s2 = new Scene();
     const s3 = new Scene();
 
-    c1.scenes = [s1, s2]
+    s1.text = `This is a multiline novel! 
+    
+    It is very neat!`;
+
+    c1.scenes = [s1, s2];
     c2.scenes = [s3];
     n.chapters = [c1, c2, c3, c1, c1, c1, c1, c1, c1];
 
-    return n;
+    this.novel = n;
   }
 
-  constructor() {}
+  public getNovel() {
+    return this.novel;
+  }
 }
 
 /** novel containing all metadata */
@@ -39,7 +44,6 @@ export class Novel {
 
 /** One chapter of your novel */
 export class Chapter {
-
   /** name of your chapter */
   public name: string = "UNTITLED CHAPTER";
 
@@ -49,10 +53,9 @@ export class Chapter {
 
 /** A Scene of your chapter */
 export class Scene {
-
   /** scene name */
   public name: string = "UNTITLED SCENE";
 
   /** all paragraphs */
-  public paragraphs: string[] = [];
+  public text: string;
 }

@@ -1,6 +1,6 @@
 <div id="writing-panel">
     
     <div id="writing-toolbar">Toolbar</div>
-    <div id="writing-paper" contenteditable [(contenteditableModel)]="text" (keyup)="onChange()"></div>
+    <div id="writing-paper" contenteditable [(contenteditableModel)]="novelService.getNovel().chapters[this.selectedChapterNr].scenes[this.selectedSceneNumber].text" (keyup)="onChange()"></div>
 
 </div>

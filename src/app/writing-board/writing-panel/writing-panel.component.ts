@@ -12,13 +12,25 @@ export class WritingPanelComponent implements OnInit {
     private novelService: NovelProjectProviderService,
   ) { }
 
-  private text: string;
+  /** chapter that is currently in work */
+  private selectedChapterNr = 0;
+
+  /** scene that is currently in work */
+  private selectedSceneNumber = 0;
+
+  /**
+   * sets the current model of a scene to write against it.
+   * To be used by the chapter selector
+   */
+  public selectScene(chapter: number, scene: number) {
+    this.selectedChapterNr = chapter;
+    this.selectedSceneNumber = scene;
+  }
 
   ngOnInit() {
   }
 
   onChange() {
-    console.log(this.text);
   }
 
 }
