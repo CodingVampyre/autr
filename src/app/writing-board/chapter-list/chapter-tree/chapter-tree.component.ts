@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from "@angular/core";
-import { NovelProjectProviderService } from "src/app/novel-project-provider.service";
-import { ChapterSwitcherService } from "src/app/communication/chapter-switcher.service";
+import { NovelProjectProviderService } from "src/app/services/novel-project-provider.service";
+import { ChapterSwitcherService } from "src/app/services/chapter-switcher.service";
 
 @Component({
   selector: "app-chapter-tree",

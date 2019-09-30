@@ -10,7 +10,7 @@ import { WritingPanelComponent } from './writing-board/writing-panel/writing-pan
 import { ChapterListComponent } from './writing-board/chapter-list/chapter-list.component';
 import { AdderMenuComponent } from './writing-board/chapter-list/adder-menu/adder-menu.component';
 import { ChapterTreeComponent } from './writing-board/chapter-list/chapter-tree/chapter-tree.component';
-import { ContenteditableModelDirective } from './contenteditable-model.directive';
+import { ContenteditableModelDirective } from './directives/contenteditable-model.directive';
 
 @NgModule({
   declarations: [
