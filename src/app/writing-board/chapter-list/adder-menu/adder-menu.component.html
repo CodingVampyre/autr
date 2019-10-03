@@ -1,14 +1,18 @@
 <div id="adder-menu">
     <div class="adder">
-        <button></button>
+        <div class="adder-plate" draggable="true" 
+            (dragstart)="onDragStart($event, 'chapter')"
+            (dragend)="onDragEnd($event)"
+        >
+        </div>
         <p>Chapter</p>
     </div>
     <div class="adder">
-        <button></button>
+        <div class="adder-plate"></div>
         <p>Scene</p>
     </div>
     <div class="adder">
-        <button></button>
+        <div class="adder-plate"></div>
         <p>Note</p>
     </div>
 </div>

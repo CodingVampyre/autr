@@ -8,11 +8,18 @@
                 <p (click)="selectScene(chapterIndex, sceneIndex)">{{ scene.name }}</p>
             </div>
 
-            <button (click)="novelProvider.addScene(chapterIndex, sceneIndex + 1)">Add Scene</button>
+            <!--<button (click)="novelProvider.addScene(chapterIndex, sceneIndex + 1)">Add Scene</button>-->
         </div>
 
+        <!--
         <button *ngIf="chapter.scenes.length === 0" (click)="novelProvider.addScene(chapterIndex, 0)">Add Scene</button>
-        <button (click)="novelProvider.addChapter(chapterIndex + 1)">Add Chapter</button>
+        <button (click)="novelProvider.addChapter(chapterIndex + 1)">Add Chapter</button>-->
+        <div class="chapter-drop-zone" 
+            (dragover)="onDragOverChapter($event)" 
+            (drop)="onDropChapter($event)"
+            (dragleave)="onDragLeaveChapter($event)">
+            New Chapter
+        </div>
 
 
     </div>
