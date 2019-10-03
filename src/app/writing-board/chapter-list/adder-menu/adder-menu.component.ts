@@ -16,8 +16,10 @@ export class AdderMenuComponent implements OnInit {
   }
 
   onDragStart(event, type) {
-    if (type === 'chapter') {
-      this.chapterSwitcher.dragContent = DropType.CHAPTER;
+    switch (type) {
+      case 'chapter': this.chapterSwitcher.dragContent = DropType.CHAPTER; break;
+      case 'scene': this.chapterSwitcher.dragContent = DropType.SCENE; break;
+      default: this.chapterSwitcher.dragContent = DropType.NONE;
     }
   }
 

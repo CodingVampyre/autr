@@ -28,11 +28,10 @@ export class ChapterTreeComponent implements OnInit {
     this.chapterSwitcher.chapterSwitcher.emit([chapterNr, sceneNr]);
   }
 
+  // CHAPTER STUFF
   onDragOverChapter(event) {
     event.preventDefault();
     if (this.chapterSwitcher.dragContent === DropType.CHAPTER) {
-      // TODO change style
-
       if (!event.target.className.includes('chapter-drop-zone-highlight')) {
         event.target.classList.add("chapter-drop-zone-highlight");
       }
@@ -45,14 +44,37 @@ export class ChapterTreeComponent implements OnInit {
     }
   }
 
-  onDropChapter(event) {
+  onDropChapter(event, chapterIndex: number) {
     if (this.chapterSwitcher.dragContent === DropType.CHAPTER) {
       if (event.target.className.includes('chapter-drop-zone-highlight')) {
         event.target.classList.remove("chapter-drop-zone-highlight");
       }
+      this.novelProvider.addChapter(chapterIndex + 1);
+    }
+  }
 
-      console.log("adding chapter");
-      // TODO add chapter here
+  // SCENE STUFF
+  onDragOverScene(event) {
+    event.preventDefault();
+    if (this.chapterSwitcher.dragContent === DropType.SCENE) {
+      if (!event.target.className.includes('scene-drop-zone-highlight')) {
+        event.target.classList.add("scene-drop-zone-highlight");
+      }
+    }
+  }
+
+  onDragLeaveScene(event) {
+    if (event.target.className.includes('scene-drop-zone-highlight')) {
+      event.target.classList.remove("scene-drop-zone-highlight");
+    }
+  }
+
+  onDropScene(event, chapterIndex: number, sceneIndex: number) {
+    if (this.chapterSwitcher.dragContent === DropType.SCENE) {
+      if (event.target.className.includes('scene-drop-zone-highlight')) {
+        event.target.classList.remove("scene-drop-zone-highlight");
+      }
+      this.novelProvider.addScene(chapterIndex, sceneIndex + 1);
     }
   }
 }

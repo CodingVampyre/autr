@@ -11,7 +11,6 @@ export class NovelProjectProviderService {
     const n = new Novel();
     const c1 = new Chapter();
     const c2 = new Chapter();
-    const c3 = new Chapter();
 
     const s1 = new Scene();
     const s2 = new Scene();
@@ -26,7 +25,7 @@ export class NovelProjectProviderService {
 
     c1.scenes = [s1, s2];
     c2.scenes = [s3];
-    n.chapters = [c1, c2, c3];
+    n.chapters = [c1, c2];
 
     this.novel = n;
   }
@@ -38,9 +37,10 @@ export class NovelProjectProviderService {
   /**
    * adds a chapter to the novel
    */
-  public addChapter(chapterPosition: number): Chapter[] {
+  public addChapter(chapterPosition: number) {
     if (chapterPosition > this.getNovel().chapters.length || chapterPosition < 0) throw new Error('can\'t add chapter after end of novel');
-    return this.getNovel().chapters.splice(chapterPosition, 0, new Chapter());
+    this.getNovel().chapters.splice(chapterPosition, 0, new Chapter());
+    this.addScene(chapterPosition, 0);
   }
 
   /**

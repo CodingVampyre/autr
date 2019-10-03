@@ -1,26 +1,25 @@
 <div id="chapter-tree">
     <div id="chapter" *ngFor="let chapter of novelProvider.getNovel().chapters; let chapterIndex = index">
 
-        <p>{{ chapter.name }}</p>
+        <p contenteditable="true">{{ chapter.name }}</p>
 
         <div class="scene-tree" *ngFor="let scene of chapter.scenes; let sceneIndex = index">
-            <div [ngClass]="{'selected-scene': chapterSwitcher.currentScene === sceneIndex && chapterSwitcher.currentChapter === chapterIndex}" id="scene">
-                <p (click)="selectScene(chapterIndex, sceneIndex)">{{ scene.name }}</p>
+            <div [ngClass]="{'selected-scene': chapterSwitcher.currentScene === sceneIndex && chapterSwitcher.currentChapter === chapterIndex}"
+                id="scene">
+                <p (click)="selectScene(chapterIndex, sceneIndex)" contenteditable="true">{{ scene.name }}</p>
             </div>
 
-            <!--<button (click)="novelProvider.addScene(chapterIndex, sceneIndex + 1)">Add Scene</button>-->
+            <!--Drop Zone to add new Scenes-->
+            <div class="scene-drop-zone" *ngIf="chapterSwitcher.dragContent === 2" (dragover)="onDragOverScene($event)"
+                (drop)="onDropScene($event, chapterIndex, sceneIndex)" (dragleave)="onDragLeaveScene($event)">
+            </div>
+
         </div>
 
-        <!--
-        <button *ngIf="chapter.scenes.length === 0" (click)="novelProvider.addScene(chapterIndex, 0)">Add Scene</button>
-        <button (click)="novelProvider.addChapter(chapterIndex + 1)">Add Chapter</button>-->
-        <div class="chapter-drop-zone" 
-            (dragover)="onDragOverChapter($event)" 
-            (drop)="onDropChapter($event)"
-            (dragleave)="onDragLeaveChapter($event)">
-            New Chapter
+        <!--Drop Zone to add new Chapters-->
+        <div class="chapter-drop-zone" *ngIf="chapterSwitcher.dragContent === 1" (dragover)="onDragOverChapter($event)"
+            (drop)="onDropChapter($event, chapterIndex)" (dragleave)="onDragLeaveChapter($event)">
         </div>
-
 
     </div>
 </div>
