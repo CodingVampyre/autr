@@ -77,4 +77,15 @@ export class ChapterTreeComponent implements OnInit {
       this.novelProvider.addScene(chapterIndex, sceneIndex + 1);
     }
   }
+
+  // context menus
+  onChapterContextMenu(event, chapterIndex: number) {
+    event.preventDefault();
+    console.log("ContextMenuWillBeEnabled");
+  }
+
+  onSceneContextMenu(event, chapterIndex: number, sceneIndex) {
+    event.preventDefault();
+    console.log("ContextMenuWillBeEnabled2");
+  }
 }
