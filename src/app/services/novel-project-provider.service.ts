@@ -51,6 +51,22 @@ export class NovelProjectProviderService {
 
     this.getNovel().chapters[chapterNr].scenes.splice(scenePosition, 0, new Scene());
   }
+
+  /**
+   * 
+   */
+  public moveChapter(chapterNr: number, newPosition: number) {
+    // error prevention
+    if (chapterNr < 0 || chapterNr > this.novel.chapters.length) throw new Error('chapterNr out of bounds');
+    if (newPosition < 0) newPosition = 0;
+    else if (newPosition > this.novel.chapters.length) newPosition = this.novel.chapters.length;
+
+    // move chapter
+    const chapterToMove: Chapter = this.novel.chapters[chapterNr];
+    this.novel.chapters.splice(chapterNr, 1); // delete old
+    if (newPosition > chapterNr) this.novel.chapters.splice(newPosition+1, 0, chapterToMove); // insert after deleted point
+    else this.novel.chapters.splice(newPosition, 0, chapterToMove); // insert new before deleted point
+  }
 }
 
 /** novel containing all metadata */
@@ -77,5 +93,5 @@ export class Scene {
   public name: string = "UNTITLED SCENE";
 
   /** all paragraphs */
-  public text: string;
+  public text: string = '';
 }

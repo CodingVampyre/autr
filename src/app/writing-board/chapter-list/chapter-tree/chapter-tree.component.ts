@@ -32,21 +32,21 @@ export class ChapterTreeComponent implements OnInit {
   onDragOverChapter(event) {
     event.preventDefault();
     if (this.chapterSwitcher.dragContent === DropType.CHAPTER) {
-      if (!event.target.className.includes('chapter-drop-zone-highlight')) {
+      if (!event.target.className.includes("chapter-drop-zone-highlight")) {
         event.target.classList.add("chapter-drop-zone-highlight");
       }
     }
   }
 
   onDragLeaveChapter(event) {
-    if (event.target.className.includes('chapter-drop-zone-highlight')) {
+    if (event.target.className.includes("chapter-drop-zone-highlight")) {
       event.target.classList.remove("chapter-drop-zone-highlight");
     }
   }
 
   onDropChapter(event, chapterIndex: number) {
     if (this.chapterSwitcher.dragContent === DropType.CHAPTER) {
-      if (event.target.className.includes('chapter-drop-zone-highlight')) {
+      if (event.target.className.includes("chapter-drop-zone-highlight")) {
         event.target.classList.remove("chapter-drop-zone-highlight");
       }
       this.novelProvider.addChapter(chapterIndex + 1);
@@ -57,28 +57,61 @@ export class ChapterTreeComponent implements OnInit {
   onDragOverScene(event) {
     event.preventDefault();
     if (this.chapterSwitcher.dragContent === DropType.SCENE) {
-      if (!event.target.className.includes('scene-drop-zone-highlight')) {
+      if (!event.target.className.includes("scene-drop-zone-highlight")) {
         event.target.classList.add("scene-drop-zone-highlight");
       }
     }
   }
 
   onDragLeaveScene(event) {
-    if (event.target.className.includes('scene-drop-zone-highlight')) {
+    if (event.target.className.includes("scene-drop-zone-highlight")) {
       event.target.classList.remove("scene-drop-zone-highlight");
     }
   }
 
   onDropScene(event, chapterIndex: number, sceneIndex: number) {
     if (this.chapterSwitcher.dragContent === DropType.SCENE) {
-      if (event.target.className.includes('scene-drop-zone-highlight')) {
+      if (event.target.className.includes("scene-drop-zone-highlight")) {
         event.target.classList.remove("scene-drop-zone-highlight");
       }
       this.novelProvider.addScene(chapterIndex, sceneIndex + 1);
     }
   }
 
+  // *************
+  // Move Chapters
+  // *************
+
+  private movingChapterIndex: number | null = null;
+  private movingSceneIndex: [number | null, number | null] = [null, null];
+
+  // Move Chapters
+  onDragStartExistingChapter(chapterIndex: number) {
+    setTimeout(() => this.movingChapterIndex = chapterIndex, 10);
+  }
+
+  onDragEndExistingChapter(event) {
+    this.movingChapterIndex = null;
+  }
+
+  onDragOverMoveChapter(event) {
+    event.preventDefault();
+  }
+
+  onDropMoveChapter(event, chapterIndex) {
+    event.preventDefault();
+    if (this.movingChapterIndex != null) {
+      this.novelProvider.moveChapter(this.movingChapterIndex, chapterIndex);
+    }
+  }
+
+  onDragStartExistingScene(chapterIndex: number, sceneIndex: number) {}
+
+  onDragEndExistingScene(event) {}
+
+  // *************
   // context menus
+  // *************
   onChapterContextMenu(event, chapterIndex: number) {
     event.preventDefault();
     console.log("ContextMenuWillBeEnabled");

@@ -9,7 +9,15 @@
             (dragleave)="onDragLeaveChapter($event)">
         </div>
 
-        <p draggable="true" (contextmenu)="onChapterContextMenu($event, chapterIndex)">{{ chapter.name }}</p>
+        <!--Drop Zone to Move Chapters-->
+        <div class="chapter-move-drop-zone" (dragover)="onDragOverMoveChapter($event)" *ngIf="chapterIndex === 0 && movingChapterIndex != null"
+            (drop)="onDropMoveChapter($event, chapterIndex - 1)">
+        </div>
+
+        <!--Chapter Title-->
+        <p draggable="true" (dblclick)="onChapterContextMenu($event, chapterIndex)"
+            (dragstart)="onDragStartExistingChapter(chapterIndex)" (dragend)="onDragEndExistingChapter($event)">
+            {{ chapter.name }}</p>
 
         <!--Scene List-->
         <div class="scene-tree" *ngFor="let scene of chapter.scenes; let sceneIndex = index">
@@ -22,7 +30,7 @@
 
             <!--A single scene-->
             <div [ngClass]="{'selected-scene': chapterSwitcher.currentScene === sceneIndex && chapterSwitcher.currentChapter === chapterIndex}"
-                id="scene" draggable="true" (contextmenu)="onSceneContextMenu($event, chapterIndex, sceneIndex)">
+                id="scene" draggable="true" (dblclick)="onSceneContextMenu($event, chapterIndex, sceneIndex)">
                 <p (click)="selectScene(chapterIndex, sceneIndex)">{{ scene.name }}</p>
             </div>
 
@@ -36,6 +44,11 @@
         <!--Drop Zone to add new Chapters-->
         <div class="chapter-drop-zone" *ngIf="chapterSwitcher.dragContent === 1" (dragover)="onDragOverChapter($event)"
             (drop)="onDropChapter($event, chapterIndex)" (dragleave)="onDragLeaveChapter($event)">
+        </div>
+
+        <!--Drop Zone to Move Chapters-->
+        <div class="chapter-move-drop-zone" *ngIf="movingChapterIndex != null" (dragover)="onDragOverMoveChapter($event)"
+            (drop)="onDropMoveChapter($event, chapterIndex+1)">
         </div>
 
     </div>
