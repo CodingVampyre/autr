@@ -107,9 +107,23 @@ export class ChapterTreeComponent implements OnInit {
     }
   }
 
-  onDragStartExistingScene(chapterIndex: number, sceneIndex: number) {}
+  // move Scenes
+  onDropMoveScene(event, chapterIndex: number, sceneIndex: number) {
+    this.novelProvider.moveScene(this.movingSceneIndex[0], this.movingSceneIndex[1], chapterIndex, sceneIndex);
+    this.movingSceneIndex = [null, null];
+  }
 
-  onDragEndExistingScene(event) {}
+  onDragOverMoveScene(event) {
+    event.preventDefault();
+  }
+
+  onDragStartExistingScene(event, chapterIndex: number, sceneIndex: number) {
+    setTimeout(() => this.movingSceneIndex = [chapterIndex, sceneIndex], 10);
+  }
+
+  onDragEndExistingScene(event) {
+    this.movingSceneIndex = [null, null];
+  }
 
   // *************
   // context menus
