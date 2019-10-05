@@ -87,6 +87,8 @@ export class ChapterTreeComponent implements OnInit {
 
   // Move Chapters
   onDragStartExistingChapter(chapterIndex: number) {
+    // setTimeout prevents a bug that fires the dragleave immediatly after starting to drag.
+    // may be fixed in future versions
     setTimeout(() => this.movingChapterIndex = chapterIndex, 10);
   }
 
