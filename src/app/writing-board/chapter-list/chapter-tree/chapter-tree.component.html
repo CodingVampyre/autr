@@ -18,7 +18,7 @@
         <!--Chapter Title-->
         <p draggable="true" (dblclick)="onChapterContextMenu($event, chapterIndex)"
             (dragstart)="onDragStartExistingChapter(chapterIndex)" (dragend)="onDragEndExistingChapter($event)">
-            {{ chapter.name }}</p>
+            {{ chapterIndex + ': ' + chapter.name }}</p>
 
         <!--Scene List-->
         <div class="scene-tree" *ngFor="let scene of chapter.scenes; let sceneIndex = index">
@@ -67,3 +67,6 @@
 
     </div>
 </div>
+
+<!--PopUpMenu will be spawned here-->
+<div #popupMenuContainer></div>

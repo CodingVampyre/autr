@@ -1,15 +1,17 @@
 import {
   Component,
   OnInit,
-  Output,
-  EventEmitter,
-  ElementRef
+  ComponentRef,
+  ComponentFactoryResolver,
+  ViewChild,
+  ViewContainerRef
 } from "@angular/core";
 import { NovelProjectProviderService } from "src/app/services/novel-project-provider.service";
 import {
   ChapterSwitcherService,
   DropType
 } from "src/app/services/chapter-switcher.service";
+import { PopUpMenuComponent } from "../../pop-up-menu/pop-up-menu.component";
 
 @Component({
   selector: "app-chapter-tree",
@@ -19,7 +21,9 @@ import {
 export class ChapterTreeComponent implements OnInit {
   constructor(
     private novelProvider: NovelProjectProviderService,
-    private chapterSwitcher: ChapterSwitcherService
+    private chapterSwitcher: ChapterSwitcherService,
+
+    private resolver: ComponentFactoryResolver,
   ) {}
 
   ngOnInit() {}
@@ -89,7 +93,7 @@ export class ChapterTreeComponent implements OnInit {
   onDragStartExistingChapter(chapterIndex: number) {
     // setTimeout prevents a bug that fires the dragleave immediatly after starting to drag.
     // may be fixed in future versions
-    setTimeout(() => this.movingChapterIndex = chapterIndex, 10);
+    setTimeout(() => (this.movingChapterIndex = chapterIndex), 10);
   }
 
   onDragEndExistingChapter(event) {
@@ -109,7 +113,12 @@ export class ChapterTreeComponent implements OnInit {
 
   // move Scenes
   onDropMoveScene(event, chapterIndex: number, sceneIndex: number) {
-    this.novelProvider.moveScene(this.movingSceneIndex[0], this.movingSceneIndex[1], chapterIndex, sceneIndex);
+    this.novelProvider.moveScene(
+      this.movingSceneIndex[0],
+      this.movingSceneIndex[1],
+      chapterIndex,
+      sceneIndex
+    );
     this.movingSceneIndex = [null, null];
   }
 
@@ -118,7 +127,7 @@ export class ChapterTreeComponent implements OnInit {
   }
 
   onDragStartExistingScene(event, chapterIndex: number, sceneIndex: number) {
-    setTimeout(() => this.movingSceneIndex = [chapterIndex, sceneIndex], 10);
+    setTimeout(() => (this.movingSceneIndex = [chapterIndex, sceneIndex]), 10);
   }
 
   onDragEndExistingScene(event) {
@@ -128,9 +137,22 @@ export class ChapterTreeComponent implements OnInit {
   // *************
   // context menus
   // *************
+
+  @ViewChild('popupMenuContainer', {read: ViewContainerRef, static: true}) chapterPopUpMenu: ViewContainerRef;
   onChapterContextMenu(event, chapterIndex: number) {
     event.preventDefault();
-    console.log("ContextMenuWillBeEnabled");
+
+    // instanciation
+    const chapterPopUpfactory = this.resolver.resolveComponentFactory(PopUpMenuComponent);
+    const popUpMenu = this.chapterPopUpMenu.createComponent(chapterPopUpfactory);
+    popUpMenu.instance.context = 'chapter';
+    popUpMenu.instance.chapterNr = chapterIndex;
+
+    popUpMenu.instance.destroyEmitter.subscribe(() => {
+      console.log('BOOOM!');
+      popUpMenu.destroy();
+    })
+    console.log('Opening Popup Menu');
   }
 
   onSceneContextMenu(event, chapterIndex: number, sceneIndex) {

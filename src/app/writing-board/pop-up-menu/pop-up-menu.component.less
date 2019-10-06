@@ -1,0 +1,53 @@
+#pop-up-background {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 100;
+    background: black;
+    opacity: .8;
+}
+
+#pop-up-menu {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 110;
+
+    padding: 50px;
+    background: #bbb;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.8);
+
+    .unimportant-button {
+        border: none;
+        background: none;
+
+        color: #202020;
+
+        height: 20px;
+        text-decoration: underline;
+    }
+
+    .unimportant-button:hover {
+        cursor: pointer;
+    }
+
+    .important-button {
+        border: none;
+        background: none;
+
+        color: #bbb;
+        background-color: #202020;
+
+        height: 20px;
+        border-radius: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .important-button:hover {
+        cursor: pointer;
+    }
+}

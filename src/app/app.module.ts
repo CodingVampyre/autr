@@ -11,6 +11,7 @@ import { ChapterListComponent } from './writing-board/chapter-list/chapter-list.
 import { AdderMenuComponent } from './writing-board/chapter-list/adder-menu/adder-menu.component';
 import { ChapterTreeComponent } from './writing-board/chapter-list/chapter-tree/chapter-tree.component';
 import { ContenteditableModelDirective } from './directives/contenteditable-model.directive';
+import { PopUpMenuComponent } from './writing-board/pop-up-menu/pop-up-menu.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { ContenteditableModelDirective } from './directives/contenteditable-mode
     AdderMenuComponent,
     ChapterTreeComponent,
     ContenteditableModelDirective,
+    PopUpMenuComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,6 +34,7 @@ import { ContenteditableModelDirective } from './directives/contenteditable-mode
     ]),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [PopUpMenuComponent],
 })
 export class AppModule { }

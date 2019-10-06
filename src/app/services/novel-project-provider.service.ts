@@ -16,6 +16,8 @@ export class NovelProjectProviderService {
     const s2 = new Scene();
     const s3 = new Scene();
 
+    c1.name = "A moon is rising";
+    c2.name = "Something New everyday";
     s1.name = "Another Morning";
     s2.name = "The Box of Pandora";
     s1.text = `This is a multiline novel! 

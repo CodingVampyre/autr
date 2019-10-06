@@ -1,0 +1,19 @@
+<div id="pop-up-background" (click)="destroyMe()"></div>
+<div id="pop-up-menu" [ngStyle]="popUpStyle">
+
+    <!--Everything to edit a chapter-->
+    <div *ngIf="context === 'chapter'">
+        <p>{{novelProvider.getNovel().chapters[chapterNr].name}}</p>
+        <button class="unimportant-button">Delete Chapter</button>
+    </div>
+
+    <!--Everything to edit a scene-->
+    <div *ngIf="context === 'scene'">
+        <p>{{novelProvider.getNovel().chapters[chapterNr].name + '/' + novelProvider.getNovel().chapters[chapterNr].scenes[sceneNr].name}}</p>
+        <button class="unimportant-button">Delete Scene</button>
+    </div>
+
+    <!--Common Stuff-->
+    <button class="important-button" (click)="destroyMe()">Close</button>
+
+</div>
