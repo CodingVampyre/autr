@@ -36,10 +36,11 @@
 
             <!--A single scene-->
             <div [ngClass]="{'selected-scene': chapterSwitcher.currentScene === sceneIndex && chapterSwitcher.currentChapter === chapterIndex}"
-                id="scene" draggable="true" (dblclick)="onSceneContextMenu($event, chapterIndex, sceneIndex)"
+                id="scene" draggable="true" (click)="selectScene(chapterIndex, sceneIndex)"
+                (dblclick)="onSceneContextMenu($event, chapterIndex, sceneIndex)"
                 (dragstart)="onDragStartExistingScene($event, chapterIndex, sceneIndex)"
                 (dragEnd)="onDragEndExistingScene($event)">
-                <p (click)="selectScene(chapterIndex, sceneIndex)">{{ scene.name }}</p>
+                <p>{{ scene.name }}</p>
             </div>
 
             <!--Drop Zone to add new Scenes-->
