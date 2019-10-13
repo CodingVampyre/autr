@@ -18,10 +18,14 @@
 
     <!--Everything to edit a scene-->
     <div *ngIf="context === 'scene'">
-        <div class="pop-up box">
-            <p>{{novelProvider.getNovel().chapters[chapterNr].name + '/' + novelProvider.getNovel().chapters[chapterNr].scenes[sceneNr].name}}
-            </p>
-            <button class="unimportant-button">Delete Scene</button>
+        <p>{{novelProvider.getNovel().chapters[chapterNr].name + '/' + novelProvider.getNovel().chapters[chapterNr].scenes[sceneNr].name}}
+        </p>
+        <div class="pop-up-box">
+            <p>Edit Scene Metadata</p>
+            <input type="text" #renameSceneInput class="text-form-input" placeholder="new scene name">
+            <button (click)="renameScene(renameSceneInput.value)" class="important-button">Rename</button>
+            <div class="separator-line"></div>
+            <button class="unimportant-button" id="delete-scene-button" (click)="onClickDeleteScene(chapterNr, sceneNr)">Delete Scene</button>
         </div>
     </div>
 

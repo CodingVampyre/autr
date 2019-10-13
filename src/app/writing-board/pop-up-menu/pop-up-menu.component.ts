@@ -15,21 +15,28 @@ export class PopUpMenuComponent implements OnInit {
 
   @Output() destroyEmitter: EventEmitter<void> = new EventEmitter();
 
-
-  renameChapter(chapterNewName: string) {
-    console.log('renaming to', chapterNewName);
-    this.novelProvider.renameChapter(this.chapterNr, chapterNewName);
-  }
-
   constructor(
     private novelProvider: NovelProjectProviderService
   ) { }
+
+  renameChapter(chapterNewName: string) {
+    this.novelProvider.renameChapter(this.chapterNr, chapterNewName);
+  }
+
+  renameScene(sceneNewName: string) {
+    this.novelProvider.renameScene(this.chapterNr, this.sceneNr, sceneNewName);
+  }
 
   ngOnInit() {
   }
 
   onClickDeleteChapter(chapterNr: number) {
     this.novelProvider.deleteChapter(chapterNr);
+    this.destroyMe();
+  }
+
+  onClickDeleteScene(chapterNr: number, sceneNr: number) {
+    this.novelProvider.deleteScene(chapterNr, sceneNr);
     this.destroyMe();
   }
 

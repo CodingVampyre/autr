@@ -117,8 +117,22 @@ export class NovelProjectProviderService {
   /**
    * 
    */
+  deleteScene(chapterNr: number, sceneNr: number) {
+    this.novel.chapters[chapterNr].scenes.splice(sceneNr, 1);
+  }
+
+  /**
+   * 
+   */
   renameChapter(chapterNr: number, newName: string) {
     this.novel.chapters[chapterNr].name = newName;
+  }
+
+  /**
+   * 
+   */
+  renameScene(chapterNr: number, sceneNr: number, sceneNewName: string) {
+    this.novel.chapters[chapterNr].scenes[sceneNr].name = sceneNewName;
   }
 }
 

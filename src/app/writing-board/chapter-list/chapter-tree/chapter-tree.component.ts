@@ -153,8 +153,17 @@ export class ChapterTreeComponent implements OnInit {
     });
   }
 
-  onSceneContextMenu(event, chapterIndex: number, sceneIndex) {
+  onSceneContextMenu(event, chapterIndex: number, sceneIndex: number) {
     event.preventDefault();
-    console.log("ContextMenuWillBeEnabled2");
+    const scenePopUpFactory = this.resolver.resolveComponentFactory(PopUpMenuComponent);
+    const popUpMenu = this.chapterPopUpMenu.createComponent(scenePopUpFactory);
+
+    popUpMenu.instance.context = 'scene';
+    popUpMenu.instance.chapterNr = chapterIndex;
+    popUpMenu.instance.sceneNr = sceneIndex;
+
+    popUpMenu.instance.destroyEmitter.subscribe(() => {
+      popUpMenu.destroy();
+    });
   }
 }
