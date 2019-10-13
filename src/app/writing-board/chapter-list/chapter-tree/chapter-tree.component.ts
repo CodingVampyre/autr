@@ -119,17 +119,22 @@ export class ChapterTreeComponent implements OnInit {
       this.novelProvider.moveChapter(this.movingChapterIndex, chapterIndex);
     }
 
+    if (this.novelProvider.getNovel().chapters[0].scenes.length === 0) {
+      this.novelProvider.addScene(0, 0);
+      this.chapterSwitcher.switchToChapterEmitter.emit({toChapter: 0, toScene: 0})
+    }
+
     // set selected cover to current one
     if (this.novelProvider.getNovel().chapters.length === 0) {
       return (this.chapterSwitcher.currentChapter = null);
     }
 
     if (chapterIndex < 0) {
-      return (this.chapterSwitcher.currentChapter = 0);
+      this.chapterSwitcher.switchToChapterEmitter.emit({toChapter: 0, toScene: 0});
     } else if (chapterIndex >= this.novelProvider.getNovel().chapters.length) {
-      return (this.chapterSwitcher.currentChapter = chapterIndex - 1);
+      this.chapterSwitcher.switchToChapterEmitter.emit({toChapter: chapterIndex - 1, toScene: 0});
     } else {
-      return (this.chapterSwitcher.currentChapter = chapterIndex);
+      this.chapterSwitcher.switchToChapterEmitter.emit({toChapter: chapterIndex, toScene: 0});
     }
   }
 
