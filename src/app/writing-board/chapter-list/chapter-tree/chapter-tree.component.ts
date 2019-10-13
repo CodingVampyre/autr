@@ -119,10 +119,13 @@ export class ChapterTreeComponent implements OnInit {
 
   onDropMoveChapter(event, chapterIndex) {
     event.preventDefault();
+
+    // move the chapter
     if (this.movingChapterIndex != null) {
       this.novelProvider.moveChapter(this.movingChapterIndex, chapterIndex);
     }
 
+    // add scene if first chapter has none
     if (this.novelProvider.getNovel().chapters[0].scenes.length === 0) {
       this.novelProvider.addScene(0, 0);
       this.chapterSwitcher.switchToChapterEmitter.emit({toChapter: 0, toScene: 0})
@@ -152,19 +155,20 @@ export class ChapterTreeComponent implements OnInit {
       scene: this.chapterSwitcher.currentScene
     });
 
-    this.novelProvider.moveScene(
-      oldChapter,
-      oldScene,
-      newChapterIndex,
-      newSceneIndex
-    );
-    this.movingSceneIndex = [null, null];
-
-    // set selected chapter the moved one;
-    this.chapterSwitcher.switchToChapterEmitter.emit({
-      toChapter: newChapterIndex,
-      toScene: newSceneIndex
-    });
+    // move, but not if moving to the next in line
+    if (!(oldChapter === newChapterIndex && newSceneIndex === oldScene + 1)) {
+      this.novelProvider.moveScene(oldChapter, oldScene, newChapterIndex, newSceneIndex);
+      this.movingSceneIndex = [null, null];
+  
+      // set selected chapter the moved one;
+      const scenesLength = this.novelProvider.getNovel().chapters[newChapterIndex].scenes.length;
+      // when moving a scene to the end, i have to prevent an overflow
+      const newScenePosition = newSceneIndex >= scenesLength ? scenesLength - 1 : newSceneIndex
+      this.chapterSwitcher.switchToChapterEmitter.emit({
+        toChapter: newChapterIndex,
+        toScene: newScenePosition,
+      });
+    }
   }
 
   onDragOverMoveScene(event) {

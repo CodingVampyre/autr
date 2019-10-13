@@ -20,12 +20,13 @@ export class WritingPanelComponent implements OnInit {
     // load text from novel Provider to current Writing panel
     this.currentSceneText = this.novelService.getNovel().chapters[this.chapterSwitcher.currentChapter].scenes[this.chapterSwitcher.currentScene].text;
 
+    // executed before moving
     this.chapterSwitcher.saveTextEmitter.subscribe((newData) => {
       // store old text in matching chapter
       this.novelService.getNovel().chapters[newData.chapter].scenes[newData.scene].text = this.currentSceneText;
     });
 
-    // load new text whenever a scene is switched
+    // load new text whenever a scene is switched, executed after moving
     this.chapterSwitcher.switchToChapterEmitter.subscribe((event) => {
       // set text to new text
       this.currentSceneText = this.novelService.getNovel().chapters[event.toChapter].scenes[event.toScene].text;

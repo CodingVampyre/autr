@@ -25,8 +25,8 @@
         </div>
 
         <!--Drop Zone to move Scenes-->
-        <div class="scene-drop-zone" (dragover)="onDragOverMoveScene($event)"
-            *ngIf="movingSceneIndex[0] != null" (drop)="onDropMoveScene($event, chapterIndex, 0)">
+        <div class="scene-drop-zone" (dragover)="onDragOverMoveScene($event)" *ngIf="movingSceneIndex[0] != null"
+            (drop)="onDropMoveScene($event, chapterIndex, 0)">
         </div>
 
         <!--Scene List-->
@@ -47,7 +47,11 @@
             </div>
 
             <!--Drop Zone to move Scenes-->
-            <div class="scene-drop-zone" (dragover)="onDragOverMoveScene($event)" *ngIf="movingSceneIndex[0] != null"
+            <div class="scene-drop-zone" (dragover)="onDragOverMoveScene($event)"
+                *ngIf="movingSceneIndex[0] != null && 
+                    (movingSceneIndex[0] === chapterIndex 
+                        && (movingSceneIndex[1] !== sceneIndex) 
+                        && (movingSceneIndex[1] - 1 !== sceneIndex))"
                 (drop)="onDropMoveScene($event, chapterIndex, sceneIndex+1)">
             </div>
 

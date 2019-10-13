@@ -37,7 +37,6 @@ export class PopUpMenuComponent implements OnInit {
 
     if (this.novelProvider.getNovel().chapters.length <= 0) {
       this.novelProvider.addChapter(0);
-      this.novelProvider.addScene(0, 0);
       this.chapterSwitcher.switchToChapterEmitter.emit({toChapter: 0, toScene: 0});
     } else if (this.novelProvider.getNovel().chapters[chapterNr - 1] != null && this.novelProvider.getNovel().chapters[chapterNr - 1].scenes.length > 0) {
       this.chapterSwitcher.switchToChapterEmitter.emit({toChapter: chapterNr - 1, toScene: 0});
