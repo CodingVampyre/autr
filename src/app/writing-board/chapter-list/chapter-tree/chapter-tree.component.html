@@ -1,13 +1,13 @@
 <div id="chapter-tree">
 
+    <!--Drop Zone to add new Chapters-->
+    <div class="chapter-drop-zone" *ngIf="chapterSwitcher.dragContent === 1"
+        (dragover)="onDragOverChapter($event)" (drop)="onDropChapter($event, -1)"
+        (dragleave)="onDragLeaveChapter($event)">
+    </div>
+
     <!--Chapter List-->
     <div id="chapter" *ngFor="let chapter of novelProvider.getNovel().chapters; let chapterIndex = index">
-
-        <!--Drop Zone to add new Chapters-->
-        <div class="chapter-drop-zone" *ngIf="chapterSwitcher.dragContent === 1 && chapterIndex === 0"
-            (dragover)="onDragOverChapter($event)" (drop)="onDropChapter($event, -1)"
-            (dragleave)="onDragLeaveChapter($event)">
-        </div>
 
         <!--Drop Zone to Move Chapters-->
         <div class="chapter-move-drop-zone" (dragover)="onDragOverMoveChapter($event)"
@@ -20,14 +20,14 @@
             (dragstart)="onDragStartExistingChapter(chapterIndex)" (dragend)="onDragEndExistingChapter($event)">
             {{ chapterIndex + ': ' + chapter.name }}</p>
 
+        <!--Drop Zone to add new Scenes-->
+        <div class="scene-drop-zone" *ngIf="chapterSwitcher.dragContent === 2"
+            (dragover)="onDragOverScene($event)" (drop)="onDropScene($event, chapterIndex, -1)"
+            (dragleave)="onDragLeaveScene($event)">
+        </div>
+
         <!--Scene List-->
         <div class="scene-tree" *ngFor="let scene of chapter.scenes; let sceneIndex = index">
-
-            <!--Drop Zone to add new Scenes-->
-            <div class="scene-drop-zone" *ngIf="chapterSwitcher.dragContent === 2 && sceneIndex === 0"
-                (dragover)="onDragOverScene($event)" (drop)="onDropScene($event, chapterIndex, -1)"
-                (dragleave)="onDragLeaveScene($event)">
-            </div>
 
             <div class="scene-drop-zone" (dragover)="onDragOverMoveScene($event)"
                 *ngIf="sceneIndex === 0 && movingSceneIndex[0] != null"

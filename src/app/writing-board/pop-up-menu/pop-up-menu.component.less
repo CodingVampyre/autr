@@ -9,6 +9,18 @@
     opacity: .8;
 }
 
+.pop-up-box {
+    width: 800px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
+    padding: 40px;
+    margin-bottom: 40px;
+    border-radius: 8px;
+}
+
+.pop-up-element {
+    margin-right: 20px;
+}
+
 #pop-up-menu {
     position: fixed;
     bottom: 0;
@@ -17,10 +29,37 @@
     z-index: 110;
 
     padding: 50px;
-    background: #bbb;
+    background: #ddd;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.8);
 
+    #delete-chapter-button {
+        color: #f25;
+    }
+
+    .separator-line {
+        width: 100%;
+        height: 2px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .text-form-input {
+        box-sizing: border-box;
+        padding-left: 20px;
+        padding-right: 20px;
+        font-size: 18px;
+        box-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
+
+        height: 40px;
+        border: none;
+        border-radius: 20px;
+
+        .pop-up-element;
+    }
+
     .unimportant-button {
+        font-size: 14px;
         border: none;
         background: none;
 
@@ -35,19 +74,24 @@
     }
 
     .important-button {
+        font-size: 18px;
+        height: 40px;
+
         border: none;
         background: none;
 
         color: #bbb;
         background-color: #202020;
 
-        height: 20px;
-        border-radius: 10px;
-        padding-left: 10px;
-        padding-right: 10px;
+        border-radius: 20px;
+        padding-left: 20px;
+        padding-right: 20px;
+
+        box-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
     }
 
     .important-button:hover {
         cursor: pointer;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
     }
 }

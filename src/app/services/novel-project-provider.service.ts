@@ -4,6 +4,7 @@ import { Injectable } from "@angular/core";
   providedIn: "root"
 })
 export class NovelProjectProviderService {
+
   private novel: Novel;
 
   constructor() {
@@ -104,6 +105,20 @@ export class NovelProjectProviderService {
       // just insert without doubt
       this.novel.chapters[toChapter].scenes.splice(toScenePosition, 0, sceneToMove);
     }
+  }
+
+  /**
+   * 
+   */
+  deleteChapter(chapterNr: number) {
+    this.novel.chapters.splice(chapterNr, 1);
+  }
+
+  /**
+   * 
+   */
+  renameChapter(chapterNr: number, newName: string) {
+    this.novel.chapters[chapterNr].name = newName;
   }
 }
 

@@ -149,10 +149,8 @@ export class ChapterTreeComponent implements OnInit {
     popUpMenu.instance.chapterNr = chapterIndex;
 
     popUpMenu.instance.destroyEmitter.subscribe(() => {
-      console.log('BOOOM!');
       popUpMenu.destroy();
-    })
-    console.log('Opening Popup Menu');
+    });
   }
 
   onSceneContextMenu(event, chapterIndex: number, sceneIndex) {

@@ -3,14 +3,26 @@
 
     <!--Everything to edit a chapter-->
     <div *ngIf="context === 'chapter'">
-        <p>{{novelProvider.getNovel().chapters[chapterNr].name}}</p>
-        <button class="unimportant-button">Delete Chapter</button>
+        <p>Chapter: "{{novelProvider.getNovel().chapters[chapterNr].name}}"</p>
+
+        <!--Rename and delete chapters-->
+        <div class="pop-up-box">
+            <p>Edit Chapter Metadata</p>
+            <input type="text" #renameChapterInput class="text-form-input" placeholder="new chapter name">
+            <button (click)="renameChapter(renameChapterInput.value)" class="important-button">Rename</button>
+            <div class="separator-line"></div>
+            <button class="unimportant-button" (click)="onClickDeleteChapter(chapterNr)"
+                id="delete-chapter-button">Delete Chapter</button>
+        </div>
     </div>
 
     <!--Everything to edit a scene-->
     <div *ngIf="context === 'scene'">
-        <p>{{novelProvider.getNovel().chapters[chapterNr].name + '/' + novelProvider.getNovel().chapters[chapterNr].scenes[sceneNr].name}}</p>
-        <button class="unimportant-button">Delete Scene</button>
+        <div class="pop-up box">
+            <p>{{novelProvider.getNovel().chapters[chapterNr].name + '/' + novelProvider.getNovel().chapters[chapterNr].scenes[sceneNr].name}}
+            </p>
+            <button class="unimportant-button">Delete Scene</button>
+        </div>
     </div>
 
     <!--Common Stuff-->
