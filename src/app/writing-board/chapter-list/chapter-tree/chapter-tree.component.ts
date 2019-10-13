@@ -63,6 +63,8 @@ export class ChapterTreeComponent implements OnInit {
         event.target.classList.remove("chapter-drop-zone-highlight");
       }
       this.novelProvider.addChapter(chapterIndex + 1);
+      this.chapterSwitcher.saveTextEmitter.emit({chapter: this.chapterSwitcher.currentChapter, scene: this.chapterSwitcher.currentScene});
+      this.chapterSwitcher.switchToChapterEmitter.emit({toChapter: chapterIndex + 1, toScene: 0});
     }
   }
 
@@ -88,6 +90,8 @@ export class ChapterTreeComponent implements OnInit {
         event.target.classList.remove("scene-drop-zone-highlight");
       }
       this.novelProvider.addScene(chapterIndex, sceneIndex + 1);
+      this.chapterSwitcher.saveTextEmitter.emit({chapter: this.chapterSwitcher.currentChapter, scene: this.chapterSwitcher.currentScene});
+      this.chapterSwitcher.switchToChapterEmitter.emit({toChapter: chapterIndex, toScene: sceneIndex + 1});
     }
   }
 
