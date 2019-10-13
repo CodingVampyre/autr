@@ -23,13 +23,22 @@ export class ChapterTreeComponent implements OnInit {
     private novelProvider: NovelProjectProviderService,
     private chapterSwitcher: ChapterSwitcherService,
 
-    private resolver: ComponentFactoryResolver,
+    private resolver: ComponentFactoryResolver
   ) {}
 
   ngOnInit() {}
 
   selectScene(chapterNr: number, sceneNr: number) {
-    this.chapterSwitcher.chapterSwitcher.emit([chapterNr, sceneNr, this.chapterSwitcher.currentChapter, this.chapterSwitcher.currentScene]);
+    // save old text
+    this.chapterSwitcher.saveTextEmitter.emit({
+      chapter: this.chapterSwitcher.currentChapter,
+      scene: this.chapterSwitcher.currentScene
+    });
+    // load new text
+    this.chapterSwitcher.switchToChapterEmitter.emit({
+      toChapter: chapterNr,
+      toScene: sceneNr
+    });
   }
 
   // CHAPTER STUFF
@@ -112,31 +121,41 @@ export class ChapterTreeComponent implements OnInit {
 
     // set selected cover to current one
     if (this.novelProvider.getNovel().chapters.length === 0) {
-      return this.chapterSwitcher.currentChapter = null;
+      return (this.chapterSwitcher.currentChapter = null);
     }
 
     if (chapterIndex < 0) {
-      return this.chapterSwitcher.currentChapter = 0;
+      return (this.chapterSwitcher.currentChapter = 0);
     } else if (chapterIndex >= this.novelProvider.getNovel().chapters.length) {
-      return this.chapterSwitcher.currentChapter = chapterIndex - 1;
+      return (this.chapterSwitcher.currentChapter = chapterIndex - 1);
     } else {
-      return this.chapterSwitcher.currentChapter = chapterIndex;
+      return (this.chapterSwitcher.currentChapter = chapterIndex);
     }
   }
 
   // move Scenes
-  onDropMoveScene(event, chapterIndex: number, sceneIndex: number) {
+  onDropMoveScene(event, newChapterIndex: number, newSceneIndex: number) {
+    const [oldChapter, oldScene] = this.movingSceneIndex;
+
+    // save old text
+    this.chapterSwitcher.saveTextEmitter.emit({
+      chapter: this.chapterSwitcher.currentChapter,
+      scene: this.chapterSwitcher.currentScene
+    });
+
     this.novelProvider.moveScene(
-      this.movingSceneIndex[0],
-      this.movingSceneIndex[1],
-      chapterIndex,
-      sceneIndex
+      oldChapter,
+      oldScene,
+      newChapterIndex,
+      newSceneIndex
     );
     this.movingSceneIndex = [null, null];
 
     // set selected chapter the moved one;
-    this.chapterSwitcher.currentChapter = chapterIndex;
-    this.chapterSwitcher.currentScene = sceneIndex;
+    this.chapterSwitcher.switchToChapterEmitter.emit({
+      toChapter: newChapterIndex,
+      toScene: newSceneIndex
+    });
   }
 
   onDragOverMoveScene(event) {
@@ -155,14 +174,19 @@ export class ChapterTreeComponent implements OnInit {
   // context menus
   // *************
 
-  @ViewChild('popupMenuContainer', {read: ViewContainerRef, static: true}) chapterPopUpMenu: ViewContainerRef;
+  @ViewChild("popupMenuContainer", { read: ViewContainerRef, static: true })
+  chapterPopUpMenu: ViewContainerRef;
   onChapterContextMenu(event, chapterIndex: number) {
     event.preventDefault();
 
     // instanciation
-    const chapterPopUpfactory = this.resolver.resolveComponentFactory(PopUpMenuComponent);
-    const popUpMenu = this.chapterPopUpMenu.createComponent(chapterPopUpfactory);
-    popUpMenu.instance.context = 'chapter';
+    const chapterPopUpfactory = this.resolver.resolveComponentFactory(
+      PopUpMenuComponent
+    );
+    const popUpMenu = this.chapterPopUpMenu.createComponent(
+      chapterPopUpfactory
+    );
+    popUpMenu.instance.context = "chapter";
     popUpMenu.instance.chapterNr = chapterIndex;
 
     popUpMenu.instance.destroyEmitter.subscribe(() => {
@@ -172,10 +196,12 @@ export class ChapterTreeComponent implements OnInit {
 
   onSceneContextMenu(event, chapterIndex: number, sceneIndex: number) {
     event.preventDefault();
-    const scenePopUpFactory = this.resolver.resolveComponentFactory(PopUpMenuComponent);
+    const scenePopUpFactory = this.resolver.resolveComponentFactory(
+      PopUpMenuComponent
+    );
     const popUpMenu = this.chapterPopUpMenu.createComponent(scenePopUpFactory);
 
-    popUpMenu.instance.context = 'scene';
+    popUpMenu.instance.context = "scene";
     popUpMenu.instance.chapterNr = chapterIndex;
     popUpMenu.instance.sceneNr = sceneIndex;
 

@@ -5,7 +5,8 @@ import { Injectable, EventEmitter } from '@angular/core';
 })
 export class ChapterSwitcherService {
 
-  public chapterSwitcher = new EventEmitter<[number, number, number?, number?]>();
+  public switchToChapterEmitter = new EventEmitter<{toChapter: number, toScene: number}>();
+  public saveTextEmitter = new EventEmitter<{chapter: number, scene: number}>();
   public currentChapter: number = 0;
   public currentScene: number = 0;
 
@@ -13,8 +14,9 @@ export class ChapterSwitcherService {
   public dragContent: DropType = DropType.NONE;
 
   constructor() { 
-    this.chapterSwitcher.subscribe((event) => {
-      [this.currentChapter, this.currentScene] = event;
+    this.switchToChapterEmitter.subscribe((event) => {
+      this.currentChapter = event.toChapter;
+      this.currentScene = event.toScene;
     });
   }
 }
