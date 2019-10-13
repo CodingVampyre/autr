@@ -5,7 +5,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 })
 export class ChapterSwitcherService {
 
-  public chapterSwitcher = new EventEmitter<[number, number]>();
+  public chapterSwitcher = new EventEmitter<[number, number, number?, number?]>();
   public currentChapter: number = 0;
   public currentScene: number = 0;
 

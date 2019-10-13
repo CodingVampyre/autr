@@ -29,7 +29,7 @@ export class ChapterTreeComponent implements OnInit {
   ngOnInit() {}
 
   selectScene(chapterNr: number, sceneNr: number) {
-    this.chapterSwitcher.chapterSwitcher.emit([chapterNr, sceneNr]);
+    this.chapterSwitcher.chapterSwitcher.emit([chapterNr, sceneNr, this.chapterSwitcher.currentChapter, this.chapterSwitcher.currentScene]);
   }
 
   // CHAPTER STUFF
@@ -109,6 +109,19 @@ export class ChapterTreeComponent implements OnInit {
     if (this.movingChapterIndex != null) {
       this.novelProvider.moveChapter(this.movingChapterIndex, chapterIndex);
     }
+
+    // set selected cover to current one
+    if (this.novelProvider.getNovel().chapters.length === 0) {
+      return this.chapterSwitcher.currentChapter = null;
+    }
+
+    if (chapterIndex < 0) {
+      return this.chapterSwitcher.currentChapter = 0;
+    } else if (chapterIndex >= this.novelProvider.getNovel().chapters.length) {
+      return this.chapterSwitcher.currentChapter = chapterIndex - 1;
+    } else {
+      return this.chapterSwitcher.currentChapter = chapterIndex;
+    }
   }
 
   // move Scenes
@@ -120,6 +133,10 @@ export class ChapterTreeComponent implements OnInit {
       sceneIndex
     );
     this.movingSceneIndex = [null, null];
+
+    // set selected chapter the moved one;
+    this.chapterSwitcher.currentChapter = chapterIndex;
+    this.chapterSwitcher.currentScene = sceneIndex;
   }
 
   onDragOverMoveScene(event) {
