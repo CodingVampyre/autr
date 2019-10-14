@@ -89,8 +89,8 @@ export class ChapterTreeComponent implements OnInit {
       if (event.target.className.includes("scene-drop-zone-highlight")) {
         event.target.classList.remove("scene-drop-zone-highlight");
       }
-      this.novelProvider.addScene(chapterIndex, sceneIndex + 1);
       this.chapterSwitcher.saveTextEmitter.emit({chapter: this.chapterSwitcher.currentChapter, scene: this.chapterSwitcher.currentScene});
+      this.novelProvider.addScene(chapterIndex, sceneIndex + 1);
       this.chapterSwitcher.switchToChapterEmitter.emit({toChapter: chapterIndex, toScene: sceneIndex + 1});
     }
   }
