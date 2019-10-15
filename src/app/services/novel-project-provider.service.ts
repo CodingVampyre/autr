@@ -1,4 +1,7 @@
 import { Injectable } from "@angular/core";
+import {Novel} from '../data-models/novel.class';
+import {Chapter} from '../data-models/chapter.class';
+import {Scene} from '../data-models/scene.class';
 
 @Injectable({
   providedIn: "root"
@@ -9,6 +12,10 @@ export class NovelProjectProviderService {
 
   constructor() {
     // TODO this is dummy code. It must be removed in upcoming updates!
+    this.novel = NovelProjectProviderService.createDummyNovel();
+  }
+
+  private static createDummyNovel(): Novel {
     const n = new Novel();
     const c1 = new Chapter();
     const c2 = new Chapter();
@@ -30,7 +37,7 @@ export class NovelProjectProviderService {
     c2.scenes = [s3];
     n.chapters = [c1, c2];
 
-    this.novel = n;
+    return n;
   }
 
   public getNovel() {
@@ -136,29 +143,3 @@ export class NovelProjectProviderService {
   }
 }
 
-/** novel containing all metadata */
-export class Novel {
-  /** working title or final title of your novel */
-  public name: string = "UNTITLED NOVEL";
-
-  /** chapters */
-  public chapters: Chapter[] = [];
-}
-
-/** One chapter of your novel */
-export class Chapter {
-  /** name of your chapter */
-  public name: string = "UNTITLED CHAPTER";
-
-  /** a list of scenes which compose your chapter */
-  public scenes: Scene[] = [];
-}
-
-/** A Scene of your chapter */
-export class Scene {
-  /** scene name */
-  public name: string = "UNTITLED SCENE";
-
-  /** all paragraphs */
-  public text: string = "";
-}

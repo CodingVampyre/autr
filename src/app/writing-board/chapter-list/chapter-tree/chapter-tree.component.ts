@@ -136,6 +136,7 @@ export class ChapterTreeComponent implements OnInit {
       return (this.chapterSwitcher.currentChapter = null);
     }
 
+    // determine correct scene positioning
     if (chapterIndex < 0) {
       this.chapterSwitcher.switchToChapterEmitter.emit({toChapter: 0, toScene: 0});
     } else if (chapterIndex >= this.novelProvider.getNovel().chapters.length) {
