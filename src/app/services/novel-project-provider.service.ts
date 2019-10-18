@@ -1,13 +1,10 @@
 import { Injectable } from "@angular/core";
-import {Novel} from '../data-models/novel.class';
-import {Chapter} from '../data-models/chapter.class';
-import {Scene} from '../data-models/scene.class';
+import { Novel, Chapter, Scene } from "../data-models/novel.interface";
 
 @Injectable({
   providedIn: "root"
 })
 export class NovelProjectProviderService {
-
   private novel: Novel;
 
   constructor() {
@@ -16,28 +13,35 @@ export class NovelProjectProviderService {
   }
 
   private static createDummyNovel(): Novel {
-    const n = new Novel();
-    const c1 = new Chapter();
-    const c2 = new Chapter();
+    const dummyNovel: Novel = {
+      name: "My Testnovel",
+      chapters: [
+        {
+          name: "A new Dawn",
+          scenes: [
+            {
+              name: "A Beginning",
+              text: `This is a novel. You can enjoy it as much as you want! Nice!`
+            }
+          ]
+        },
+        {
+          name: "A Second Day",
+          scenes: [
+            {
+              name: "Another One Bites the Dust!",
+              text: "Some stupid text!"
+            },
+            {
+              name: "Stanley Kubrik",
+              text: "EVerything he does is a masterpiece! So I write about him"
+            }
+          ]
+        }
+      ]
+    };
 
-    const s1 = new Scene();
-    const s2 = new Scene();
-    const s3 = new Scene();
-
-    c1.name = "A moon is rising";
-    c2.name = "Something New everyday";
-    s1.name = "Another Morning";
-    s2.name = "The Box of Pandora";
-    s1.text = `This is a multiline novel! 
-    
-    It is very neat!`;
-    s2.text = `Another Scene was openend!`;
-
-    c1.scenes = [s1, s2];
-    c2.scenes = [s3];
-    n.chapters = [c1, c2];
-
-    return n;
+    return dummyNovel;
   }
 
   public getNovel() {
@@ -51,9 +55,12 @@ export class NovelProjectProviderService {
     if (
       chapterPosition > this.getNovel().chapters.length ||
       chapterPosition < 0
-    )
+    ) {
       throw new Error("can't add chapter after end of novel");
-    this.getNovel().chapters.splice(chapterPosition, 0, new Chapter());
+    }
+
+    const chapter: Chapter = { name: "new chapter", scenes: [] };
+    this.getNovel().chapters.splice(chapterPosition, 0, chapter);
     this.addScene(chapterPosition, 0);
   }
 
@@ -61,13 +68,13 @@ export class NovelProjectProviderService {
    * adds a scene to the novel
    */
   public addScene(chapterNr: number, scenePosition: number) {
-    if (chapterNr < 0 || chapterNr >= this.getNovel().chapters.length)
+    if (chapterNr < 0 || chapterNr >= this.getNovel().chapters.length) {
       throw new Error("can't add scene to unknown chapter");
+    }
 
+    const scene: Scene = {name: "new scene", text: ""}
     this.getNovel().chapters[chapterNr].scenes.splice(
-      scenePosition,
-      0,
-      new Scene()
+      scenePosition, 0, scene
     );
   }
 
@@ -105,41 +112,52 @@ export class NovelProjectProviderService {
     if (fromChapter === toChapter) {
       // check if this chapter must be manipulated
       if (toScenePosition > fromScene)
-        this.novel.chapters[toChapter].scenes.splice(toScenePosition + 1, 0, sceneToMove);
+        this.novel.chapters[toChapter].scenes.splice(
+          toScenePosition + 1,
+          0,
+          sceneToMove
+        );
       else
-        this.novel.chapters[toChapter].scenes.splice(toScenePosition, 0, sceneToMove);
+        this.novel.chapters[toChapter].scenes.splice(
+          toScenePosition,
+          0,
+          sceneToMove
+        );
     } else {
       // just insert without doubt
-      this.novel.chapters[toChapter].scenes.splice(toScenePosition, 0, sceneToMove);
+      this.novel.chapters[toChapter].scenes.splice(
+        toScenePosition,
+        0,
+        sceneToMove
+      );
     }
   }
 
   /**
-   * 
+   *
    */
   deleteChapter(chapterNr: number) {
     this.novel.chapters.splice(chapterNr, 1);
   }
 
   /**
-   * 
+   *
    */
   deleteScene(chapterNr: number, sceneNr: number) {
     this.novel.chapters[chapterNr].scenes.splice(sceneNr, 1);
   }
 
   /**
-   * 
+   *
    */
   renameChapter(chapterNr: number, newName: string) {
     this.novel.chapters[chapterNr].name = newName;
   }
 
   /**
-   * 
+   *
    */
   renameScene(chapterNr: number, sceneNr: number, sceneNewName: string) {
     this.novel.chapters[chapterNr].scenes[sceneNr].name = sceneNewName;
   }
 }
-
