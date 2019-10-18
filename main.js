@@ -7,8 +7,10 @@ let mainWindow;
 
 function createWindow() {
     mainWindow = new BrowserWindow({
-        width: 800,
+        width: 1200,
         height: 600,
+        minHeight: 600,
+        minWidth: 1200,
         webPreferences: {
             nodeIntegration: true,
         }
@@ -22,7 +24,8 @@ function createWindow() {
         })
     );
     // Open the DevTools.
-    mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools();
+    mainWindow.setMenuBarVisibility(false);
 
     mainWindow.on('closed', function () {
         mainWindow = null;
