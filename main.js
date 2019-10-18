@@ -13,7 +13,8 @@ function createWindow() {
         minWidth: 1200,
         webPreferences: {
             nodeIntegration: true,
-        }
+        },
+        titleBarStyle: 'hidden',
     })
 
     mainWindow.loadURL(
