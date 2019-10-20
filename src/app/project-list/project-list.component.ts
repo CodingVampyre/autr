@@ -17,5 +17,19 @@ import { DatabaseService } from "../services/database.service";
 export class ProjectListComponent implements OnInit {
   constructor(private readonly db: DatabaseService) {}
 
+  novels: string[] = [
+    "My First Novel", 
+    "Something stolen from Steven King",
+    "A Crown for the King",
+  ];
+
   ngOnInit() { }
+
+  onClickLoadNovel(event, novelName: string) {
+    console.log("Will load up", novelName);
+  }
+
+  onClickCreateNewNovel(newNovelName: string) {
+    this.novels.unshift(newNovelName);
+  }
 }

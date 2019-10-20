@@ -1,1 +1,20 @@
-<p>project-list works!</p>
+<div id="background">
+
+    <div id="novel-list-wrapper">
+        <p class="novel-list-header">Create a novel</p>
+        <div class="all-in-row">
+            <p>Enter A new Name --></p>
+            <input #newNovelName type="text" placeholder="new novel name">
+            <p>--> and create it --></p>
+            <button (click)="onClickCreateNewNovel(newNovelName.value)">Create</button>
+        </div>
+
+        <p class="novel-list-header">Load a novel</p>
+        <div id="novel-list">
+            <div class="novel-list-entry" *ngFor="let novel of novels" (click)="onClickLoadNovel($event, novel)">
+                <p class="novel-name">{{ novel }}</p>
+            </div>
+        </div>
+    </div>
+
+</div>
