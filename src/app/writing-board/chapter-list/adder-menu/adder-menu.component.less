@@ -1,0 +1,46 @@
+#adder-menu {
+    display: flex;
+    align-content: center;
+    justify-content: space-around;
+    align-items: center;
+
+    height: 100%;
+
+    .adder {
+
+        display: grid;
+        grid-template-rows: 65px 20px;
+
+        .adder-plate {
+            border: none;
+            background: #888;
+            height: 60px;
+            width: 60px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);    
+            transition: 0.2s;
+        }
+
+        p {
+            color: #ccc;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+
+            font-family: mali-light;
+            font-size: 12px;
+        }
+
+        .adder-plate:hover {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+            width: 65px;
+            height: 65px;
+        }
+
+        align-self: center;
+        justify-self: center;
+
+        margin: 5px;
+    }
+
+}

@@ -1,0 +1,71 @@
+@bgDropZone: #484848;
+
+#chapter-tree {
+    overflow: scroll;
+}
+
+#chapter {
+    color: #ccc;
+    font-size: 14px;
+
+    margin: 20px;
+    margin-left: 20px;
+
+    user-select: none;
+    cursor: pointer;
+
+    #scene {
+        display: flex;
+        align-items: center;
+
+        height: 30px;
+        box-sizing: border-box;
+        margin-left: 30px;
+        margin-bottom: 5px;
+        padding-left: 20px;
+        border-radius: 8px;
+        transition: 0.2s;
+        overflow: hidden;
+
+        user-select: none;
+        cursor: pointer;
+
+        p {
+            font-size: 12px;
+            font-family: 'Mali-Light';
+        }
+    }
+
+    .selected-scene {
+        background: #ccc;
+        color: #202020;
+    }
+
+    #scene:hover {
+        box-shadow: 0 0 2px 0 white;
+    }
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.chapter-drop-zone-highlight, .scene-drop-zone-highlight {
+    background: #202020;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+}
+
+.chapter-drop-zone, .scene-drop-zone, .chapter-move-drop-zone, .scene-move-drop-zone {
+    background-color: @bgDropZone;
+    height: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 5px;
+    position: relative;
+
+    transition: 0.2s;
+}
+
+.scene-drop-zone {
+    margin-left: 32px;
+    padding-left: 20px;
+}

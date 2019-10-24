@@ -1,6 +1,5 @@
 #writing-panel {
-    background-color: #DDD;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    background-color: #FEFEFE;
     height: 100vh;
 
     display: grid;
@@ -8,14 +7,13 @@
     grid-template-columns: 1fr;
 
     #writing-toolbar {
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+        background: #505050;
     }
 
     #writing-toolbar:before, #writing-toolbar:after {
         content: "";
         position: absoute;
         z-index: -1;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
         top: 10px;
         bottom: 10px;
         left: 0;
@@ -31,8 +29,16 @@
 }
 
 #writing-paper {
+    background: #404040;
+    color: #fff;
+
+    line-height: 1.5;
+    font-size: 20px;
+    font-family: 'SpecialElite';
     overflow-y: scroll;
-    padding: 20px;
+    padding: 30px;
+
+    outline: none;
 }
 
 ::-webkit-scrollbar {
