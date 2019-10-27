@@ -70,22 +70,15 @@ input[type="text"] {
                 cursor: pointer;
 
                 display: flex;
-                justify-content: center;
+                justify-content: space-around;
                 align-content: center;
-                align-items: flex-start;
+                align-items: center;
+                flex-direction: column;
 
                 width: @book-width;
                 height: @book-height;
                 margin-right: 40px;
                 margin-bottom: 40px;
-
-                p {
-                    font-size: 20px;
-                    margin-top: 50px;
-                    margin-left: 25px;
-                    margin-right: 25px;
-                    text-align: center;
-                }
 
                 box-shadow: 
                     1px -1px 0px #fff, 
@@ -97,6 +90,35 @@ input[type="text"] {
                     0 0 50px 20px rgba(0, 0, 0, 0.1) inset;
 
                 transition: 0.2s;
+
+                p {
+                    font-size: 20px;
+                    margin-top: 50px;
+                    margin-left: 25px;
+                    margin-right: 25px;
+                    text-align: center;
+                }
+
+                #novel-buttons {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: center;
+                    align-content: center;
+
+                    .important-button {
+                        
+                    }
+
+                    .unimportant-button {
+                        color: red;
+                        text-decoration: underline;
+                        background: none;
+                        margin: 10px;
+                        width: auto;
+                        height: auto;
+                    }
+                }
             }
 
             .novel-list-entry:hover {

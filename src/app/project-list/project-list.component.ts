@@ -55,4 +55,9 @@ export class ProjectListComponent implements OnInit {
 		// refresh list
 		this.novels = await this.db.listNovels();
 	}
+
+	async onClickDeleteNovel(event, novelId) {
+		await this.db.deleteNovel(novelId);
+		this.novels = await this.db.listNovels();
+	}
 }

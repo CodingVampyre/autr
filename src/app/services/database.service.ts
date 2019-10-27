@@ -77,4 +77,11 @@ export class DatabaseService {
 		});
 		return result.docs as any;
 	}
+
+	public async deleteNovel(id: string): Promise<void> {
+		const novel = await this.db.get(id);
+		if (novel != null) {
+			await this.db.remove(novel);
+		}
+	}
 }

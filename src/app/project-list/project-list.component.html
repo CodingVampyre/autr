@@ -11,8 +11,12 @@
 
 		<p class="novel-list-header">Load a novel</p>
 		<div id="novel-list">
-			<div class="novel-list-entry" *ngFor="let novel of novels" (click)="onClickLoadNovel($event, novel._id)">
+			<div class="novel-list-entry" *ngFor="let novel of novels">
 				<p class="novel-name">{{ novel.name }}</p>
+				<div id="novel-buttons">
+					<button class="important-button" (click)="onClickLoadNovel($event, novel._id)">Open</button>
+					<button class="unimportant-button" (click)="onClickDeleteNovel($event, novel._id)">Delete</button>
+				</div>
 			</div>
 		</div>
 	</div>
