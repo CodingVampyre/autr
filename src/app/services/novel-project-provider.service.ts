@@ -2,162 +2,131 @@ import { Injectable } from "@angular/core";
 import { Novel, Chapter, Scene } from "../data-models/novel.interface";
 
 @Injectable({
-  providedIn: "root"
+	providedIn: "root"
 })
 export class NovelProjectProviderService {
-  private novel: Novel;
+	private novel: Novel;
 
-  constructor() {
-    // TODO this is dummy code. It must be removed in upcoming updates!
-    this.novel = NovelProjectProviderService.createDummyNovel();
-  }
+	constructor() { }
 
-  private static createDummyNovel(): Novel {
-    const dummyNovel: Novel = {
-      name: "My Testnovel",
-      chapters: [
-        {
-          name: "A new Dawn",
-          scenes: [
-            {
-              name: "A Beginning",
-              text: `This is a novel. You can enjoy it as much as you want! Nice!`
-            }
-          ]
-        },
-        {
-          name: "A Second Day",
-          scenes: [
-            {
-              name: "Another One Bites the Dust!",
-              text: "Some stupid text!"
-            },
-            {
-              name: "Stanley Kubrik",
-              text: "EVerything he does is a masterpiece! So I write about him"
-            }
-          ]
-        }
-      ]
-    };
+	public getNovel() {
+		return this.novel;
+	}
 
-    return dummyNovel;
-  }
+	public setNovel(novel: Novel) {
+		this.novel = novel;
+	}
 
-  public getNovel() {
-    return this.novel;
-  }
+	/**
+	 * adds a chapter to the novel
+	 */
+	public addChapter(chapterPosition: number) {
+		if (
+			chapterPosition > this.getNovel().chapters.length ||
+			chapterPosition < 0
+		) {
+			throw new Error("can't add chapter after end of novel");
+		}
 
-  /**
-   * adds a chapter to the novel
-   */
-  public addChapter(chapterPosition: number) {
-    if (
-      chapterPosition > this.getNovel().chapters.length ||
-      chapterPosition < 0
-    ) {
-      throw new Error("can't add chapter after end of novel");
-    }
+		const chapter: Chapter = { name: "new chapter", scenes: [] };
+		this.getNovel().chapters.splice(chapterPosition, 0, chapter);
+		this.addScene(chapterPosition, 0);
+	}
 
-    const chapter: Chapter = { name: "new chapter", scenes: [] };
-    this.getNovel().chapters.splice(chapterPosition, 0, chapter);
-    this.addScene(chapterPosition, 0);
-  }
+	/**
+	 * adds a scene to the novel
+	 */
+	public addScene(chapterNr: number, scenePosition: number) {
+		if (chapterNr < 0 || chapterNr >= this.getNovel().chapters.length) {
+			throw new Error("can't add scene to unknown chapter");
+		}
 
-  /**
-   * adds a scene to the novel
-   */
-  public addScene(chapterNr: number, scenePosition: number) {
-    if (chapterNr < 0 || chapterNr >= this.getNovel().chapters.length) {
-      throw new Error("can't add scene to unknown chapter");
-    }
+		const scene: Scene = {name: "new scene", text: ""}
+		this.getNovel().chapters[chapterNr].scenes.splice(
+			scenePosition, 0, scene
+		);
+	}
 
-    const scene: Scene = {name: "new scene", text: ""}
-    this.getNovel().chapters[chapterNr].scenes.splice(
-      scenePosition, 0, scene
-    );
-  }
+	/**
+	 *
+	 */
+	public moveChapter(chapterNr: number, newPosition: number) {
+		// error prevention
+		if (chapterNr < 0 || chapterNr > this.novel.chapters.length)
+			throw new Error("chapterNr out of bounds");
+		if (newPosition < 0) newPosition = 0;
+		else if (newPosition > this.novel.chapters.length)
+			newPosition = this.novel.chapters.length;
 
-  /**
-   *
-   */
-  public moveChapter(chapterNr: number, newPosition: number) {
-    // error prevention
-    if (chapterNr < 0 || chapterNr > this.novel.chapters.length)
-      throw new Error("chapterNr out of bounds");
-    if (newPosition < 0) newPosition = 0;
-    else if (newPosition > this.novel.chapters.length)
-      newPosition = this.novel.chapters.length;
+		// move chapter
+		const chapterToMove: Chapter = this.novel.chapters[chapterNr];
+		this.novel.chapters.splice(chapterNr, 1); // delete old
+		if (newPosition > chapterNr)
+			this.novel.chapters.splice(newPosition + 1, 0, chapterToMove);
+		// insert after deleted point
+		else this.novel.chapters.splice(newPosition, 0, chapterToMove); // insert new before deleted point
+	}
 
-    // move chapter
-    const chapterToMove: Chapter = this.novel.chapters[chapterNr];
-    this.novel.chapters.splice(chapterNr, 1); // delete old
-    if (newPosition > chapterNr)
-      this.novel.chapters.splice(newPosition + 1, 0, chapterToMove);
-    // insert after deleted point
-    else this.novel.chapters.splice(newPosition, 0, chapterToMove); // insert new before deleted point
-  }
+	/**
+	 *
+	 */
+	public moveScene(
+		fromChapter: number,
+		fromScene: number,
+		toChapter: number,
+		toScenePosition: number
+	) {
+		const sceneToMove = this.novel.chapters[fromChapter].scenes[fromScene];
+		this.novel.chapters[fromChapter].scenes.splice(fromScene, 1); // delete old
+		if (fromChapter === toChapter) {
+			// check if this chapter must be manipulated
+			if (toScenePosition > fromScene)
+				this.novel.chapters[toChapter].scenes.splice(
+					toScenePosition + 1,
+					0,
+					sceneToMove
+				);
+			else
+				this.novel.chapters[toChapter].scenes.splice(
+					toScenePosition,
+					0,
+					sceneToMove
+				);
+		} else {
+			// just insert without doubt
+			this.novel.chapters[toChapter].scenes.splice(
+				toScenePosition,
+				0,
+				sceneToMove
+			);
+		}
+	}
 
-  /**
-   *
-   */
-  public moveScene(
-    fromChapter: number,
-    fromScene: number,
-    toChapter: number,
-    toScenePosition: number
-  ) {
-    const sceneToMove = this.novel.chapters[fromChapter].scenes[fromScene];
-    this.novel.chapters[fromChapter].scenes.splice(fromScene, 1); // delete old
-    if (fromChapter === toChapter) {
-      // check if this chapter must be manipulated
-      if (toScenePosition > fromScene)
-        this.novel.chapters[toChapter].scenes.splice(
-          toScenePosition + 1,
-          0,
-          sceneToMove
-        );
-      else
-        this.novel.chapters[toChapter].scenes.splice(
-          toScenePosition,
-          0,
-          sceneToMove
-        );
-    } else {
-      // just insert without doubt
-      this.novel.chapters[toChapter].scenes.splice(
-        toScenePosition,
-        0,
-        sceneToMove
-      );
-    }
-  }
+	/**
+	 *
+	 */
+	deleteChapter(chapterNr: number) {
+		this.novel.chapters.splice(chapterNr, 1);
+	}
 
-  /**
-   *
-   */
-  deleteChapter(chapterNr: number) {
-    this.novel.chapters.splice(chapterNr, 1);
-  }
+	/**
+	 *
+	 */
+	deleteScene(chapterNr: number, sceneNr: number) {
+		this.novel.chapters[chapterNr].scenes.splice(sceneNr, 1);
+	}
 
-  /**
-   *
-   */
-  deleteScene(chapterNr: number, sceneNr: number) {
-    this.novel.chapters[chapterNr].scenes.splice(sceneNr, 1);
-  }
+	/**
+	 *
+	 */
+	renameChapter(chapterNr: number, newName: string) {
+		this.novel.chapters[chapterNr].name = newName;
+	}
 
-  /**
-   *
-   */
-  renameChapter(chapterNr: number, newName: string) {
-    this.novel.chapters[chapterNr].name = newName;
-  }
-
-  /**
-   *
-   */
-  renameScene(chapterNr: number, sceneNr: number, sceneNewName: string) {
-    this.novel.chapters[chapterNr].scenes[sceneNr].name = sceneNewName;
-  }
+	/**
+	 *
+	 */
+	renameScene(chapterNr: number, sceneNr: number, sceneNewName: string) {
+		this.novel.chapters[chapterNr].scenes[sceneNr].name = sceneNewName;
+	}
 }

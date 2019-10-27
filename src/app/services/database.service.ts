@@ -45,7 +45,7 @@ export class DatabaseService {
 	 * @returns {Promise<void>}
 	 */
 	public async storeNovel(novel: Novel): Promise<string> {
-		const key = makeUUID();
+		const key: string = makeUUID();
 		await this.db.put({
 			_id: key,
 			type: 'novel',
@@ -61,8 +61,8 @@ export class DatabaseService {
 	 * @param key {string}
 	 * @returns {Promise<Novel | undefined>}
 	 */
-	public async describeNovel(key: string): Promise<Novel | undefined> {
-		return await this.db.get(key);
+	public async describeNovel(novelId: string): Promise<Novel | undefined> {
+		return ((await this.db.get(novelId)) as any).novel as Novel;
 	}
 
 	/**
@@ -75,6 +75,6 @@ export class DatabaseService {
 			},
 			fields: ['_id', 'type', 'name', 'createdAt'],
 		});
-		return result as any;
+		return result.docs as any;
 	}
 }

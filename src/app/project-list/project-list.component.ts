@@ -8,6 +8,8 @@
 
 import { Component, OnInit } from "@angular/core";
 import { DatabaseService } from "../services/database.service";
+import { NovelProjectProviderService } from '../services/novel-project-provider.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: "app-project-list",
@@ -15,7 +17,11 @@ import { DatabaseService } from "../services/database.service";
   styleUrls: ["./project-list.component.less"]
 })
 export class ProjectListComponent implements OnInit {
-	constructor(private readonly db: DatabaseService) {}
+	constructor(
+		private readonly db: DatabaseService,
+		private readonly novelProvider: NovelProjectProviderService,
+		private router: Router,
+	) {}
 
 	novels: any[] = [];
 
@@ -24,12 +30,13 @@ export class ProjectListComponent implements OnInit {
 		await this.db.createNovelIndex();
 
 		// fetch novels
-		const novelList = await this.db.listNovels();
-		this.novels = novelList.docs;
+		this.novels = await this.db.listNovels();;
 	}
 
-	onClickLoadNovel(event, novelName: string) {
-		console.log("Will load up", novelName);
+	async onClickLoadNovel(event, novelId: string) {
+		const dbNovelEntry = await this.db.describeNovel(novelId);
+		this.novelProvider.setNovel(dbNovelEntry);
+		this.router.navigate(['/writing-board']);
 	}
 
 	async onClickCreateNewNovel(newNovelName: string) {
@@ -46,7 +53,6 @@ export class ProjectListComponent implements OnInit {
 		});
 
 		// refresh list
-		const novels = await this.db.listNovels();
-		this.novels = novels.docs;
+		this.novels = await this.db.listNovels();
 	}
 }
