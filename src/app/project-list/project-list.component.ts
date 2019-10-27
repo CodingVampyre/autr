@@ -34,7 +34,7 @@ export class ProjectListComponent implements OnInit {
 
 	async onClickCreateNewNovel(newNovelName: string) {
 		// store a new novel
-		await this.db.storeNovel('novel:' + newNovelName, {
+		await this.db.storeNovel({
 			name: newNovelName,
 			chapters: [{
 				name: 'chapter 1',
@@ -47,5 +47,6 @@ export class ProjectListComponent implements OnInit {
 
 		// refresh list
 		const novels = await this.db.listNovels();
+		this.novels = novels.docs;
 	}
 }

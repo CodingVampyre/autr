@@ -10,6 +10,7 @@ import { Injectable } from '@angular/core';
 import PouchDB from 'pouchdb';
 import PouchDbFind from 'pouchdb-find';
 import { Novel } from '../data-models/novel.interface';
+import { makeUUID } from './uuid.function';
 
 PouchDB.plugin(PouchDbFind);
 
@@ -43,14 +44,16 @@ export class DatabaseService {
 	 * @param novel {Novel} the book to store
 	 * @returns {Promise<void>}
 	 */
-	public async storeNovel(key: string, novel: Novel): Promise<void> {
+	public async storeNovel(novel: Novel): Promise<string> {
+		const key = makeUUID();
 		await this.db.put({
-			_id: 'novel:' + key,
+			_id: key,
 			type: 'novel',
 			novel: novel,
 			name: novel.name,
 			createdAt: Date.now(),
 		});
+		return key;
 	}
 
 	/**
