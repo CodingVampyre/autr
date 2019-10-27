@@ -15,21 +15,37 @@ import { DatabaseService } from "../services/database.service";
   styleUrls: ["./project-list.component.less"]
 })
 export class ProjectListComponent implements OnInit {
-  constructor(private readonly db: DatabaseService) {}
+	constructor(private readonly db: DatabaseService) {}
 
-  novels: string[] = [
-    "My First Novel", 
-    "Something stolen from Steven King",
-    "A Crown for the King",
-  ];
+	novels: any[] = [];
 
-  ngOnInit() { }
+	async ngOnInit() {
+		// create index if it doesn't exist
+		await this.db.createNovelIndex();
 
-  onClickLoadNovel(event, novelName: string) {
-    console.log("Will load up", novelName);
-  }
+		// fetch novels
+		const novelList = await this.db.listNovels();
+		this.novels = novelList.docs;
+	}
 
-  onClickCreateNewNovel(newNovelName: string) {
-    this.novels.unshift(newNovelName);
-  }
+	onClickLoadNovel(event, novelName: string) {
+		console.log("Will load up", novelName);
+	}
+
+	async onClickCreateNewNovel(newNovelName: string) {
+		// store a new novel
+		await this.db.storeNovel('novel:' + newNovelName, {
+			name: newNovelName,
+			chapters: [{
+				name: 'chapter 1',
+				scenes: [{
+					name: 'first scene',
+					text: 'write your scene here!'
+				}],
+			}],
+		});
+
+		// refresh list
+		const novels = await this.db.listNovels();
+	}
 }

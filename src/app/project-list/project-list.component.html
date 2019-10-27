@@ -12,7 +12,7 @@
         <p class="novel-list-header">Load a novel</p>
         <div id="novel-list">
             <div class="novel-list-entry" *ngFor="let novel of novels" (click)="onClickLoadNovel($event, novel)">
-                <p class="novel-name">{{ novel }}</p>
+                <p class="novel-name">{{ novel.name }}</p>
             </div>
         </div>
     </div>
