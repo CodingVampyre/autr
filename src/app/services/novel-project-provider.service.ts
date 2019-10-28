@@ -9,6 +9,9 @@ export class NovelProjectProviderService {
 	/** main novel to work with */
 	private novel: Novel;
 
+	/** id for database storage */
+	public novelId: string;
+
 	/** default constructor */
 	constructor() { }
 

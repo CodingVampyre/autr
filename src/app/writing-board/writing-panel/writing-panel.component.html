@@ -1,6 +1,11 @@
 <div id="writing-panel">
     
-    <div id="writing-toolbar">Toolbar</div>
+    <!--Contains Tools to work with a novel-->
+    <div id="writing-toolbar">
+        <button (click)="onClickSaveNovel()">Save</button>
+    </div>
+
+    <!--Used to write novel text, gets synced with internal memory-->
     <div id="writing-paper" 
         contenteditable="true"
         [(contenteditableModel)]="currentSceneText" 
