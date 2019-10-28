@@ -5,11 +5,17 @@ import { Novel, Chapter, Scene } from "../data-models/novel.interface";
 	providedIn: "root"
 })
 export class NovelProjectProviderService {
+
+	/** main novel to work with */
 	private novel: Novel;
 
+	/** default constructor */
 	constructor() { }
 
-	public getNovel() {
+	/**
+	 * @return {Novel} the novel
+	 */
+	public getNovel(): Novel {
 		return this.novel;
 	}
 

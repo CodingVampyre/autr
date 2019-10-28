@@ -10,7 +10,7 @@
 export interface Novel {
     /** title or working title of the novel */
     name: string;
-
+    
     /** a novel is composed of chapters */
     chapters: Chapter[];
 }

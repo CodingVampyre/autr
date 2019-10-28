@@ -33,6 +33,9 @@ export class ProjectListComponent implements OnInit {
 		this.novels = await this.db.listNovels();;
 	}
 
+	/**
+	 * loads a novel into the database and redirects to the writing board
+	 */
 	async onClickLoadNovel(event, novelId: string) {
 		const dbNovelEntry = await this.db.describeNovel(novelId);
 		this.novelProvider.setNovel(dbNovelEntry);
