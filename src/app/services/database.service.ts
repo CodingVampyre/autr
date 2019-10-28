@@ -14,6 +14,16 @@ import { makeUUID } from './uuid.function';
 
 PouchDB.plugin(PouchDbFind);
 
+// TODO outsource this
+interface INovelDbEntry {
+	_id: string,
+	novel: Novel
+	type: 'novel',
+	name: string,
+	createdAt: number,
+	modifiedAt: number,
+}
+
 /** manages persistent storage with level */
 @Injectable({
 	providedIn: 'root'
@@ -46,14 +56,25 @@ export class DatabaseService {
 	 */
 	public async storeNovel(novel: Novel): Promise<string> {
 		const key: string = makeUUID();
-		await this.db.put({
+		await this.db.put<INovelDbEntry>({
 			_id: key,
 			type: 'novel',
 			novel: novel,
 			name: novel.name,
 			createdAt: Date.now(),
+			modifiedAt: Date.now(),
 		});
 		return key;
+	}
+
+	/**
+	 * saves a novel over an already existing one.
+	 */
+	public async updateNovel(novelId: string, novel: Novel): Promise<void> {
+		const oldNovelDbEntry: INovelDbEntry = await this.db.get<INovelDbEntry>(novelId);
+		oldNovelDbEntry.novel = novel;
+		oldNovelDbEntry.modifiedAt = Date.now();
+		await this.db.put(oldNovelDbEntry);
 	}
 
 	/**
