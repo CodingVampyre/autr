@@ -1,7 +1,9 @@
-<div id="writing-board-wrapper">
+<div id="writing-board-wrapper" *ngIf="novelProvider.getNovel() != null; else elseBlock">
 
     <app-chapter-list></app-chapter-list>
     <app-writing-panel></app-writing-panel>
     <div id="metadata-control">Metadata</div>
 
 </div>
+
+<ng-template #elseBlock>No Novel Loaded</ng-template>
