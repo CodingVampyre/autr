@@ -15,9 +15,9 @@ type WordCount = { wordsInScene: number, wordsInChapter: number, wordsInNovel: n
 export class FooterBarComponent implements OnInit {
 
 	private wordCount: WordCount = {
-		wordsInScene: 11,
-		wordsInChapter: 22,
-		wordsInNovel: 42,
+		wordsInScene: -1,
+		wordsInChapter: -1,
+		wordsInNovel: -1,
 	}
 
 	constructor(
@@ -27,34 +27,48 @@ export class FooterBarComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		const novel: Novel = this.novelProvider.getNovel();
-		const chapter: Chapter = novel.chapters[this.chapterSwitcherService.currentChapter];
-		const scene: Scene = chapter.scenes[this.chapterSwitcherService.currentScene];
-
 		// update on text change
 		this.novelTextChangeService.subscribe((currentSceneText) => {
-			this.wordCount = {
-				wordsInScene: currentSceneText.split(' ').length,
-				wordsInChapter: FooterBarComponent.countWordsOfChapter(chapter), // TODO
-				wordsInNovel: FooterBarComponent.countWordsOfNovel(novel), // TODO
-			}
+			this.wordCount = this.updateWordCount(currentSceneText);
 		});
 
 		// update on chapter switch
+		this.chapterSwitcherService.switchToChapterEmitter.subscribe((values: {toChapter: number, toScene: number}) => {
+			const currentSceneText: string = this.novelProvider.getNovel().chapters[values.toChapter].scenes[values.toScene].text;
+			this.wordCount = this.updateWordCount(currentSceneText);
+		})
 	}
 
-	private static countWordsOfScene(scene: Scene) {
-		return scene.text.split(' ').length;
+	/**
+	 * 
+	 */
+	private updateWordCount(currentSceneText: string): WordCount {
+		const novel: Novel = this.novelProvider.getNovel();
+		const chapter: Chapter = novel.chapters[this.chapterSwitcherService.currentChapter];
+		const currentChapterIndex: number = this.chapterSwitcherService.currentChapter;
+		const currentSceneIndex: number = this.chapterSwitcherService.currentScene;
+
+		// 1. just count this scene easily
+		const wordsInScene: number = currentSceneText.split(' ').length;
+
+		// 2. subsctract word count of database and an own wordcount
+		const wordsInChapter: number = chapter.scenes.map((scene: Scene, index: number) => {
+			if (index === currentSceneIndex) { return wordsInScene }
+			else { return scene.text.split(' ').length }
+		}).reduce(FooterBarComponent.sumReducer);
+
+		// 3. same as in chapter, but for all chapters
+		const wordsInNovel: number = novel.chapters.map((chapter: Chapter, index: number) => {
+			if (index === currentChapterIndex) { 
+				return wordsInChapter 
+			} else {
+				return chapter.scenes.map((scene: Scene) => scene.text.split(' ').length)
+					.reduce(FooterBarComponent.sumReducer);
+			}
+		}).reduce(FooterBarComponent.sumReducer);
+
+		return { wordsInScene, wordsInChapter, wordsInNovel }
 	}
 
 	private static sumReducer(previous: number, current: number) { return previous + current }
-
-	private static countWordsOfChapter(chapter: Chapter) {
-		return chapter.scenes.map((scene: Scene) => this.countWordsOfScene(scene)).reduce(FooterBarComponent.sumReducer);
-	}
-
-	private static countWordsOfNovel(novel: Novel) {
-		return novel.chapters.map((chapter: Chapter) => this.countWordsOfChapter(chapter)).reduce(FooterBarComponent.sumReducer);
-	}
-
 }
