@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NovelProjectProviderService } from 'src/app/services/novel-project-provider.service';
 import { ChapterSwitcherService } from 'src/app/services/chapter-switcher.service';
 import { DatabaseService } from 'src/app/services/database.service';
+import { NovelTextChangeService } from 'src/app/services/novel-text-change.service';
 
 @Component({
   selector: 'app-writing-panel',
@@ -14,6 +15,7 @@ export class WritingPanelComponent implements OnInit {
 		private novelService: NovelProjectProviderService,
 		private chapterSwitcher: ChapterSwitcherService,
 		private database: DatabaseService,
+		private novelTextChangeService: NovelTextChangeService,
 	) { }
 
 	currentSceneText: string;
@@ -37,7 +39,9 @@ export class WritingPanelComponent implements OnInit {
 		}
 	}
 
-	onChange() { /** gets called whenever text changes */ }
+	onChange() {
+		this.novelTextChangeService.emit(this.currentSceneText);
+	}
 
 	async onClickSaveNovel() {
 		// fetch novel id
