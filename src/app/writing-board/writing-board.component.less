@@ -1,3 +1,5 @@
+@footer-height: 50px;
+
 #writing-board-wrapper {
     background: #202020;
     padding: 0;
@@ -9,6 +11,33 @@
     height: 100vh;
 
     display: grid;
-    grid-template-rows: 1fr;
+    grid-template-rows: 1fr @footer-height;
     grid-template-columns: 300px 1fr 30%;
+
+    #app-chapter-list {
+        min-height: 0;
+        grid-row: 1;
+        grid-column: 1;
+
+        display: grid;
+        grid-template-rows: 130px 1fr;
+        grid-template-columns: 1fr;
+    }
+
+    #app-writing-panel {
+        min-height: 0;
+        grid-row: 1;
+        grid-column: 2;
+    }
+
+    #metadata-control {
+        grid-row: 1;
+        grid-column: 3;
+    }
+
+    #footer-bar {
+        grid-row: 2;
+        grid-column-start: 1;
+        grid-column-end: 4;
+    }
 }
