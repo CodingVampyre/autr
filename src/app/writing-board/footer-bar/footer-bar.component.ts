@@ -3,7 +3,6 @@ import { NovelProjectProviderService } from 'src/app/services/novel-project-prov
 import { Scene, Chapter, Novel } from '../../data-models/novel.interface';
 import { NovelTextChangeService } from 'src/app/services/novel-text-change.service';
 import { ChapterSwitcherService } from 'src/app/services/chapter-switcher.service';
-import { TouchSequence } from 'selenium-webdriver';
 
 type WordCount = { wordsInScene: number, wordsInChapter: number, wordsInNovel: number }
 
