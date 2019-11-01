@@ -5,6 +5,7 @@ import { NovelTextChangeService } from 'src/app/services/novel-text-change.servi
 import { ChapterSwitcherService } from 'src/app/services/chapter-switcher.service';
 
 type WordCount = { wordsInScene: number, wordsInChapter: number, wordsInNovel: number }
+type CharacterCount = { charactersInScene: number, charactersInChapter: number, charactersInNovel: number }
 
 @Component({
 	selector: 'app-footer-bar',
@@ -17,6 +18,12 @@ export class FooterBarComponent implements OnInit {
 		wordsInScene: -1,
 		wordsInChapter: -1,
 		wordsInNovel: -1,
+	}
+
+	private characterCount: CharacterCount = {
+		charactersInScene: -1,
+		charactersInChapter: -1,
+		charactersInNovel: -1,
 	}
 
 	constructor(
