@@ -1,3 +1,9 @@
+.icon {
+    background-repeat: no-repeat;
+    background-size: 60%;
+    background-position: center;
+}
+
 #writing-panel {
     background-color: #FEFEFE;
     height: 100%;
@@ -18,24 +24,25 @@
 
         button {
             cursor: pointer;
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             border: none;
-            background: none;
+
+            background: url('../../../assets/icons/md-save.svg');
+            .icon;
+
             color: #ddd;
-            border-radius: 8px;
-            box-shadow: 0 0 0 1px rgba(255, 255, 255, .2);
 
             transition: 0.4s;
         }
 
         button:hover {
-            box-shadow: 0 0 0 1px rgba(255, 255, 255, .8);
+            box-shadow: 1px 0 1px 0 rgba(255, 255, 255, .8), -1px 0 1px 0 rgba(255, 255, 255, .8);
         }
 
         button:focus {
             outline: none;
-            box-shadow: 0 0 0 1px rgba(255, 255, 255, .9);
+            box-shadow: 1px 0 1px 0 rgba(255, 255, 255, .9), -1px 0 1px 0 rgba(255, 255, 255, .9);
         }
     }
 
