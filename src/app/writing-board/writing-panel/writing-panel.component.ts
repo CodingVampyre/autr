@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { NovelProjectProviderService } from 'src/app/services/novel-project-provider.service';
 import { ChapterSwitcherService } from 'src/app/services/chapter-switcher.service';
 import { DatabaseService } from 'src/app/services/database.service';
@@ -44,6 +44,25 @@ export class WritingPanelComponent implements OnInit {
 	}
 
 	async onClickSaveNovel(event) {
+		await this.saveNovel();
+
+		// paint button green for one second
+		if (!event.target.className.includes('button-confirm')) {
+			event.target.classList.add('button-confirm');
+			setTimeout(() => event.target.classList.remove('button-confirm'), 2000);
+		}
+	}
+
+	@HostListener('document:keydown.control.s', ['$event'])
+    async onKeyDown(event) {
+        event.preventDefault();
+        await this.saveNovel();
+	}
+	
+	/**
+	 * 
+	 */
+	private async saveNovel() {
 		// fetch novel id
 		const novelid: string = this.novelService.novelId;
 		if (novelid == null) throw new Error('currently, no novel is loaded');
@@ -56,12 +75,6 @@ export class WritingPanelComponent implements OnInit {
 
 		// save it into the database
 		await this.database.updateNovel(novelid, this.novelService.getNovel());
-
-		// paint button green for one second
-		if (!event.target.className.includes('button-confirm')) {
-			event.target.classList.add('button-confirm');
-			setTimeout(() => event.target.classList.remove('button-confirm'), 2000);
-		}
-		console.log('novel saved');
+		console.log('Novel was Saved!');
 	}
 }

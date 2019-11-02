@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { NovelProjectProviderService } from '../services/novel-project-provider.service';
 
@@ -19,5 +19,4 @@ export class WritingBoardComponent implements OnInit {
 			this.router.navigate(['projects']);
 		}
 	}
-
 }
