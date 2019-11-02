@@ -43,7 +43,7 @@ export class WritingPanelComponent implements OnInit {
 		this.novelTextChangeService.emit(this.currentSceneText);
 	}
 
-	async onClickSaveNovel() {
+	async onClickSaveNovel(event) {
 		// fetch novel id
 		const novelid: string = this.novelService.novelId;
 		if (novelid == null) throw new Error('currently, no novel is loaded');
@@ -56,6 +56,12 @@ export class WritingPanelComponent implements OnInit {
 
 		// save it into the database
 		await this.database.updateNovel(novelid, this.novelService.getNovel());
+
+		// paint button green for one second
+		if (!event.target.className.includes('button-confirm')) {
+			event.target.classList.add('button-confirm');
+			setTimeout(() => event.target.classList.remove('button-confirm'), 2000);
+		}
 		console.log('novel saved');
 	}
 }

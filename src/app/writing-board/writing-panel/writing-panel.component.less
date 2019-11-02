@@ -25,10 +25,17 @@
             color: #ddd;
             border-radius: 8px;
             box-shadow: 0 0 0 1px rgba(255, 255, 255, .2);
+
+            transition: 0.4s;
         }
 
         button:hover {
             box-shadow: 0 0 0 1px rgba(255, 255, 255, .8);
+        }
+
+        button:focus {
+            outline: none;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, .9);
         }
     }
 
@@ -62,6 +69,10 @@
     padding: 30px;
 
     outline: none;
+}
+
+.button-confirm {
+    background: green !important;
 }
 
 ::-webkit-scrollbar {
