@@ -36,12 +36,14 @@ export class FooterBarComponent implements OnInit {
 		// update on text change
 		this.novelTextChangeService.subscribe((currentSceneText) => {
 			this.wordCount = this.updateWordCount(currentSceneText);
+			this.characterCount = this.updateCharacterCount(currentSceneText);
 		});
 
 		// update on chapter switch
 		this.chapterSwitcherService.switchToChapterEmitter.subscribe((values: {toChapter: number, toScene: number}) => {
 			const currentSceneText: string = this.novelProvider.getNovel().chapters[values.toChapter].scenes[values.toScene].text;
 			this.wordCount = this.updateWordCount(currentSceneText);
+			this.characterCount = this.updateCharacterCount(currentSceneText);
 		})
 	}
 
@@ -73,7 +75,38 @@ export class FooterBarComponent implements OnInit {
 			}
 		}).reduce(FooterBarComponent.sumReducer);
 
-		return { wordsInScene, wordsInChapter, wordsInNovel }
+		return { wordsInScene, wordsInChapter, wordsInNovel };
+	}
+
+	/**
+	 * 
+	 */
+	private updateCharacterCount(currentSceneText: string): CharacterCount {
+		const novel: Novel = this.novelProvider.getNovel();
+		const chapter: Chapter = novel.chapters[this.chapterSwitcherService.currentChapter];
+		const currentChapterIndex: number = this.chapterSwitcherService.currentChapter;
+		const currentSceneIndex: number = this.chapterSwitcherService.currentScene;
+
+		// 1. just count this scene easily
+		const charactersInScene: number = currentSceneText.length;
+
+		// 2. subsctract word count of database and an own wordcount
+		const charactersInChapter: number = chapter.scenes.map((scene: Scene, index: number) => {
+			if (index === currentSceneIndex) { return charactersInScene }
+			else { return scene.text.length }
+		}).reduce(FooterBarComponent.sumReducer);
+
+		// 3. same as in chapter, but for all chapters
+		const charactersInNovel: number = novel.chapters.map((chapter: Chapter, index: number) => {
+			if (index === currentChapterIndex) { 
+				return charactersInChapter; 
+			} else {
+				return chapter.scenes.map((scene: Scene) => scene.text.length)
+					.reduce(FooterBarComponent.sumReducer);
+			}
+		}).reduce(FooterBarComponent.sumReducer);
+
+		return { charactersInScene, charactersInChapter, charactersInNovel };
 	}
 
 	private static sumReducer(previous: number, current: number) { return previous + current }
