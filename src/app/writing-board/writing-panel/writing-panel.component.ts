@@ -3,6 +3,7 @@ import { NovelProjectProviderService } from 'src/app/services/novel-project-prov
 import { ChapterSwitcherService } from 'src/app/services/chapter-switcher.service';
 import { DatabaseService } from 'src/app/services/database.service';
 import { NovelTextChangeService } from 'src/app/services/novel-text-change.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-writing-panel',
@@ -16,6 +17,7 @@ export class WritingPanelComponent implements OnInit {
 		private chapterSwitcher: ChapterSwitcherService,
 		private database: DatabaseService,
 		private novelTextChangeService: NovelTextChangeService,
+		private router: Router,
 	) { }
 
 	/** text currently controlled by the writing board*/
@@ -35,13 +37,11 @@ export class WritingPanelComponent implements OnInit {
 		if (this.novelService.getNovel() != null) {
 			// load text from novel Provider to current Writing panel
 			this.currentSceneText = this.novelService.getNovel().chapters[this.chapterSwitcher.currentChapter].scenes[this.chapterSwitcher.currentScene].text;
-
 			// executed before moving
 			this.chapterSwitcher.saveTextEmitter.subscribe((newData) => {
 				// store old text in matching chapter
 				this.novelService.getNovel().chapters[newData.chapter].scenes[newData.scene].text = this.currentSceneText;
 			});
-
 			// load new text whenever a scene is switched, executed after moving
 			this.chapterSwitcher.switchToChapterEmitter.subscribe((event) => {
 				// set text to new text
@@ -69,6 +69,12 @@ export class WritingPanelComponent implements OnInit {
 			event.target.classList.add('button-confirm');
 			setTimeout(() => event.target.classList.remove('button-confirm'), 2000);
 		}
+	}
+
+	/** goes to the export menu */
+	onClickOpenExportMenu(event) {
+		console.log("opening export menu!");
+		this.router.navigate(['export']);
 	}
 	
 	/** saves a novel */

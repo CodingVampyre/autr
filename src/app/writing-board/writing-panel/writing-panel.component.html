@@ -2,7 +2,8 @@
     
     <!--Contains Tools to work with a novel-->
     <div id="writing-toolbar">
-        <button (click)="onClickSaveNovel($event)"></button>
+        <button class="icon-bar-button" id="save-novel-button" (click)="onClickSaveNovel($event)"></button>
+        <button class="icon-bar-button" id="export-novel-button" (click)="onClickOpenExportMenu($event)"></button>
     </div>
 
     <!--Used to write novel text, gets synced with internal memory-->

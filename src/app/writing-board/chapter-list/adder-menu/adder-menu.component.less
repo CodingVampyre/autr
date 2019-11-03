@@ -1,3 +1,21 @@
+.icon {
+    background-repeat: no-repeat;
+    background-size: 60%;
+    background-position: center;
+}
+
+#scene-adder {
+    background: url("../../../../assets/icons/clapperboard.svg");
+    background-color: transparent;
+    .icon;
+}
+
+#chapter-adder {
+    background: url("../../../../assets/icons/md-journal.svg");
+    background-color: transparent;
+    .icon;
+}
+
 #adder-menu {
     display: flex;
     align-content: center;
@@ -14,11 +32,9 @@
 
         .adder-plate {
             border: none;
-            background: #888;
             height: 60px;
             width: 60px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);    
             transition: 0.2s;
         }
 
@@ -33,7 +49,6 @@
         }
 
         .adder-plate:hover {
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
             width: 65px;
             height: 65px;
         }

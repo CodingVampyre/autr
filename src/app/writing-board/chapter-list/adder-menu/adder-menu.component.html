@@ -2,7 +2,7 @@
 
     <!--Add new Chapter-->
     <div class="adder">
-        <div class="adder-plate" draggable="true" (dragstart)="onDragStart($event, 'chapter')"
+        <div class="adder-plate" id="chapter-adder" draggable="true" (dragstart)="onDragStart($event, 'chapter')"
             (dragend)="onDragEnd($event)">
         </div>
         <p>Chapter</p>
@@ -10,7 +10,7 @@
 
     <!--Add new Scene-->
     <div class="adder">
-        <div class="adder-plate" draggable="true" (dragstart)="onDragStart($event, 'scene')"
+        <div class="adder-plate" id="scene-adder" draggable="true" (dragstart)="onDragStart($event, 'scene')"
             (dragend)="onDragEnd($event)">
         </div>
         <p>Scene</p>

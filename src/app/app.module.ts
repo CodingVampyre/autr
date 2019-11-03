@@ -13,6 +13,7 @@ import { ChapterTreeComponent } from './writing-board/chapter-list/chapter-tree/
 import { ContenteditableModelDirective } from './directives/contenteditable-model.directive';
 import { PopUpMenuComponent } from './writing-board/pop-up-menu/pop-up-menu.component';
 import { FooterBarComponent } from './writing-board/footer-bar/footer-bar.component';
+import { ExportMenuComponent } from './export-menu/export-menu.component';
 
 @NgModule({
   declarations: [
@@ -26,13 +27,15 @@ import { FooterBarComponent } from './writing-board/footer-bar/footer-bar.compon
     ContenteditableModelDirective,
     PopUpMenuComponent,
     FooterBarComponent,
+    ExportMenuComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     RouterModule.forRoot([
       {path: 'projects', component: ProjectListComponent},
-      {path: 'writing-board', component: WritingBoardComponent}
+      {path: 'writing-board', component: WritingBoardComponent},
+      {path: 'export', component: ExportMenuComponent},
     ]),
   ],
   providers: [],
