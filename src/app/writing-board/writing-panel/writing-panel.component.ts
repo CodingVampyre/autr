@@ -18,7 +18,18 @@ export class WritingPanelComponent implements OnInit {
 		private novelTextChangeService: NovelTextChangeService,
 	) { }
 
+	/** text currently controlled by the writing board*/
 	currentSceneText: string;
+
+	/** determines when the novel is automatically saved when no key is pressed */
+	private autosaveTimer: NodeJS.Timer;
+
+	/** controlls manual save via key combination */
+	@HostListener('document:keydown.control.s', ['$event'])
+    async onKeyDown(event) {
+        event.preventDefault();
+        await this.saveNovel();
+	}
 
 	ngOnInit() {
 		if (this.novelService.getNovel() != null) {
@@ -39,10 +50,17 @@ export class WritingPanelComponent implements OnInit {
 		}
 	}
 
+	/** fired everytime the text is changed */
 	onChange() {
 		this.novelTextChangeService.emit(this.currentSceneText);
+
+		// reset autosave timer and restart it again!
+		clearTimeout(this.autosaveTimer);
+		this.autosaveTimer = setTimeout(async () => await this.saveNovel(), 1000);
+
 	}
 
+	/** fired when the novel save button is pressed */
 	async onClickSaveNovel(event) {
 		await this.saveNovel();
 
@@ -52,20 +70,12 @@ export class WritingPanelComponent implements OnInit {
 			setTimeout(() => event.target.classList.remove('button-confirm'), 2000);
 		}
 	}
-
-	@HostListener('document:keydown.control.s', ['$event'])
-    async onKeyDown(event) {
-        event.preventDefault();
-        await this.saveNovel();
-	}
 	
-	/**
-	 * 
-	 */
+	/** saves a novel */
 	private async saveNovel() {
 		// fetch novel id
-		const novelid: string = this.novelService.novelId;
-		if (novelid == null) throw new Error('currently, no novel is loaded');
+		const novelId: string = this.novelService.novelId;
+		if (novelId == null) { throw new Error('currently, no novel is loaded'); }
 
 		// save text to json
 		this.chapterSwitcher.saveTextEmitter.emit({
@@ -74,7 +84,6 @@ export class WritingPanelComponent implements OnInit {
 		});
 
 		// save it into the database
-		await this.database.updateNovel(novelid, this.novelService.getNovel());
-		console.log('Novel was Saved!');
+		await this.database.updateNovel(novelId, this.novelService.getNovel());
 	}
 }
