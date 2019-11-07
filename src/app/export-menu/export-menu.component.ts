@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-// const { dialog } = require('electron').remote;
+import { IpcRenderer } from 'electron';
 
 
 @Component({
@@ -9,15 +9,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ExportMenuComponent implements OnInit {
 
-	constructor() { }
+	// TODO to service
+	private ipcRenderer: IpcRenderer;
+
+	constructor() { 
+		// TODO make a service
+		if((<any>window).require) {
+			this.ipcRenderer = (<any>window).require('electron').ipcRenderer;
+		} else {
+			console.warn('ipcRenderer could not load');
+		}
+	}
 
 	ngOnInit() {
 	}
 
 	onClickExportNovelAsJSON() {
-		//const path: string[] = dialog.showOpenDialogSync({
-		//	title: "Export JSON to...",
-		//});
+		this.ipcRenderer.once('showSaveDialogSyncResponse', (event, arg) => {
+			console.log('path = ', arg);
+		});
+		this.ipcRenderer.send('showSaveDialogSync');
 	}
 
 }
