@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IpcRenderer } from 'electron';
+import { NovelProjectProviderService } from '../services/novel-project-provider.service';
 
 
 @Component({
@@ -12,7 +13,9 @@ export class ExportMenuComponent implements OnInit {
 	// TODO to service
 	private ipcRenderer: IpcRenderer;
 
-	constructor() { 
+	constructor(
+		private novelProviderService: NovelProjectProviderService,
+	) { 
 		// TODO make a service
 		if((<any>window).require) {
 			this.ipcRenderer = (<any>window).require('electron').ipcRenderer;
@@ -26,9 +29,13 @@ export class ExportMenuComponent implements OnInit {
 
 	onClickExportNovelAsJSON() {
 		this.ipcRenderer.once('showSaveDialogSyncResponse', (event, arg) => {
-			console.log('path = ', arg);
+			console.log(arg ? 'saved novel' : 'did not save novel');
 		});
-		this.ipcRenderer.send('showSaveDialogSync');
+		this.ipcRenderer.send('showSaveDialogSync', {
+			name: this.novelProviderService.getNovel().name,
+			type: 'json',
+			fileContents: JSON.stringify(this.novelProviderService.getNovel()),
+		});
 	}
 
 }

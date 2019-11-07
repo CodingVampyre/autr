@@ -1,4 +1,5 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { writeFileSync } = require('fs');
 
 const url = require("url");
 const path = require("path");
@@ -45,12 +46,24 @@ app.on('activate', function () {
 
 // show the dialog to get a path
 ipcMain.on('showSaveDialogSync', (event, arg) => {
+
+	const filename = arg.name.toLowerCase() + '-' + Date.now() + '.' + arg.type;
+
+	// dialog
 	const path = dialog.showSaveDialogSync({
 		title: "Export JSON to...",
-		properties: ['openDirectory'],
+		defaultPath: filename,
+		buttonLabel: 'export novel'
 	});
 
-	console.log('choosed path', path);
+	// if dialog was interrupted, abort saving
+	if (path == null) {
+		return mainWindow.webContents.send('showSaveDialogSyncResponse', false);
+	}
 
-	mainWindow.webContents.send('showSaveDialogSyncResponse', path);
+	// save novel as json
+	writeFileSync(path, arg.fileContents);
+
+	// send reply to render process
+	return mainWindow.webContents.send('showSaveDialogSyncResponse', true);
 });
