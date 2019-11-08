@@ -44,6 +44,10 @@ app.on('activate', function () {
 	if (mainWindow === null) createWindow();
 });
 
+// ****
+// * SAVING NOVELS
+// ****
+
 // show the dialog to get a path
 ipcMain.on('showSaveDialogSync', (event, arg) => {
 
@@ -51,7 +55,7 @@ ipcMain.on('showSaveDialogSync', (event, arg) => {
 
 	// dialog
 	const path = dialog.showSaveDialogSync({
-		title: "Export JSON to...",
+		title: "Export Novel to...",
 		defaultPath: filename,
 		buttonLabel: 'export novel'
 	});
