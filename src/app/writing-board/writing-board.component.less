@@ -1,4 +1,9 @@
 @footer-height: 30px;
+@chapter-adder-height: 130px;
+
+@chapter-list-width: 300px;
+@writing-panel-width: 600px;
+@metadata-width: 1fr;
 
 #writing-board-wrapper {
     background: #121212;
@@ -12,7 +17,7 @@
 
     display: grid;
     grid-template-rows: 1fr @footer-height;
-    grid-template-columns: 300px 1fr 30%;
+    grid-template-columns: @chapter-list-width @writing-panel-width @metadata-width;
 
     #app-chapter-list {
         min-height: 0;
@@ -20,7 +25,7 @@
         grid-column: 1;
 
         display: grid;
-        grid-template-rows: 130px 1fr;
+        grid-template-rows: @chapter-adder-height 1fr;
         grid-template-columns: 1fr;
     }
 

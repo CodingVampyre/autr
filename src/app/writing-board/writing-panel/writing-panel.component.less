@@ -1,9 +1,11 @@
+@header-bar-height: 50px;
+
 #writing-panel {
     background-color: #FEFEFE;
     height: 100%;
 
     display: grid;
-    grid-template-rows: 50px 1fr;
+    grid-template-rows: @header-bar-height 1fr;
     grid-template-columns: 1fr;
 
     #writing-toolbar {
