@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IpcRenderer } from 'electron';
 import { NovelProjectProviderService } from '../services/novel-project-provider.service';
 import { NovelToTextService } from '../services/converter/novel-to-text.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -17,6 +18,7 @@ export class ExportMenuComponent implements OnInit {
 	constructor(
 		private novelProviderService: NovelProjectProviderService,
 		private novelToTextService: NovelToTextService,
+		private router: Router,
 	) { 
 		// TODO make a service
 		if((<any>window).require) {
@@ -27,6 +29,11 @@ export class ExportMenuComponent implements OnInit {
 	}
 
 	ngOnInit() {
+	}
+
+	onClickGoToWritingPanel() {
+		console.log("closing");
+		this.router.navigate(['/writing-board']);
 	}
 
 	onClickExportNovelAsJSON() {
@@ -41,16 +48,23 @@ export class ExportMenuComponent implements OnInit {
 	}
 
 	onClickExportNovelAsTXT() {
-		const text: string = NovelToTextService.convertNovelToText(this.novelProviderService.getNovel());
+		if (this.ipcRenderer == null) {
+			console.warn('no ipcRenderer');
+		} else {
+			const text: string = NovelToTextService.convertNovelToText(this.novelProviderService.getNovel());
 		
-		this.ipcRenderer.once('showSaveDialogSyncResponse', (event, arg) => {
-			console.log(arg ? 'saved novel' : 'didnt save novel');
-		});
-		this.ipcRenderer.send('showSaveDialogSync', {
-			name: this.novelProviderService.getNovel().name,
-			type: 'txt',
-			fileContents: text,
-		});
+			this.ipcRenderer.once('showSaveDialogSyncResponse', (event, arg) => {
+				console.log(arg ? 'saved novel' : 'didnt save novel');
+			});
+			this.ipcRenderer.send('showSaveDialogSync', {
+				name: this.novelProviderService.getNovel().name,
+				type: 'txt',
+				fileContents: text,
+			});
+		}
 	}
 
+	onClickExportNovelAsPDF() {
+		throw new Error('NOT_IMPLEMENTED');
+	}
 }
