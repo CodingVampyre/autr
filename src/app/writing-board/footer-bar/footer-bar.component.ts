@@ -35,6 +35,14 @@ export class FooterBarComponent implements OnInit {
 	private static sumReducer(previous: number, current: number) { return previous + current; }
 
 	ngOnInit() {
+
+		// update word count on initialization
+		const initialisationText: string = this.novelProvider.getNovel()
+			.chapters[this.chapterSwitcherService.currentChapter]
+			.scenes[this.chapterSwitcherService.currentScene].text;
+		this.wordCount = this.updateWordCount(initialisationText);
+		this.characterCount = this.updateCharacterCount(initialisationText);
+
 		// update on text change
 		this.novelTextChangeService.subscribe((currentSceneText) => {
 			this.wordCount = this.updateWordCount(currentSceneText);
