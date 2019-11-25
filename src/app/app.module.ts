@@ -16,30 +16,30 @@ import { FooterBarComponent } from './writing-board/footer-bar/footer-bar.compon
 import { ExportMenuComponent } from './export-menu/export-menu.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ProjectListComponent,
-    WritingBoardComponent,
-    WritingPanelComponent,
-    ChapterListComponent,
-    AdderMenuComponent,
-    ChapterTreeComponent,
-    ContenteditableModelDirective,
-    PopUpMenuComponent,
-    FooterBarComponent,
-    ExportMenuComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    RouterModule.forRoot([
-      {path: 'projects', component: ProjectListComponent},
-      {path: 'writing-board', component: WritingBoardComponent},
-      {path: 'export', component: ExportMenuComponent},
-    ]),
-  ],
-  providers: [],
-  bootstrap: [AppComponent],
-  entryComponents: [PopUpMenuComponent],
+	declarations: [
+		AppComponent,
+		ProjectListComponent,
+		WritingBoardComponent,
+		WritingPanelComponent,
+		ChapterListComponent,
+		AdderMenuComponent,
+		ChapterTreeComponent,
+		ContenteditableModelDirective,
+		PopUpMenuComponent,
+		FooterBarComponent,
+		ExportMenuComponent,
+ 	],
+	imports: [
+		BrowserModule,
+		AppRoutingModule,
+		RouterModule.forRoot([
+			{path: 'projects', component: ProjectListComponent},
+			{path: 'writing-board', component: WritingBoardComponent},
+			{path: 'export', component: ExportMenuComponent},
+		]),
+	],
+	providers: [],
+	bootstrap: [AppComponent],
+	entryComponents: [PopUpMenuComponent],
 })
 export class AppModule { }

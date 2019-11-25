@@ -40,7 +40,7 @@ export class ProjectListComponent implements OnInit {
 		const dbNovelEntry = await this.db.describeNovel(novelId);
 		this.novelProvider.setNovel(dbNovelEntry);
 		this.novelProvider.novelId = novelId;
-		this.router.navigate(['/writing-board']);
+		await this.router.navigate(['/writing-board']);
 	}
 
 	async onClickCreateNewNovel(newNovelName: string) {
