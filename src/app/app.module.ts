@@ -14,6 +14,7 @@ import { ContenteditableModelDirective } from './directives/contenteditable-mode
 import { PopUpMenuComponent } from './writing-board/pop-up-menu/pop-up-menu.component';
 import { FooterBarComponent } from './writing-board/footer-bar/footer-bar.component';
 import { ExportMenuComponent } from './export-menu/export-menu.component';
+import { NotificationComponent } from './notification/notification.component';
 
 @NgModule({
 	declarations: [
@@ -28,6 +29,7 @@ import { ExportMenuComponent } from './export-menu/export-menu.component';
 		PopUpMenuComponent,
 		FooterBarComponent,
 		ExportMenuComponent,
+		NotificationComponent,
  	],
 	imports: [
 		BrowserModule,
