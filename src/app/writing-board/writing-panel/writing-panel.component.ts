@@ -4,6 +4,7 @@ import { ChapterSwitcherService } from 'src/app/services/chapter-switcher.servic
 import { DatabaseService } from 'src/app/services/database.service';
 import { NovelTextChangeService } from 'src/app/services/novel-text-change.service';
 import { Router } from '@angular/router';
+import {NotificationService} from "../../services/notification.service";
 
 @Component({
   selector: 'app-writing-panel',
@@ -18,6 +19,7 @@ export class WritingPanelComponent implements OnInit {
 		private database: DatabaseService,
 		private novelTextChangeService: NovelTextChangeService,
 		private router: Router,
+		private notificationService: NotificationService,
 	) { }
 
 	/** text currently controlled by the writing board*/
@@ -63,12 +65,7 @@ export class WritingPanelComponent implements OnInit {
 	/** fired when the novel save button is pressed */
 	async onClickSaveNovel(event) {
 		await this.saveNovel();
-
-		// paint button green for one second
-		if (!event.target.className.includes('button-confirm')) {
-			event.target.classList.add('button-confirm');
-			setTimeout(() => event.target.classList.remove('button-confirm'), 2000);
-		}
+		this.notificationService.newNotificationEmitter.emit('novel was saved');
 	}
 
 	/** goes to the export menu */
@@ -76,7 +73,7 @@ export class WritingPanelComponent implements OnInit {
 		console.log("opening export menu!");
 		this.router.navigate(['export']);
 	}
-	
+
 	/** saves a novel */
 	private async saveNovel() {
 		// fetch novel id
