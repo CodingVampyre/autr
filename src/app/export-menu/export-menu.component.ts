@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import { IpcRenderer } from 'electron';
 import { NovelProjectProviderService } from '../services/novel-project-provider.service';
 import { NovelToTextService } from '../services/converter/novel-to-text.service';
 import { Router } from '@angular/router';
-import {NotificationService} from '../services/notification.service';
+import { NotificationService } from '../services/notification.service';
 
 
 @Component({
@@ -21,6 +21,7 @@ export class ExportMenuComponent implements OnInit {
 		private novelToTextService: NovelToTextService,
 		private router: Router,
 		private notificationService: NotificationService,
+		private ngZone: NgZone,
 	) {
 		if ((window as any).require) {
 			this.ipcRenderer = (window as any).require('electron').ipcRenderer;
@@ -39,7 +40,9 @@ export class ExportMenuComponent implements OnInit {
 	onClickExportNovelAsJSON() {
 		this.ipcRenderer.once('showSaveDialogSyncResponse', (event, arg) => {
 			if (arg) {
-				this.notificationService.newNotificationEmitter.emit('exported novel as JSON');
+				this.ngZone.run(() => {
+					this.notificationService.newNotificationEmitter.emit('exported novel as JSON');
+				});
 			}
 		});
 		this.ipcRenderer.send('showSaveDialogSync', {
@@ -56,7 +59,9 @@ export class ExportMenuComponent implements OnInit {
 			const text: string = NovelToTextService.convertNovelToText(this.novelProviderService.getNovel());
 
 			this.ipcRenderer.once('showSaveDialogSyncResponse', (event, arg) => {
-				this.notificationService.newNotificationEmitter.emit('exported novel as JSON');
+				this.ngZone.run(() => {
+					this.notificationService.newNotificationEmitter.emit('exported novel as TXT');
+				});
 			});
 			this.ipcRenderer.send('showSaveDialogSync', {
 				name: this.novelProviderService.getNovel().name,
