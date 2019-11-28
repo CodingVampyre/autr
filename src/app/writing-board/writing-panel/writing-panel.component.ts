@@ -89,4 +89,9 @@ export class WritingPanelComponent implements OnInit {
 		// save it into the database
 		await this.database.updateNovel(novelId, this.novelService.getNovel());
 	}
+
+	async onClickReturnToMainMenu($event: MouseEvent) {
+		await this.saveNovel();
+		await this.router.navigate(['projects']);
+	}
 }
