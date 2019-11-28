@@ -69,9 +69,8 @@ export class WritingPanelComponent implements OnInit {
 	}
 
 	/** goes to the export menu */
-	onClickOpenExportMenu(event) {
-		console.log("opening export menu!");
-		this.router.navigate(['export']);
+	async onClickOpenExportMenu(event) {
+		await this.router.navigate(['export']);
 	}
 
 	/** saves a novel */
