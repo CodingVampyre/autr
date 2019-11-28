@@ -1,5 +1,5 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
-const { writeFileSync } = require('fs');
+const { writeFileSync, readFileSync } = require('fs');
 
 const url = require("url");
 const path = require("path");
@@ -15,8 +15,8 @@ function createWindow() {
 		webPreferences: {
 			nodeIntegration: true,
 		},
-		titleBarStyle: 'hidden',
-	})
+		// titleBarStyle: 'hidden',
+	});
 
 	mainWindow.loadURL(
 		url.format({
@@ -55,7 +55,7 @@ ipcMain.on('showSaveDialogSync', (event, arg) => {
 
 	// dialog
 	const path = dialog.showSaveDialogSync({
-		title: "Export Novel to...",
+		title: 'Export Novel to...',
 		defaultPath: filename,
 		buttonLabel: 'export novel'
 	});
@@ -70,4 +70,19 @@ ipcMain.on('showSaveDialogSync', (event, arg) => {
 
 	// send reply to render process
 	return mainWindow.webContents.send('showSaveDialogSyncResponse', true);
+});
+
+ipcMain.on('showNovelImportDialog', (event, arg) => {
+	const path = dialog.showOpenDialogSync({
+		title: 'import a novel',
+		filters: [{name: 'only json', extensions: ['json']}],
+		properties: ['openFile']
+	});
+
+	if (path == null) {
+		return mainWindow.webContents.send('showNovelImportDialogResponse', null);
+	}
+
+	const contents = readFileSync(path[0]).toString();
+	return mainWindow.webContents.send('showNovelImportDialogResponse', contents);
 });

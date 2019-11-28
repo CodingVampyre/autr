@@ -3,6 +3,7 @@ import { IpcRenderer } from 'electron';
 import { NovelProjectProviderService } from '../services/novel-project-provider.service';
 import { NovelToTextService } from '../services/converter/novel-to-text.service';
 import { Router } from '@angular/router';
+import {NotificationService} from '../services/notification.service';
 
 
 @Component({
@@ -13,32 +14,33 @@ import { Router } from '@angular/router';
 export class ExportMenuComponent implements OnInit {
 
 	// TODO to service
-	private ipcRenderer: IpcRenderer;
+	private readonly ipcRenderer: IpcRenderer;
 
 	constructor(
 		private novelProviderService: NovelProjectProviderService,
 		private novelToTextService: NovelToTextService,
 		private router: Router,
-	) { 
-		// TODO make a service
-		if((<any>window).require) {
-			this.ipcRenderer = (<any>window).require('electron').ipcRenderer;
+		private notificationService: NotificationService,
+	) {
+		if ((window as any).require) {
+			this.ipcRenderer = (window as any).require('electron').ipcRenderer;
 		} else {
-			console.warn('ipcRenderer could not load');
+			this.notificationService.newNotificationEmitter.emit('electron hooks cannot be used because the IPC renderer is not loaded');
 		}
 	}
 
 	ngOnInit() {
 	}
 
-	onClickGoToWritingPanel() {
-		console.log("closing");
-		this.router.navigate(['/writing-board']);
+	async onClickGoToWritingPanel() {
+		await this.router.navigate(['/writing-board']);
 	}
 
 	onClickExportNovelAsJSON() {
 		this.ipcRenderer.once('showSaveDialogSyncResponse', (event, arg) => {
-			console.log(arg ? 'saved novel' : 'did not save novel');
+			if (arg) {
+				this.notificationService.newNotificationEmitter.emit('exported novel as JSON');
+			}
 		});
 		this.ipcRenderer.send('showSaveDialogSync', {
 			name: this.novelProviderService.getNovel().name,
@@ -49,12 +51,12 @@ export class ExportMenuComponent implements OnInit {
 
 	onClickExportNovelAsTXT() {
 		if (this.ipcRenderer == null) {
-			console.warn('no ipcRenderer');
+			this.notificationService.newNotificationEmitter.emit('Electron features currently unavailable. Did you open this app using ng serve?');
 		} else {
 			const text: string = NovelToTextService.convertNovelToText(this.novelProviderService.getNovel());
-		
+
 			this.ipcRenderer.once('showSaveDialogSyncResponse', (event, arg) => {
-				console.log(arg ? 'saved novel' : 'didnt save novel');
+				this.notificationService.newNotificationEmitter.emit('exported novel as JSON');
 			});
 			this.ipcRenderer.send('showSaveDialogSync', {
 				name: this.novelProviderService.getNovel().name,

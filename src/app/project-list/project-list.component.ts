@@ -6,22 +6,36 @@
  * Created by CodingVampyre <tobiaskavse@hotmail.de>
  */
 
-import { Component, OnInit } from "@angular/core";
-import { DatabaseService } from "../services/database.service";
+import {Component, NgZone, OnInit} from '@angular/core';
+import { DatabaseService } from '../services/database.service';
 import { NovelProjectProviderService } from '../services/novel-project-provider.service';
 import { Router } from '@angular/router';
+import { IpcRenderer } from 'electron';
+import { NotificationService } from '../services/notification.service';
+import {Novel} from '../data-models/novel.interface';
 
 @Component({
-  selector: "app-project-list",
-  templateUrl: "./project-list.component.html",
-  styleUrls: ["./project-list.component.less"]
+	selector: 'app-project-list',
+	templateUrl: './project-list.component.html',
+	styleUrls: ['./project-list.component.less']
 })
 export class ProjectListComponent implements OnInit {
+
+	private readonly ipcRenderer: IpcRenderer;
+
 	constructor(
 		private readonly db: DatabaseService,
 		private readonly novelProvider: NovelProjectProviderService,
 		private router: Router,
-	) {}
+		private notificationService: NotificationService,
+		private ngZone: NgZone,
+	) {
+		if ((window as any).require) {
+			this.ipcRenderer = (window as any).require('electron').ipcRenderer;
+		} else {
+			console.warn('ipcRenderer could not load');
+		}
+	}
 
 	novels: any[] = [];
 
@@ -30,7 +44,7 @@ export class ProjectListComponent implements OnInit {
 		await this.db.createNovelIndex();
 
 		// fetch novels
-		this.novels = await this.db.listNovels();;
+		this.novels = await this.db.listNovels();
 	}
 
 	/**
@@ -63,5 +77,20 @@ export class ProjectListComponent implements OnInit {
 	async onClickDeleteNovel(event, novelId) {
 		await this.db.deleteNovel(novelId);
 		this.novels = await this.db.listNovels();
+	}
+
+	onClickImportNovel() {
+		this.ipcRenderer.once('showNovelImportDialogResponse', async (event, arg) => {
+			if (arg != null) {
+				const importedNovel: Novel = JSON.parse(arg);
+				await this.db.storeNovel(importedNovel);
+			}
+
+			await this.ngZone.run(async () => {
+				this.notificationService.newNotificationEmitter.emit('imported novel');
+				this.novels = await this.db.listNovels();
+			});
+		});
+		this.ipcRenderer.send('showNovelImportDialog');
 	}
 }
