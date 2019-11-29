@@ -1,4 +1,5 @@
 @footer-height: 30px;
+@header-height: 50px;
 @chapter-adder-height: 130px;
 
 @chapter-list-width: 300px;
@@ -16,12 +17,18 @@
     height: 100vh;
 
     display: grid;
-    grid-template-rows: 1fr @footer-height;
+    grid-template-rows: @header-height 1fr @footer-height;
     grid-template-columns: @chapter-list-width @writing-panel-width @metadata-width;
+
+	#app-writing-header-bar {
+		grid-row: 1;
+		grid-column-start: 1;
+		grid-column-end: 4;
+	}
 
     #app-chapter-list {
         min-height: 0;
-        grid-row: 1;
+        grid-row: 2;
         grid-column: 1;
 
         display: grid;
@@ -31,17 +38,17 @@
 
     #app-writing-panel {
         min-height: 0;
-        grid-row: 1;
+        grid-row: 2;
         grid-column: 2;
     }
 
     #metadata-control {
-        grid-row: 1;
+        grid-row: 2;
         grid-column: 3;
     }
 
     #footer-bar {
-        grid-row: 2;
+        grid-row: 3;
         grid-column-start: 1;
         grid-column-end: 4;
     }

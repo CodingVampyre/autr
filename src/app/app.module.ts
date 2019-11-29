@@ -15,6 +15,7 @@ import { PopUpMenuComponent } from './components/writing-board/pop-up-menu/pop-u
 import { FooterBarComponent } from './components/writing-board/footer-bar/footer-bar.component';
 import { ExportMenuComponent } from './components/export-menu/export-menu.component';
 import { NotificationComponent } from './components/notification/notification.component';
+import { WritingHeaderBarComponent } from './components/writing-board/writing-header-bar/writing-header-bar.component';
 
 @NgModule({
 	declarations: [
@@ -30,6 +31,7 @@ import { NotificationComponent } from './components/notification/notification.co
 		FooterBarComponent,
 		ExportMenuComponent,
 		NotificationComponent,
+		WritingHeaderBarComponent,
  	],
 	imports: [
 		BrowserModule,
