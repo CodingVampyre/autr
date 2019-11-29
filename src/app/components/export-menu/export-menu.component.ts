@@ -1,9 +1,9 @@
 import {Component, NgZone, OnInit} from '@angular/core';
 import { IpcRenderer } from 'electron';
-import { NovelProjectProviderService } from '../services/novel-project-provider.service';
-import { NovelToTextService } from '../services/converter/novel-to-text.service';
+import { NovelProjectProviderService } from '../../services/novel-project-provider.service';
+import { NovelToTextService } from '../../services/converter/novel-to-text.service';
 import { Router } from '@angular/router';
-import { NotificationService } from '../services/notification.service';
+import { NotificationService } from '../../services/notification.service';
 
 
 @Component({

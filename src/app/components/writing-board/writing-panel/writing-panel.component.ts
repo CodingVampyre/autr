@@ -4,7 +4,7 @@ import { ChapterSwitcherService } from 'src/app/services/chapter-switcher.servic
 import { DatabaseService } from 'src/app/services/database.service';
 import { NovelTextChangeService } from 'src/app/services/novel-text-change.service';
 import { Router } from '@angular/router';
-import {NotificationService} from "../../services/notification.service";
+import {NotificationService} from "../../../services/notification.service";
 
 @Component({
   selector: 'app-writing-panel',

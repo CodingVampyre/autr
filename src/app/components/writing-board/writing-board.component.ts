@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
-import { NovelProjectProviderService } from '../services/novel-project-provider.service';
+import { NovelProjectProviderService } from '../../services/novel-project-provider.service';
 
 @Component({
 	selector: 'app-writing-board',

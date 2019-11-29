@@ -7,12 +7,12 @@
  */
 
 import {Component, NgZone, OnInit} from '@angular/core';
-import { DatabaseService } from '../services/database.service';
-import { NovelProjectProviderService } from '../services/novel-project-provider.service';
+import { DatabaseService } from '../../services/database.service';
+import { NovelProjectProviderService } from '../../services/novel-project-provider.service';
 import { Router } from '@angular/router';
 import { IpcRenderer } from 'electron';
-import { NotificationService } from '../services/notification.service';
-import {Novel} from '../data-models/novel.interface';
+import { NotificationService } from '../../services/notification.service';
+import {Novel} from '../../data-models/novel.interface';
 
 @Component({
 	selector: 'app-project-list',
