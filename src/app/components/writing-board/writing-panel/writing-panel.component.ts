@@ -4,7 +4,7 @@ import { ChapterSwitcherService } from 'src/app/services/chapter-switcher.servic
 import { DatabaseService } from 'src/app/services/database.service';
 import { NovelTextChangeService } from 'src/app/services/novel-text-change.service';
 import { Router } from '@angular/router';
-import {NotificationService} from "../../../services/notification.service";
+import {NotificationService} from '../../../services/notification.service';
 
 @Component({
   selector: 'app-writing-panel',
@@ -18,17 +18,15 @@ export class WritingPanelComponent implements OnInit {
 		private chapterSwitcher: ChapterSwitcherService,
 		private database: DatabaseService,
 		private novelTextChangeService: NovelTextChangeService,
-		private router: Router,
-		private notificationService: NotificationService,
 	) { }
 
-	/** text currently controlled by the writing board*/
+	/** text currently controlled by the writing board */
 	currentSceneText: string;
 
 	/** determines when the novel is automatically saved when no key is pressed */
 	private autosaveTimer: NodeJS.Timer;
 
-	/** controlls manual save via key combination */
+	/** controls manual save via key combination */
 	@HostListener('document:keydown.control.s', ['$event'])
 	async onKeyDown(event) {
 		event.preventDefault();
@@ -71,17 +69,6 @@ export class WritingPanelComponent implements OnInit {
 
 	}
 
-	/** fired when the novel save button is pressed */
-	async onClickSaveNovel(event) {
-		await this.saveNovel();
-		this.notificationService.newNotificationEmitter.emit('novel was saved');
-	}
-
-	/** goes to the export menu */
-	async onClickOpenExportMenu(event) {
-		await this.router.navigate(['export']);
-	}
-
 	/** saves a novel */
 	private async saveNovel() {
 		// fetch novel id
@@ -96,10 +83,5 @@ export class WritingPanelComponent implements OnInit {
 
 		// save it into the database
 		await this.database.updateNovel(novelId, this.novelService.getNovel());
-	}
-
-	async onClickReturnToMainMenu($event: MouseEvent) {
-		await this.saveNovel();
-		await this.router.navigate(['projects']);
 	}
 }

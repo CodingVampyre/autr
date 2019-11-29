@@ -5,69 +5,13 @@
     height: 100%;
 
     display: grid;
-    grid-template-rows: @header-bar-height 1fr;
+    grid-template-rows: 1fr;
     grid-template-columns: 1fr;
-
-    #writing-toolbar {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        align-content: space-between;
-        justify-content: flex-start;
-
-        background: #181818;
-        box-shadow: 0 0 0 1px black;
-
-        .icon-bar-button {
-            background-repeat: no-repeat;
-            background-size: 60%;
-            background-position: center;
-            background-color: transparent;
-            cursor: pointer;
-            width: 50px;
-            height: 50px;
-            border: none;
-            transition: 0.4s;
-        }
-
-        #save-novel-button {
-            background-image: url('../../../../assets/icons/save.svg');
-        }
-
-        #export-novel-button {
-            background-image: url('../../../../assets/icons/external.svg');
-        }
-
-		#return-to-main-menu-button {
-			background-image: url("../../../../assets/icons/home.svg");
-		}
-
-        button:focus {
-            outline: none;
-        }
-    }
-
-    #writing-toolbar:before, #writing-toolbar:after {
-        content: "";
-        position: absoute;
-        z-index: -1;
-        top: 10px;
-        bottom: 10px;
-        left: 0;
-        right: 0;
-        border-radius: 100px / 10px;
-    }
-
-    #writing-toolbar:after {
-        right: 10px;
-        left: auto;
-        transform: skew(8deg) rotate(3deg);
-    }
 }
 
 #writing-paper {
     background: #242424;
-    box-shadow: 0 0 0 1px black;
+    box-shadow: 0 0 0 1px black inset;
     color: #fff;
 
     line-height: 1.5;
