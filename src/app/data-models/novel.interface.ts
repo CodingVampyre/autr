@@ -13,6 +13,9 @@ export interface Novel {
 
 	/** a novel is composed of chapters */
 	chapters: Chapter[];
+
+	/***/
+	cursor: ICursor;
 }
 
 /** a chapter is part of a novel. The novel is composed of chapters */

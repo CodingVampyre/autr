@@ -12,7 +12,8 @@ import { NovelProjectProviderService } from '../../services/novel-project-provid
 import { Router } from '@angular/router';
 import { IpcRenderer } from 'electron';
 import { NotificationService } from '../../services/notification.service';
-import {Novel} from '../../data-models/novel.interface';
+import {Chapter, Novel} from '../../data-models/novel.interface';
+import {ChapterSwitcherService} from '../../services/chapter-switcher.service';
 
 @Component({
 	selector: 'app-project-list',
@@ -25,6 +26,7 @@ export class ProjectListComponent implements OnInit {
 
 	constructor(
 		private readonly db: DatabaseService,
+		private chapterSwitcherService: ChapterSwitcherService,
 		private readonly novelProvider: NovelProjectProviderService,
 		private router: Router,
 		private notificationService: NotificationService,
@@ -48,12 +50,25 @@ export class ProjectListComponent implements OnInit {
 	}
 
 	/**
-	 * loads a novel into the database and redirects to the writing board
+	 * loads a novel and navigates to the next entry in project list
+	 * @param event event metadata
+	 * @param novelId primary key of the novel that should be loaded
 	 */
 	async onClickLoadNovel(event, novelId: string) {
+		// fetch novel from the database
 		const dbNovelEntry = await this.db.describeNovel(novelId);
+
+		// set the novel as main novel to work with
 		this.novelProvider.setNovel(dbNovelEntry);
 		this.novelProvider.novelId = novelId;
+
+		// set chapter and scene
+		this.chapterSwitcherService.switchToChapterEmitter.emit({
+			toChapter: this.novelProvider.getNovel().cursor.currentChapter,
+			toScene: this.novelProvider.getNovel().cursor.currentScene,
+		});
+
+		// navigate
 		await this.router.navigate(['/writing-board']);
 	}
 
@@ -68,6 +83,10 @@ export class ProjectListComponent implements OnInit {
 					text: 'write your scene here!'
 				}],
 			}],
+			cursor: {
+				currentChapter: 0,
+				currentScene: 0,
+			}
 		});
 
 		// refresh list
