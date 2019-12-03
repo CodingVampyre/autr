@@ -2,7 +2,7 @@
  * this code is licensed under the MIT-License
  * <https://opensource.org/licenses/MIT>
  * AUTR - 2019
- * 
+ *
  * Created by CodingVampyre <tobiaskavse@hotmail.de>
  */
 
@@ -16,12 +16,12 @@ PouchDB.plugin(PouchDbFind);
 
 // TODO outsource this
 interface INovelDbEntry {
-	_id: string,
-	novel: Novel
-	type: 'novel',
-	name: string,
-	createdAt: number,
-	modifiedAt: number,
+	_id: string;
+	novel: Novel;
+	type: 'novel';
+	name: string;
+	createdAt: number;
+	modifiedAt: number;
 }
 
 /** manages persistent storage with level */
@@ -37,11 +37,11 @@ export class DatabaseService {
 	constructor() { }
 
 	/**
-	 * 
+	 *
 	 */
 	public async createNovelIndex() {
 		await this.db.createIndex({
-			index: { 
+			index: {
 				name: 'novelListIndex',
 				fields: ['_id', 'type', 'name', 'createdAt'],
 			},
@@ -50,16 +50,15 @@ export class DatabaseService {
 
 	/**
 	 * stores a novel into the database
-	 * @param key {string} the key to store the database to
-	 * @param novel {Novel} the book to store
-	 * @returns {Promise<void>}
+	 * @param novel the book to store
+	 * @returns the key of the created novel
 	 */
 	public async storeNovel(novel: Novel): Promise<string> {
 		const key: string = makeUUID();
 		await this.db.put<INovelDbEntry>({
 			_id: key,
 			type: 'novel',
-			novel: novel,
+			novel,
 			name: novel.name,
 			createdAt: Date.now(),
 			modifiedAt: Date.now(),
@@ -79,15 +78,15 @@ export class DatabaseService {
 
 	/**
 	 * fetches a single novel
-	 * @param key {string}
-	 * @returns {Promise<Novel | undefined>}
+	 * @param novelId the primary key of the novel
+	 * @returns a novel, if one was loaded and fround
 	 */
 	public async describeNovel(novelId: string): Promise<Novel | undefined> {
 		return ((await this.db.get(novelId)) as any).novel as Novel;
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public async listNovels(): Promise<any> {
 		const result: PouchDB.Find.FindResponse<{}> = await this.db.find({
