@@ -109,7 +109,7 @@ ipcMain.on('exportNovelAsPDF', (event, arg) => {
 		doc.fontSize(26).text(chapter.name).moveDown(0.5);
 		for (const scene of chapter.scenes) {
 			doc.fontSize(20).text(scene.name).moveDown(0.2);
-			doc.fontSize(12).text(scene.text,{ align: "justify" }).moveDown(1);
+			doc.fontSize(12).text(scene.text,{ align: "justify", lineGap: 5 }).moveDown(1);
 		}
 	}
 
