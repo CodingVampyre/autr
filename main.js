@@ -104,13 +104,14 @@ ipcMain.on('exportNovelAsPDF', (event, arg) => {
 	// create norm pages
 	doc.font('Courier');
 	doc.moveDown(5);
-	doc.fontSize(30).text(arg.novel.name, { align: "center" });
+	doc.fontSize(30).text(arg.novel.name, { align: 'center' });
+	doc.fontSize(24).text('by ' + 'Place Holder');
 	doc.addPage();
 	for (const chapter of arg.novel.chapters) {
 		doc.fontSize(26).text(chapter.name).moveDown(0.5);
 		for (const scene of chapter.scenes) {
 			doc.fontSize(20).text(scene.name).moveDown(0.2);
-			doc.fontSize(11).text(scene.text,{ align: "justify", lineGap: 6 }).moveDown(1);
+			doc.fontSize(11).text(scene.text,{ align: 'justify', lineGap: 6 }).moveDown(1);
 		}
 	}
 
