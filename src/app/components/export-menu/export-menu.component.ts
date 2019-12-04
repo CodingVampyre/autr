@@ -77,6 +77,13 @@ export class ExportMenuComponent implements OnInit {
 	}
 
 	async onClickExportNovelAsPDF() {
-		await PdfRendererService.createPdf(this.novelProviderService.getNovel());
+		this.ipcRenderer.once('exportNovelAsPDFResponse', (event, arg) => {
+			this.ngZone.run(() => {
+				this.notificationService.newNotificationEmitter.emit('exported novel as PDF');
+			});
+		});
+		this.ipcRenderer.send('exportNovelAsPDF', {
+			novel: this.novelProviderService.getNovel(),
+		});
 	}
 }

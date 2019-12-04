@@ -1,5 +1,5 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
-const { writeFileSync, readFileSync } = require('fs');
+const { writeFileSync, readFileSync, createWriteStream } = require('fs');
 
 const url = require("url");
 const path = require("path");
@@ -27,7 +27,7 @@ function createWindow() {
 		})
 	);
 	// Open the DevTools.
-	//mainWindow.webContents.openDevTools();
+	mainWindow.webContents.openDevTools();
 	mainWindow.setMenuBarVisibility(false);
 
 	mainWindow.on('closed', function () {
@@ -86,4 +86,34 @@ ipcMain.on('showNovelImportDialog', (event, arg) => {
 
 	const contents = readFileSync(path[0]).toString();
 	return mainWindow.webContents.send('showNovelImportDialogResponse', contents);
+});
+
+const pdfkit = require('pdfkit');
+
+ipcMain.on('exportNovelAsPDF', (event, arg) => {
+	const path = dialog.showSaveDialogSync({
+		title: 'Export Novel to...',
+		defaultPath: 'novel.pdf',
+		buttonLabel: 'export novel'
+	});
+	const doc = new pdfkit;
+	const novel = arg.novel;
+	// start writing
+	doc.pipe(createWriteStream(path));
+
+	// create norm pages
+	doc.font('Courier');
+	doc.text('Test-test');
+	doc.addPage();
+	for (const chapter of arg.novel.chapters) {
+		doc.fontSize(26).text(chapter.name).moveDown(0.5);
+		for (const scene of chapter.scenes) {
+			doc.fontSize(20).text(scene.name).moveDown(0.2);
+			doc.fontSize(12).text(scene.text,{ align: "justify" }).moveDown(1);
+		}
+	}
+
+	// send
+	doc.end();
+	return mainWindow.webContents.send('exportNovelAsPDFResponse');
 });
