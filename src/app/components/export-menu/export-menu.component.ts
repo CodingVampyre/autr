@@ -4,6 +4,7 @@ import { NovelProjectProviderService } from '../../services/novel-project-provid
 import { NovelToTextService } from '../../services/converter/novel-to-text.service';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../services/notification.service';
+import {PdfRendererService} from '../../services/converter/pdf-renderer.service';
 
 
 @Component({
@@ -38,18 +39,22 @@ export class ExportMenuComponent implements OnInit {
 	}
 
 	onClickExportNovelAsJSON() {
-		this.ipcRenderer.once('showSaveDialogSyncResponse', (event, arg) => {
-			if (arg) {
-				this.ngZone.run(() => {
-					this.notificationService.newNotificationEmitter.emit('exported novel as JSON');
-				});
-			}
-		});
-		this.ipcRenderer.send('showSaveDialogSync', {
-			name: this.novelProviderService.getNovel().name,
-			type: 'json',
-			fileContents: JSON.stringify(this.novelProviderService.getNovel()),
-		});
+		if (this.ipcRenderer == null) {
+			this.notificationService.newNotificationEmitter.emit('Electron features currently unavailable. Did you open this app using ng serve?');
+		} else {
+			this.ipcRenderer.once('showSaveDialogSyncResponse', (event, arg) => {
+				if (arg) {
+					this.ngZone.run(() => {
+						this.notificationService.newNotificationEmitter.emit('exported novel as JSON');
+					});
+				}
+			});
+			this.ipcRenderer.send('showSaveDialogSync', {
+				name: this.novelProviderService.getNovel().name,
+				type: 'json',
+				fileContents: JSON.stringify(this.novelProviderService.getNovel()),
+			});
+		}
 	}
 
 	onClickExportNovelAsTXT() {
@@ -71,7 +76,7 @@ export class ExportMenuComponent implements OnInit {
 		}
 	}
 
-	onClickExportNovelAsPDF() {
-		throw new Error('NOT_IMPLEMENTED');
+	async onClickExportNovelAsPDF() {
+		await PdfRendererService.createPdf(this.novelProviderService.getNovel());
 	}
 }
