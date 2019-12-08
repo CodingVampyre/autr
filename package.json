@@ -9,7 +9,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "start:electron": "ng build --base-href ./ && electron ."
+    "start:electron": "ng build --base-href ./ && electron .",
+	"build:lectron:osx": "electron-packager . autr --platform=darwin --arch=x64 --out=build-bin"
   },
   "private": true,
   "dependencies": {
