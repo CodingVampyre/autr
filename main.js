@@ -96,8 +96,7 @@ ipcMain.on('exportNovelAsPDF', (event, arg) => {
 		defaultPath: 'novel.pdf',
 		buttonLabel: 'export novel'
 	});
-	const doc = new pdfkit;
-	const novel = arg.novel;
+	const doc = new pdfkit({bufferPages: true});
 	// start writing
 	doc.pipe(createWriteStream(path));
 
@@ -115,7 +114,21 @@ ipcMain.on('exportNovelAsPDF', (event, arg) => {
 		}
 	}
 
+	// set header
+	const range = doc.bufferedPageRange();
+	let pageIndex;
+	let pageEnd;
+	for (pageIndex = range.start, pageEnd = range.start + range.count, range.start <= pageEnd; pageIndex < pageEnd; pageIndex++) {
+		const pageNumber = (pageIndex + 1) + '';
+		doc.switchToPage(pageIndex);
+		if (pageIndex === 0) continue; // no page number on the title page
+		doc.text(arg.novel.name, doc.page.margins.left, 30);
+		doc.text(`${pageNumber}`, doc.page.width - doc.page.margins.right - doc.widthOfString(pageNumber), 30);
+		doc.lineWidth(1).moveTo(doc.page.margins.right, 50).lineTo(doc.page.width - doc.page.margins.right, 50).stroke();
+	}
+
 	// send
+	doc.flushPages();
 	doc.end();
 	return mainWindow.webContents.send('exportNovelAsPDFResponse');
 });
