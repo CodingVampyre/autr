@@ -15,7 +15,7 @@ function createWindow() {
 		webPreferences: {
 			nodeIntegration: true,
 		},
-		icon: path.join(__dirname, 'assets/icons/logo/64x64.png'),
+		icon: path.join(__dirname, '/src/assets/icons/logo/64x64.png'),
 		// titleBarStyle: 'hidden',
 	});
 
