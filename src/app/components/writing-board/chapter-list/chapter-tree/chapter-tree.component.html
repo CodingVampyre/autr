@@ -1,7 +1,7 @@
 <div id="chapter-tree">
 
     <!--Drop Zone to add new Chapters-->
-    <div class="chapter-drop-zone" *ngIf="chapterSwitcher.dragContent === 1" (dragover)="onDragOverChapter($event)"
+    <div class="chapter-drop-zone first-chapter-drop-zone" *ngIf="chapterSwitcher.dragContent === 1" (dragover)="onDragOverChapter($event)"
         (drop)="onDropChapter($event, -1)" (dragleave)="onDragLeaveChapter($event)">
     </div>
 
