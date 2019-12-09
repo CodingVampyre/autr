@@ -10,9 +10,9 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "start:electron": "ng build --base-href ./ && electron .",
-	"build:lectron:osx": "electron-packager . autr --platform=darwin --arch=x64 --out=build-bin --overwrite icon=assets/icons/64x64.png",
-	"build:lectron:win": "electron-packager . autr --platform=win32 --arch=x64 --out=build-bin --overwrite icon=assets/icons/64x64.png",
-	"build:lectron:linux": "electron-packager . autr --platform=linux --arch=x64 --out=build-bin --overwrite icon=assets/icons/64x64.png"
+    "build:electron:osx": "electron-packager . autr --platform=darwin --arch=x64 --out=build-bin --overwrite icon=assets/icons/64x64.png",
+    "build:electron:win": "electron-packager . autr --platform=win32 --arch=x64 --out=build-bin --overwrite icon=assets/icons/64x64.png",
+    "build:electron:linux": "electron-packager . autr --platform=linux --arch=x64 --out=build-bin --overwrite icon=assets/icons/64x64.png"
   },
   "private": true,
   "dependencies": {
