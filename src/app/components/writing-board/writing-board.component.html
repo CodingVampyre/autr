@@ -1,0 +1,13 @@
+<div id="writing-board-wrapper" *ngIf="novelProvider.getNovel() != null; else elseBlock">
+
+	<app-writing-header-bar id="app-writing-header-bar"></app-writing-header-bar>
+
+    <app-chapter-list id="app-chapter-list"></app-chapter-list>
+    <app-writing-panel id="app-writing-panel"></app-writing-panel>
+    <div id="metadata-control"></div>
+
+    <app-footer-bar id="footer-bar"></app-footer-bar>
+
+</div>
+
+<ng-template #elseBlock>No Novel Loaded</ng-template>

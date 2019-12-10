@@ -1,0 +1,54 @@
+#writing-header-bar-wrapper {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	align-content: space-between;
+	justify-content: flex-start;
+
+	background: #181818;
+	box-shadow: 0 0 0 1px black inset;
+
+	.icon-bar-button-wrapper {
+		height: 50px;
+		display: grid;
+		justify-items: center;
+		align-items: center;
+		margin-left: 25px;
+
+		p {
+			margin: 0;
+			padding: 0;
+			color: white;
+			font-size: 11px;
+			margin-top: -15px;
+		}
+
+		.icon-bar-button {
+			background-repeat: no-repeat;
+			background-size: 80%;
+			background-position: center;
+			background-color: transparent;
+			cursor: pointer;
+			width: 30px;
+			height: 30px;
+			border: none;
+			transition: 0.4s;
+		}
+	}
+
+	#save-novel-button {
+		background-image: url('../../../../assets/icons/save.svg');
+	}
+
+	#export-novel-button {
+		background-image: url('../../../../assets/icons/external.svg');
+	}
+
+	#return-to-main-menu-button {
+		background-image: url("../../../../assets/icons/home.svg");
+	}
+
+	button:focus {
+		outline: none;
+	}
+}

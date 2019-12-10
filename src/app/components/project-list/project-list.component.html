@@ -1,0 +1,29 @@
+<div id="background">
+
+	<div id="novel-list-wrapper">
+		<p class="novel-list-header">Create a novel</p>
+		<div class="all-in-row">
+			<p>Enter A new Name --></p>
+			<input #newNovelName type="text" placeholder="new novel name">
+			<p>--> and create it --></p>
+			<button (click)="onClickCreateNewNovel(newNovelName.value)">Create</button>
+		</div>
+		<div class="all-in-row">
+			<p>Or just </p>
+			<button (click)="onClickImportNovel()">Import</button>
+			<p>a novel</p>
+		</div>
+
+		<p class="novel-list-header">Load a novel</p>
+		<div id="novel-list">
+			<div class="novel-list-entry" *ngFor="let novel of novels">
+				<p class="novel-name">{{ novel.name }}</p>
+				<div id="novel-buttons">
+					<button class="important-button" (click)="onClickLoadNovel($event, novel._id)">Open</button>
+					<button class="unimportant-button" (click)="onClickDeleteNovel($event, novel._id)">Delete</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

@@ -1,0 +1,24 @@
+<div id="adder-menu">
+
+    <!--Add new Chapter-->
+    <div class="adder">
+        <div class="adder-plate" id="chapter-adder" draggable="true" (dragstart)="onDragStart($event, 'chapter')"
+            (dragend)="onDragEnd($event)">
+        </div>
+        <p>Chapter</p>
+    </div>
+
+    <!--Add new Scene-->
+    <div class="adder">
+        <div class="adder-plate" id="scene-adder" draggable="true" (dragstart)="onDragStart($event, 'scene')"
+            (dragend)="onDragEnd($event)">
+        </div>
+        <p>Scene</p>
+    </div>
+
+    <!--Add new Note-->
+    <!--<div class="adder">
+        <div class="adder-plate"></div>
+        <p>Note</p>
+    </div>-->
+</div>

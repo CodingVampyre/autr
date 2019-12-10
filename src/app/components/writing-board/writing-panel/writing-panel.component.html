@@ -1,0 +1,6 @@
+<!--Used to write novel text, gets synced with internal memory-->
+<div id="writing-paper"
+	contenteditable="true"
+	[(contenteditableModel)]="currentSceneText"
+	(keyup)="onChange()">
+</div>

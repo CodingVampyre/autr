@@ -1,0 +1,75 @@
+<div id="chapter-tree">
+
+    <!--Drop Zone to add new Chapters-->
+    <div class="chapter-drop-zone first-chapter-drop-zone" *ngIf="chapterSwitcher.dragContent === 1" (dragover)="onDragOverChapter($event)"
+        (drop)="onDropChapter($event, -1)" (dragleave)="onDragLeaveChapter($event)">
+    </div>
+
+    <!--Chapter List-->
+    <div id="chapter" *ngFor="let chapter of novelProvider.getNovel().chapters; let chapterIndex = index">
+
+        <!--Drop Zone to Move Chapters-->
+        <div class="chapter-move-drop-zone" (dragover)="onDragOverMoveChapter($event)"
+            *ngIf="chapterIndex === 0 && movingChapterIndex != null"
+            (drop)="onDropMoveChapter($event, chapterIndex - 1)">
+        </div>
+
+        <!--Chapter Title-->
+        <p draggable="true" (dblclick)="onChapterContextMenu($event, chapterIndex)"
+            (dragstart)="onDragStartExistingChapter(chapterIndex)" (dragend)="onDragEndExistingChapter($event)">
+            {{ chapterIndex + ': ' + chapter.name }}</p>
+
+        <!--Drop Zone to add new Scenes-->
+        <div class="scene-drop-zone" *ngIf="chapterSwitcher.dragContent === 2" (dragover)="onDragOverScene($event)"
+            (drop)="onDropScene($event, chapterIndex, -1)" (dragleave)="onDragLeaveScene($event)">
+        </div>
+
+        <!--Drop Zone to move Scenes-->
+        <div class="scene-drop-zone" (dragover)="onDragOverMoveScene($event)" *ngIf="movingSceneIndex[0] != null"
+            (drop)="onDropMoveScene($event, chapterIndex, 0)">
+        </div>
+
+        <!--Scene List-->
+        <div class="scene-tree" *ngFor="let scene of chapter.scenes; let sceneIndex = index">
+
+            <!--A single scene-->
+            <div [ngClass]="{'selected-scene': chapterSwitcher.currentScene === sceneIndex && chapterSwitcher.currentChapter === chapterIndex}"
+                id="scene" draggable="true" (click)="selectScene(chapterIndex, sceneIndex)"
+                (dblclick)="onSceneContextMenu($event, chapterIndex, sceneIndex)"
+                (dragstart)="onDragStartExistingScene($event, chapterIndex, sceneIndex)"
+                (dragend)="onDragEndExistingScene($event)">
+                <p>{{ scene.name }}</p>
+            </div>
+
+            <!--Drop Zone to add new Scenes-->
+            <div class="scene-drop-zone" *ngIf="chapterSwitcher.dragContent === 2" (dragover)="onDragOverScene($event)"
+                (drop)="onDropScene($event, chapterIndex, sceneIndex)" (dragleave)="onDragLeaveScene($event)">
+            </div>
+
+            <!--Drop Zone to move Scenes-->
+            <div class="scene-drop-zone" (dragover)="onDragOverMoveScene($event)"
+                *ngIf="movingSceneIndex[0] != null && 
+                    ((movingSceneIndex[0] === chapterIndex)
+                        && (movingSceneIndex[1] !== sceneIndex) 
+                        && (movingSceneIndex[1] - 1 !== sceneIndex)
+                        || (movingSceneIndex[0] !== chapterIndex))"
+                (drop)="onDropMoveScene($event, chapterIndex, sceneIndex+1)">
+            </div>
+
+        </div>
+
+        <!--Drop Zone to add new Chapters-->
+        <div class="chapter-drop-zone" *ngIf="chapterSwitcher.dragContent === 1" (dragover)="onDragOverChapter($event)"
+            (drop)="onDropChapter($event, chapterIndex)" (dragleave)="onDragLeaveChapter($event)">
+        </div>
+
+        <!--Drop Zone to Move Chapters-->
+        <div class="chapter-move-drop-zone" *ngIf="movingChapterIndex != null"
+            (dragover)="onDragOverMoveChapter($event)" (drop)="onDropMoveChapter($event, chapterIndex+1)">
+        </div>
+
+    </div>
+</div>
+
+<!--PopUpMenu will be spawned here-->
+<div #popupMenuContainer></div>
