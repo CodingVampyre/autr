@@ -1,8 +1,9 @@
 # Autr
-
 Autr is a tool to write and export novels.
 It separates the novel into chapters and scenes and let's you work on them independently.
 This allows you to quickly order your work and to be flexible.
+
+Current Version: `0.1.0 Alpha`
 
 ## Features
 * AUTR supports exporting a novel as PDF-Norm-Pages, which are usually used to hand them to publishers and to proof-read a novel.
