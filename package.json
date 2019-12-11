@@ -2,6 +2,7 @@
   "name": "autr",
   "version": "0.1.0",
   "main": "main.js",
+	"description": "tool to write novels with comfort",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -12,7 +13,9 @@
     "start:electron": "ng build --base-href ./ && electron .",
     "build:electron:osx": "ng build --base-href ./ && electron-packager . autr --platform=darwin --arch=x64 --out=build-bin --overwrite icon=assets/icons/64x64.png",
     "build:electron:win": "ng build --base-href ./ && electron-packager . autr --platform=win32 --arch=x64 --out=build-bin --overwrite icon=assets/icons/64x64.png",
-    "build:electron:linux": "ng build --base-href ./ && electron-packager . autr --platform=linux --arch=x64 --out=build-bin --overwrite icon=assets/icons/64x64.png"
+    "build:electron:linux": "ng build --base-href ./ && electron-packager . autr --platform=linux --arch=x64 --out=build-bin --overwrite icon=assets/icons/64x64.png",
+    "pack:osx": "electron-installer-dmg ./build-bin/autr-darwin-x64/autr.app autr --out=build-installer icon=assets/icons/64x64 --overwrite",
+	"pack:deb64": "electron-installer-debian --src build-bin/autr-linux-x64 --dest build-installer/ --arch amd64"
   },
   "private": true,
   "dependencies": {
@@ -46,6 +49,8 @@
     "@types/uuid": "^3.4.6",
     "codelyzer": "^5.2.0",
     "electron": "^7.1.2",
+    "electron-installer-debian": "^2.0.1",
+    "electron-installer-dmg": "^3.0.0",
     "electron-packager": "^14.1.1",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~4.2.1",
