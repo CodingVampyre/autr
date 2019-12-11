@@ -2,7 +2,8 @@
   "name": "autr",
   "version": "0.1.0",
   "main": "main.js",
-	"description": "tool to write novels with comfort",
+  "description": "tool to write novels with comfort",
+  "author": "Tobias Kavsek",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -15,7 +16,8 @@
     "build:electron:win": "ng build --base-href ./ && electron-packager . autr --platform=win32 --arch=x64 --out=build-bin --overwrite icon=assets/icons/64x64.png",
     "build:electron:linux": "ng build --base-href ./ && electron-packager . autr --platform=linux --arch=x64 --out=build-bin --overwrite icon=assets/icons/64x64.png",
     "pack:osx": "electron-installer-dmg ./build-bin/autr-darwin-x64/autr.app autr --out=build-installer icon=assets/icons/64x64 --overwrite",
-	"pack:deb64": "electron-installer-debian --src build-bin/autr-linux-x64 --dest build-installer/ --arch amd64"
+    "pack:deb64": "electron-installer-debian --src build-bin/autr-linux-x64 --dest build-installer/ --arch amd64",
+    "pack:win": "electron-installer-windows --src build-bin/autr-win32-x64 --dest build-installer/"
   },
   "private": true,
   "dependencies": {
@@ -51,6 +53,7 @@
     "electron": "^7.1.2",
     "electron-installer-debian": "^2.0.1",
     "electron-installer-dmg": "^3.0.0",
+    "electron-installer-windows": "^2.0.0",
     "electron-packager": "^14.1.1",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~4.2.1",
