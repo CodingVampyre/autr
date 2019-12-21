@@ -9,9 +9,9 @@
         <div class="pop-up-box">
             <p>Edit Chapter Metadata</p>
             <input type="text" #renameChapterInput class="text-form-input" placeholder="new chapter name">
-            <button (click)="renameChapter(renameChapterInput.value)" class="important-button">Rename</button>
+            <button (click)="renameChapter(renameChapterInput.value)" class="button_dark">Rename</button>
             <div class="separator-line"></div>
-            <button class="unimportant-button" (click)="onClickDeleteChapter(chapterNr)"
+            <button class="button_weak" (click)="onClickDeleteChapter(chapterNr)"
                 id="delete-chapter-button">Delete Chapter</button>
         </div>
     </div>
@@ -23,13 +23,13 @@
         <div class="pop-up-box">
             <p>Edit Scene Metadata</p>
             <input type="text" #renameSceneInput class="text-form-input" placeholder="new scene name">
-            <button (click)="renameScene(renameSceneInput.value)" class="important-button">Rename</button>
+            <button (click)="renameScene(renameSceneInput.value)" class="button_dark">Rename</button>
             <div class="separator-line"></div>
-            <button class="unimportant-button" id="delete-scene-button" (click)="onClickDeleteScene(chapterNr, sceneNr)">Delete Scene</button>
+            <button class="button_weak" id="delete-scene-button" (click)="onClickDeleteScene(chapterNr, sceneNr)">Delete Scene</button>
         </div>
     </div>
 
     <!--Common Stuff-->
-    <button class="important-button" (click)="destroyMe()">Close</button>
+    <button class="button_dark" (click)="destroyMe()">Close</button>
 
 </div>
