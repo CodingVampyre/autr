@@ -1,7 +1,7 @@
 <div id="background">
 
 	<div id="novel-list-wrapper">
-		<p class="novel-list-header">Create a novel</p>
+		<h2 class="text-light">Create a novel</h2>
 		<div class="all-in-row">
 			<p>Enter A new Name --></p>
 			<input #newNovelName class="input_light" type="text" placeholder="new novel name">
@@ -14,7 +14,7 @@
 			<p>a novel</p>
 		</div>
 
-		<p class="novel-list-header">Load a novel</p>
+		<h2 class="text-light">Load a novel</h2>
 		<div id="novel-list">
 			<div class="novel-list-entry" *ngFor="let novel of novels">
 				<p class="novel-name">{{ novel.name }}</p>
