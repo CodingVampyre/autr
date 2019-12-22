@@ -16,6 +16,7 @@ import { FooterBarComponent } from './components/writing-board/footer-bar/footer
 import { ExportMenuComponent } from './components/export-menu/export-menu.component';
 import { NotificationComponent } from './components/notification/notification.component';
 import { WritingHeaderBarComponent } from './components/writing-board/writing-header-bar/writing-header-bar.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
 	declarations: [
@@ -35,6 +36,7 @@ import { WritingHeaderBarComponent } from './components/writing-board/writing-he
  	],
 	imports: [
 		BrowserModule,
+		BrowserAnimationsModule,
 		AppRoutingModule,
 		RouterModule.forRoot([
 			{path: 'projects', component: ProjectListComponent},

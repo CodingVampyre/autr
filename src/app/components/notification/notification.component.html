@@ -1,5 +1,7 @@
 <div id="notification-container">
-	<div class="notification-message" *ngFor="let notification of notifications">
+	<div class="notification-message"
+		 *ngFor="let notification of notifications"
+		 [@fadeAnimation]="'in'">
 		<p class="notification-text">{{ notification.text }}</p>
 	</div>
 </div>

@@ -1,6 +1,7 @@
-import {Component, EventEmitter, OnInit} from '@angular/core';
-import {NotificationService} from "../../services/notification.service";
+import {Component, OnInit} from '@angular/core';
+import {NotificationService} from '../../services/notification.service';
 import {v1 as UUID} from 'uuid';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 export interface INotification {
 	id: string;
@@ -10,7 +11,23 @@ export interface INotification {
 @Component({
 	selector: 'app-notification',
 	templateUrl: './notification.component.html',
-	styleUrls: ['./notification.component.less']
+	styleUrls: ['./notification.component.less'],
+	animations: [
+		trigger('fadeAnimation', [
+
+			// normal state while existing
+			state('in', style({ opacity: 1 })),
+
+			// on creation of an instance
+			transition(':enter', [
+				style({ opacity: 0 }),
+				animate(600),
+			]),
+
+			// on leave
+			transition(':leave', animate(600, style({ opacity: 0 }))),
+		]),
+	],
 })
 export class NotificationComponent implements OnInit {
 
@@ -31,7 +48,7 @@ export class NotificationComponent implements OnInit {
 		this.notifications.push({ text, id });
 		setTimeout(() => {
 			// remove said notification
-			for (let i=0; i<this.notifications.length; i++) {
+			for (let i = 0; i < this.notifications.length; i++) {
 				if (this.notifications[i].id === id) {
 					this.notifications.splice(i, 1);
 				}

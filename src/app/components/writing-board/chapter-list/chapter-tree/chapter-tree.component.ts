@@ -5,18 +5,18 @@ import {
 	ComponentFactoryResolver,
 	ViewChild,
 	ViewContainerRef
-} from "@angular/core";
-import { NovelProjectProviderService } from "src/app/services/novel-project-provider.service";
+} from '@angular/core';
+import { NovelProjectProviderService } from 'src/app/services/novel-project-provider.service';
 import {
 	ChapterSwitcherService,
 	DropType
-} from "src/app/services/chapter-switcher.service";
-import { PopUpMenuComponent } from "../../pop-up-menu/pop-up-menu.component";
+} from 'src/app/services/chapter-switcher.service';
+import { PopUpMenuComponent } from '../../pop-up-menu/pop-up-menu.component';
 
 @Component({
-	selector: "app-chapter-tree",
-	templateUrl: "./chapter-tree.component.html",
-	styleUrls: ["./chapter-tree.component.less"]
+	selector: 'app-chapter-tree',
+	templateUrl: './chapter-tree.component.html',
+	styleUrls: ['./chapter-tree.component.less']
 })
 export class ChapterTreeComponent implements OnInit {
 	constructor(
@@ -25,6 +25,20 @@ export class ChapterTreeComponent implements OnInit {
 
 		private resolver: ComponentFactoryResolver
 	) {}
+
+	// *************
+	// Move Chapters
+	// *************
+
+	private movingChapterIndex: number | null = null;
+	private movingSceneIndex: [number | null, number | null] = [null, null];
+
+	// *************
+	// context menus
+	// *************
+
+	@ViewChild('popupMenuContainer', { read: ViewContainerRef, static: true })
+	chapterPopUpMenu: ViewContainerRef;
 
 	ngOnInit() {}
 
@@ -45,24 +59,24 @@ export class ChapterTreeComponent implements OnInit {
 	onDragOverChapter(event) {
 		event.preventDefault();
 		if (this.chapterSwitcher.dragContent === DropType.CHAPTER) {
-			if (!event.target.className.includes("chapter-drop-zone-highlight")) {
-				event.target.classList.add("chapter-drop-zone-highlight");
+			if (!event.target.className.includes('chapter-drop-zone-highlight')) {
+				event.target.classList.add('chapter-drop-zone-highlight');
 			}
 		}
 	}
 
 	onDragLeaveChapter(event) {
-		if (event.target.className.includes("chapter-drop-zone-highlight")) {
-			event.target.classList.remove("chapter-drop-zone-highlight");
+		if (event.target.className.includes('chapter-drop-zone-highlight')) {
+			event.target.classList.remove('chapter-drop-zone-highlight');
 		}
 	}
 
 	onDropChapter(event, chapterIndex: number) {
-		// make sure the dropped object really is a chapter 
+		// make sure the dropped object really is a chapter
 		if (this.chapterSwitcher.dragContent === DropType.CHAPTER) {
 			// adds a class to the highlighted zone to remove special effects from mouseover
-			if (event.target.className.includes("chapter-drop-zone-highlight")) {
-				event.target.classList.remove("chapter-drop-zone-highlight");
+			if (event.target.className.includes('chapter-drop-zone-highlight')) {
+				event.target.classList.remove('chapter-drop-zone-highlight');
 			}
 			// save old chapter text
 			this.chapterSwitcher.saveTextEmitter.emit({chapter: this.chapterSwitcher.currentChapter, scene: this.chapterSwitcher.currentScene});
@@ -77,35 +91,28 @@ export class ChapterTreeComponent implements OnInit {
 	onDragOverScene(event) {
 		event.preventDefault();
 		if (this.chapterSwitcher.dragContent === DropType.SCENE) {
-			if (!event.target.className.includes("scene-drop-zone-highlight")) {
-				event.target.classList.add("scene-drop-zone-highlight");
+			if (!event.target.className.includes('scene-drop-zone-highlight')) {
+				event.target.classList.add('scene-drop-zone-highlight');
 			}
 		}
 	}
 
 	onDragLeaveScene(event) {
-		if (event.target.className.includes("scene-drop-zone-highlight")) {
-			event.target.classList.remove("scene-drop-zone-highlight");
+		if (event.target.className.includes('scene-drop-zone-highlight')) {
+			event.target.classList.remove('scene-drop-zone-highlight');
 		}
 	}
 
 	onDropScene(event, chapterIndex: number, sceneIndex: number) {
 		if (this.chapterSwitcher.dragContent === DropType.SCENE) {
-			if (event.target.className.includes("scene-drop-zone-highlight")) {
-				event.target.classList.remove("scene-drop-zone-highlight");
+			if (event.target.className.includes('scene-drop-zone-highlight')) {
+				event.target.classList.remove('scene-drop-zone-highlight');
 			}
 			this.chapterSwitcher.saveTextEmitter.emit({chapter: this.chapterSwitcher.currentChapter, scene: this.chapterSwitcher.currentScene});
 			this.novelProvider.addScene(chapterIndex, sceneIndex + 1);
 			this.chapterSwitcher.switchToChapterEmitter.emit({toChapter: chapterIndex, toScene: sceneIndex + 1});
 		}
 	}
-
-	// *************
-	// Move Chapters
-	// *************
-
-	private movingChapterIndex: number | null = null;
-	private movingSceneIndex: [number | null, number | null] = [null, null];
 
 	// Move Chapters
 	onDragStartExistingChapter(chapterIndex: number) {
@@ -133,7 +140,7 @@ export class ChapterTreeComponent implements OnInit {
 		// add scene if first chapter has none
 		if (this.novelProvider.getNovel().chapters[0].scenes.length === 0) {
 			this.novelProvider.addScene(0, 0);
-			this.chapterSwitcher.switchToChapterEmitter.emit({toChapter: 0, toScene: 0})
+			this.chapterSwitcher.switchToChapterEmitter.emit({toChapter: 0, toScene: 0});
 		}
 
 		// set selected cover to current one
@@ -165,11 +172,11 @@ export class ChapterTreeComponent implements OnInit {
 		if (!(oldChapter === newChapterIndex && newSceneIndex === oldScene + 1)) {
 			this.novelProvider.moveScene(oldChapter, oldScene, newChapterIndex, newSceneIndex);
 			this.movingSceneIndex = [null, null];
-	
+
 			// set selected chapter the moved one;
 			const scenesLength = this.novelProvider.getNovel().chapters[newChapterIndex].scenes.length;
 			// when moving a scene to the end, i have to prevent an overflow
-			const newScenePosition = newSceneIndex >= scenesLength ? scenesLength - 1 : newSceneIndex
+			const newScenePosition = newSceneIndex >= scenesLength ? scenesLength - 1 : newSceneIndex;
 			this.chapterSwitcher.switchToChapterEmitter.emit({
 				toChapter: newChapterIndex,
 				toScene: newScenePosition,
@@ -188,13 +195,6 @@ export class ChapterTreeComponent implements OnInit {
 	onDragEndExistingScene(event) {
 		this.movingSceneIndex = [null, null];
 	}
-
-	// *************
-	// context menus
-	// *************
-
-	@ViewChild("popupMenuContainer", { read: ViewContainerRef, static: true })
-	chapterPopUpMenu: ViewContainerRef;
 	onChapterContextMenu(event, chapterIndex: number) {
 		event.preventDefault();
 
@@ -205,7 +205,7 @@ export class ChapterTreeComponent implements OnInit {
 		const popUpMenu = this.chapterPopUpMenu.createComponent(
 			chapterPopUpfactory
 		);
-		popUpMenu.instance.context = "chapter";
+		popUpMenu.instance.context = 'chapter';
 		popUpMenu.instance.chapterNr = chapterIndex;
 
 		popUpMenu.instance.destroyEmitter.subscribe(() => {
@@ -220,7 +220,7 @@ export class ChapterTreeComponent implements OnInit {
 		);
 		const popUpMenu = this.chapterPopUpMenu.createComponent(scenePopUpFactory);
 
-		popUpMenu.instance.context = "scene";
+		popUpMenu.instance.context = 'scene';
 		popUpMenu.instance.chapterNr = chapterIndex;
 		popUpMenu.instance.sceneNr = sceneIndex;
 
