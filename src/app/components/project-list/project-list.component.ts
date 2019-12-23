@@ -8,7 +8,7 @@
 
 import {Component, NgZone, OnInit} from '@angular/core';
 import { DatabaseService } from '../../services/database.service';
-import { NovelProjectProviderService } from '../../services/novel-project-provider.service';
+import { NovelProviderService } from '../../services/novel-provider.service';
 import { Router } from '@angular/router';
 import { IpcRenderer } from 'electron';
 import { NotificationService } from '../../services/notification.service';
@@ -27,7 +27,7 @@ export class ProjectListComponent implements OnInit {
 	constructor(
 		private readonly db: DatabaseService,
 		private chapterSwitcherService: ChapterSwitcherService,
-		private readonly novelProvider: NovelProjectProviderService,
+		private readonly novelProvider: NovelProviderService,
 		private router: Router,
 		private notificationService: NotificationService,
 		private ngZone: NgZone,

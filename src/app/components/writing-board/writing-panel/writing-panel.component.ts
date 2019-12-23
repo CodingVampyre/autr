@@ -1,5 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { NovelProjectProviderService } from 'src/app/services/novel-project-provider.service';
+import { NovelProviderService } from 'src/app/services/novel-provider.service';
 import { ChapterSwitcherService } from 'src/app/services/chapter-switcher.service';
 import { DatabaseService } from 'src/app/services/database.service';
 import { NovelTextChangeService } from 'src/app/services/novel-text-change.service';
@@ -18,7 +18,7 @@ export class WritingPanelComponent implements OnInit {
 	private autosaveTimer: NodeJS.Timer;
 
 	constructor(
-		private novelService: NovelProjectProviderService,
+		private novelService: NovelProviderService,
 		private chapterSwitcher: ChapterSwitcherService,
 		private database: DatabaseService,
 		private novelTextChangeService: NovelTextChangeService,

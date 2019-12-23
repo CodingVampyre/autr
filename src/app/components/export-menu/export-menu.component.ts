@@ -1,6 +1,6 @@
 import {Component, NgZone, OnInit} from '@angular/core';
 import { IpcRenderer } from 'electron';
-import { NovelProjectProviderService } from '../../services/novel-project-provider.service';
+import { NovelProviderService } from '../../services/novel-provider.service';
 import { NovelToTextService } from '../../services/converter/novel-to-text.service';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../services/notification.service';
@@ -18,7 +18,7 @@ export class ExportMenuComponent implements OnInit {
 	private readonly ipcRenderer: IpcRenderer;
 
 	constructor(
-		private novelProviderService: NovelProjectProviderService,
+		private novelProviderService: NovelProviderService,
 		private novelToTextService: NovelToTextService,
 		private router: Router,
 		private notificationService: NotificationService,

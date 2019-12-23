@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
-import { NovelProjectProviderService } from '../../services/novel-project-provider.service';
+import { NovelProviderService } from '../../services/novel-provider.service';
 import { NotificationService } from '../../services/notification.service';
 import { ChapterSwitcherService } from '../../services/chapter-switcher.service';
 
@@ -12,7 +12,7 @@ import { ChapterSwitcherService } from '../../services/chapter-switcher.service'
 export class WritingBoardComponent implements OnInit {
 
 	constructor(
-		private novelProvider: NovelProjectProviderService,
+		private novelProvider: NovelProviderService,
 		private router: Router,
 		private notificationService: NotificationService,
 	) { }

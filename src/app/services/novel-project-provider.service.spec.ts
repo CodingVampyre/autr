@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { NovelProjectProviderService } from './novel-project-provider.service';
+import { NovelProviderService } from './novel-provider.service';
 
 describe('NovelProjectProviderService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: NovelProjectProviderService = TestBed.get(NovelProjectProviderService);
+    const service: NovelProviderService = TestBed.get(NovelProviderService);
     expect(service).toBeTruthy();
   });
 });

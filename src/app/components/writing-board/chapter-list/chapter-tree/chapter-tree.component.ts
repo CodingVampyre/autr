@@ -4,7 +4,7 @@ import {
 	ViewChild,
 	ViewContainerRef,
 } from '@angular/core';
-import { NovelProjectProviderService } from '../../../../services/novel-project-provider.service';
+import { NovelProviderService } from '../../../../services/novel-provider.service';
 import {
 	ChapterSwitcherService,
 	DropType,
@@ -36,7 +36,7 @@ export class ChapterTreeComponent {
 	 * @param resolver used to spawn components
 	 */
 	constructor(
-		private novelProvider: NovelProjectProviderService,
+		private novelProvider: NovelProviderService,
 		private chapterSwitcher: ChapterSwitcherService,
 		private resolver: ComponentFactoryResolver,
 	) { }

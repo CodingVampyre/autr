@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {NotificationService} from '../../../services/notification.service';
 import {Router} from '@angular/router';
-import {NovelProjectProviderService} from '../../../services/novel-project-provider.service';
+import {NovelProviderService} from '../../../services/novel-provider.service';
 import {ChapterSwitcherService} from '../../../services/chapter-switcher.service';
 import {DatabaseService} from '../../../services/database.service';
 
@@ -15,7 +15,7 @@ export class WritingHeaderBarComponent implements OnInit {
 	constructor(
 		private readonly notificationService: NotificationService,
 		private router: Router,
-		private novelService: NovelProjectProviderService,
+		private novelService: NovelProviderService,
 		private chapterSwitcherService: ChapterSwitcherService,
 		private databaseService: DatabaseService,
 	) { }

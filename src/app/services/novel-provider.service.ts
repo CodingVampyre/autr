@@ -4,7 +4,7 @@ import { Novel, Chapter, Scene } from '../data-models/novel.interface';
 @Injectable({
 	providedIn: 'root',
 })
-export class NovelProjectProviderService {
+export class NovelProviderService {
 
 	/** id for database storage */
 	public novelId: string;

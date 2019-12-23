@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
-import { NovelProjectProviderService } from 'src/app/services/novel-project-provider.service';
+import { NovelProviderService } from 'src/app/services/novel-provider.service';
 import { EventEmitter } from '@angular/core';
 import { ChapterSwitcherService } from 'src/app/services/chapter-switcher.service';
 
@@ -17,7 +17,7 @@ export class PopUpMenuComponent implements OnInit {
 	@Output() destroyEmitter: EventEmitter<void> = new EventEmitter();
 
 	constructor(
-		private novelProvider: NovelProjectProviderService,
+		private novelProvider: NovelProviderService,
 		private chapterSwitcher: ChapterSwitcherService,
 	) { }
 
