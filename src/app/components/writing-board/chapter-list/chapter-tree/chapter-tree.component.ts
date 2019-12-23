@@ -1,62 +1,70 @@
 import {
 	Component,
-	OnInit,
-	ComponentRef,
 	ComponentFactoryResolver,
 	ViewChild,
-	ViewContainerRef
+	ViewContainerRef,
 } from '@angular/core';
-import { NovelProjectProviderService } from 'src/app/services/novel-project-provider.service';
+import { NovelProjectProviderService } from '../../../../services/novel-project-provider.service';
 import {
 	ChapterSwitcherService,
-	DropType
-} from 'src/app/services/chapter-switcher.service';
+	DropType,
+} from '../../../../services/chapter-switcher.service';
 import { PopUpMenuComponent } from '../../pop-up-menu/pop-up-menu.component';
 
+/** used to order chapters and scenes */
 @Component({
 	selector: 'app-chapter-tree',
 	templateUrl: './chapter-tree.component.html',
-	styleUrls: ['./chapter-tree.component.less']
+	styleUrls: ['./chapter-tree.component.less'],
 })
-export class ChapterTreeComponent implements OnInit {
+export class ChapterTreeComponent {
+
+	/** pop up menu used to edit metadata */
+	@ViewChild('popupMenuContainer', { read: ViewContainerRef, static: true })
+	public chapterPopUpMenu: ViewContainerRef;
+
+	/**  */
+	private movingChapterIndex: number | null = null;
+
+	/** */
+	private movingSceneIndex: [number | null, number | null] = [null, null];
+
+	/**
+	 * default constructor
+	 * @param novelProvider provides the main data of th novel
+	 * @param chapterSwitcher assists in switching chapters comfortably
+	 * @param resolver used to spawn components
+	 */
 	constructor(
 		private novelProvider: NovelProjectProviderService,
 		private chapterSwitcher: ChapterSwitcherService,
+		private resolver: ComponentFactoryResolver,
+	) { }
 
-		private resolver: ComponentFactoryResolver
-	) {}
-
-	// *************
-	// Move Chapters
-	// *************
-
-	private movingChapterIndex: number | null = null;
-	private movingSceneIndex: [number | null, number | null] = [null, null];
-
-	// *************
-	// context menus
-	// *************
-
-	@ViewChild('popupMenuContainer', { read: ViewContainerRef, static: true })
-	chapterPopUpMenu: ViewContainerRef;
-
-	ngOnInit() {}
-
-	selectScene(chapterNr: number, sceneNr: number) {
+	/**
+	 * makes a scene the current scene and tells other components about the currently selected scene
+	 * @param chapterNr the chapter that is selected
+	 * @param sceneNr the scene that is selected
+	 * @return void
+	 */
+	public selectScene(chapterNr: number, sceneNr: number): void {
 		// save old text
 		this.chapterSwitcher.saveTextEmitter.emit({
 			chapter: this.chapterSwitcher.currentChapter,
-			scene: this.chapterSwitcher.currentScene
+			scene: this.chapterSwitcher.currentScene,
 		});
 		// load new text
 		this.chapterSwitcher.switchToChapterEmitter.emit({
 			toChapter: chapterNr,
-			toScene: sceneNr
+			toScene: sceneNr,
 		});
 	}
 
-	// CHAPTER STUFF
-	onDragOverChapter(event) {
+	/**
+	 * triggered when something is dragged over a chapter
+	 * @param event the event itself
+	 */
+	public onDragOverChapter(event): void {
 		event.preventDefault();
 		if (this.chapterSwitcher.dragContent === DropType.CHAPTER) {
 			if (!event.target.className.includes('chapter-drop-zone-highlight')) {
@@ -65,13 +73,23 @@ export class ChapterTreeComponent implements OnInit {
 		}
 	}
 
-	onDragLeaveChapter(event) {
+	/**
+	 * triggered if a floating object leaves the scope of an object.
+	 * will affect style
+	 * @param event the event itself
+	 */
+	public onDragLeaveChapter(event): void {
 		if (event.target.className.includes('chapter-drop-zone-highlight')) {
 			event.target.classList.remove('chapter-drop-zone-highlight');
 		}
 	}
 
-	onDropChapter(event, chapterIndex: number) {
+	/**
+	 * triggered if something is dropped in the slot of a new chapter
+	 * @param event the event itself
+	 * @param chapterIndex index of the chapter
+	 */
+	public onDropChapter(event, chapterIndex: number): void {
 		// make sure the dropped object really is a chapter
 		if (this.chapterSwitcher.dragContent === DropType.CHAPTER) {
 			// adds a class to the highlighted zone to remove special effects from mouseover
@@ -79,16 +97,19 @@ export class ChapterTreeComponent implements OnInit {
 				event.target.classList.remove('chapter-drop-zone-highlight');
 			}
 			// save old chapter text
-			this.chapterSwitcher.saveTextEmitter.emit({chapter: this.chapterSwitcher.currentChapter, scene: this.chapterSwitcher.currentScene});
+			this.chapterSwitcher.saveTextEmitter.emit({ chapter: this.chapterSwitcher.currentChapter, scene: this.chapterSwitcher.currentScene});
 			// add the new chapter
 			this.novelProvider.addChapter(chapterIndex + 1);
 			// switch to the new chapter
-			this.chapterSwitcher.switchToChapterEmitter.emit({toChapter: chapterIndex + 1, toScene: 0});
+			this.chapterSwitcher.switchToChapterEmitter.emit({ toChapter: chapterIndex + 1, toScene: 0});
 		}
 	}
 
-	// SCENE STUFF
-	onDragOverScene(event) {
+	/**
+	 * triggered if something is dragged over a scene
+	 * @param event the event itself
+	 */
+	public onDragOverScene(event) {
 		event.preventDefault();
 		if (this.chapterSwitcher.dragContent === DropType.SCENE) {
 			if (!event.target.className.includes('scene-drop-zone-highlight')) {
@@ -97,50 +118,81 @@ export class ChapterTreeComponent implements OnInit {
 		}
 	}
 
-	onDragLeaveScene(event) {
+	/**
+	 * triggered if something is dragged away from a scene scope
+	 * used for style purposes
+	 * @param event the event itself
+	 */
+	public onDragLeaveScene(event) {
 		if (event.target.className.includes('scene-drop-zone-highlight')) {
 			event.target.classList.remove('scene-drop-zone-highlight');
 		}
 	}
 
-	onDropScene(event, chapterIndex: number, sceneIndex: number) {
+	/**
+	 * triggered when dropping a scene onto a gap
+	 * used to add new scenes
+	 * @param event he event itself
+	 * @param chapterIndex index of the chapter index this chapter will have after adding
+	 * @param sceneIndex index of the scene this scene is dropped next to
+	 */
+	public onDropScene(event, chapterIndex: number, sceneIndex: number): void {
 		if (this.chapterSwitcher.dragContent === DropType.SCENE) {
 			if (event.target.className.includes('scene-drop-zone-highlight')) {
 				event.target.classList.remove('scene-drop-zone-highlight');
 			}
-			this.chapterSwitcher.saveTextEmitter.emit({chapter: this.chapterSwitcher.currentChapter, scene: this.chapterSwitcher.currentScene});
+			this.chapterSwitcher.saveTextEmitter.emit({ chapter: this.chapterSwitcher.currentChapter, scene: this.chapterSwitcher.currentScene});
 			this.novelProvider.addScene(chapterIndex, sceneIndex + 1);
-			this.chapterSwitcher.switchToChapterEmitter.emit({toChapter: chapterIndex, toScene: sceneIndex + 1});
+			this.chapterSwitcher.switchToChapterEmitter.emit({ toChapter: chapterIndex, toScene: sceneIndex + 1});
 		}
 	}
 
-	// Move Chapters
-	onDragStartExistingChapter(chapterIndex: number) {
-		// setTimeout prevents a bug that fires the dragleave immediatly after starting to drag.
+	/**
+	 * triggered when starting to drag a chapter
+	 * @param chapterIndex the chapter that is dragged
+	 */
+	public onDragStartExistingChapter(chapterIndex: number): void {
+		// setTimeout prevents a bug that fires the dragleave immediately after starting to drag.
 		// may be fixed in future versions
 		setTimeout(() => (this.movingChapterIndex = chapterIndex), 10);
 	}
 
-	onDragEndExistingChapter(event) {
+	/**
+	 * triggered when stopping drag
+	 * used to wipe information on what chapter was dragged
+	 * @param event the event itself
+	 */
+	public onDragEndExistingChapter(event): void {
 		this.movingChapterIndex = null;
 	}
 
-	onDragOverMoveChapter(event) {
+	/**
+	 * triggered when hovering over a chapter landing space.
+	 * avoids browsers default behaviour
+	 * @param event the event itself
+	 */
+	public onDragOverMoveChapter(event) {
 		event.preventDefault();
 	}
 
-	onDropMoveChapter(event, chapterIndex) {
+	/**
+	 * triggered when a chapter is dropped into it's landing zone
+	 * @param event the event itself
+	 * @param chapterIndex the index of the chapter it is dropped to
+	 * fixme bug with moving chapters below their original position
+	 */
+	public onDropMoveChapter(event, chapterIndex) {
 		event.preventDefault();
 
 		// move the chapter
-		if (this.movingChapterIndex != null) {
+		if (this.movingChapterIndex !== undefined) {
 			this.novelProvider.moveChapter(this.movingChapterIndex, chapterIndex);
 		}
 
 		// add scene if first chapter has none
 		if (this.novelProvider.getNovel().chapters[0].scenes.length === 0) {
 			this.novelProvider.addScene(0, 0);
-			this.chapterSwitcher.switchToChapterEmitter.emit({toChapter: 0, toScene: 0});
+			this.chapterSwitcher.switchToChapterEmitter.emit({ toChapter: 0, toScene: 0});
 		}
 
 		// set selected cover to current one
@@ -150,22 +202,29 @@ export class ChapterTreeComponent implements OnInit {
 
 		// determine correct scene positioning
 		if (chapterIndex < 0) {
-			this.chapterSwitcher.switchToChapterEmitter.emit({toChapter: 0, toScene: 0});
+			this.chapterSwitcher.switchToChapterEmitter.emit({ toChapter: 0, toScene: 0});
 		} else if (chapterIndex >= this.novelProvider.getNovel().chapters.length) {
-			this.chapterSwitcher.switchToChapterEmitter.emit({toChapter: chapterIndex - 1, toScene: 0});
+			this.chapterSwitcher.switchToChapterEmitter.emit({ toChapter: chapterIndex - 1, toScene: 0});
 		} else {
-			this.chapterSwitcher.switchToChapterEmitter.emit({toChapter: chapterIndex, toScene: 0});
+			this.chapterSwitcher.switchToChapterEmitter.emit({ toChapter: chapterIndex, toScene: 0});
 		}
 	}
 
-	// move Scenes
-	onDropMoveScene(event, newChapterIndex: number, newSceneIndex: number) {
+	/**
+	 * triggered when a scene is dropped
+	 * @param event the event itself
+	 * @param newChapterIndex index of the chapter the scene is dropped to
+	 * @param newSceneIndex index of the scene position the scene is dropped to
+	 * fixme bug with scene moving to the wrong index if dropped below its original position
+	 * it is dropped to places too deep
+	 */
+	public onDropMoveScene(event, newChapterIndex: number, newSceneIndex: number) {
 		const [oldChapter, oldScene] = this.movingSceneIndex;
 
 		// save old text
 		this.chapterSwitcher.saveTextEmitter.emit({
 			chapter: this.chapterSwitcher.currentChapter,
-			scene: this.chapterSwitcher.currentScene
+			scene: this.chapterSwitcher.currentScene,
 		});
 
 		// move, but not if moving to the next in line
@@ -184,26 +243,30 @@ export class ChapterTreeComponent implements OnInit {
 		}
 	}
 
-	onDragOverMoveScene(event) {
+	/**
+	 * triggered when hovering something above the scene landing zone
+	 * @param event
+	 */
+	public onDragOverMoveScene(event) {
 		event.preventDefault();
 	}
 
-	onDragStartExistingScene(event, chapterIndex: number, sceneIndex: number) {
+	public onDragStartExistingScene(event, chapterIndex: number, sceneIndex: number) {
 		setTimeout(() => (this.movingSceneIndex = [chapterIndex, sceneIndex]), 10);
 	}
 
-	onDragEndExistingScene(event) {
+	public onDragEndExistingScene(event) {
 		this.movingSceneIndex = [null, null];
 	}
-	onChapterContextMenu(event, chapterIndex: number) {
+	public onChapterContextMenu(event, chapterIndex: number) {
 		event.preventDefault();
 
-		// instanciation
+		// instantiation
 		const chapterPopUpfactory = this.resolver.resolveComponentFactory(
-			PopUpMenuComponent
+			PopUpMenuComponent,
 		);
 		const popUpMenu = this.chapterPopUpMenu.createComponent(
-			chapterPopUpfactory
+			chapterPopUpfactory,
 		);
 		popUpMenu.instance.context = 'chapter';
 		popUpMenu.instance.chapterNr = chapterIndex;
@@ -213,10 +276,10 @@ export class ChapterTreeComponent implements OnInit {
 		});
 	}
 
-	onSceneContextMenu(event, chapterIndex: number, sceneIndex: number) {
+	public onSceneContextMenu(event, chapterIndex: number, sceneIndex: number) {
 		event.preventDefault();
 		const scenePopUpFactory = this.resolver.resolveComponentFactory(
-			PopUpMenuComponent
+			PopUpMenuComponent,
 		);
 		const popUpMenu = this.chapterPopUpMenu.createComponent(scenePopUpFactory);
 
