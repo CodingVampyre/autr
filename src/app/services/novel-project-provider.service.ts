@@ -107,7 +107,7 @@ export class NovelProjectProviderService {
 		const sceneToMove = this.novel.chapters[fromChapter].scenes[fromScene];
 		this.novel.chapters[fromChapter].scenes.splice(fromScene, 1); // delete old
 
-		if (fromChapter === toChapter && toScenePosition < fromScene) { toScenePosition += 1; }
+		if (fromChapter === toChapter && toScenePosition > fromScene) { toScenePosition -= 1; }
 		this.novel.chapters[toChapter].scenes.splice(toScenePosition, 0, sceneToMove);
 	}
 
