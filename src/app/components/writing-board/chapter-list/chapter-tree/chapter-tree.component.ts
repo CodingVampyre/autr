@@ -220,7 +220,7 @@ export class ChapterTreeComponent {
 	 * it is dropped to places too deep
 	 */
 	public onDropMoveScene(event, newChapterIndex: number, newSceneIndex: number) {
-		const [oldChapter, oldScene] = this.movingSceneIndex;
+		const [oldChapterIndex, oldSceneIndex] = this.movingSceneIndex;
 
 		// save old text
 		this.chapterSwitcher.saveTextEmitter.emit({
@@ -229,19 +229,15 @@ export class ChapterTreeComponent {
 		});
 
 		// move, but not if moving to the next in line
-		if (!(oldChapter === newChapterIndex && newSceneIndex === oldScene + 1)) {
-			this.novelProvider.moveScene(oldChapter, oldScene, newChapterIndex, newSceneIndex);
-			this.movingSceneIndex = [undefined, undefined];
+		console.log(oldChapterIndex, oldSceneIndex, newChapterIndex, newSceneIndex);
+		this.novelProvider.moveScene(oldChapterIndex, oldSceneIndex, newChapterIndex, newSceneIndex);
+		this.movingSceneIndex = [undefined, undefined];
 
-			// set selected chapter the moved one;
-			const scenesLength = this.novelProvider.getNovel().chapters[newChapterIndex].scenes.length;
-			// when moving a scene to the end, i have to prevent an overflow
-			const newScenePosition = newSceneIndex >= scenesLength ? scenesLength - 1 : newSceneIndex;
-			this.chapterSwitcher.switchToChapterEmitter.emit({
-				toChapter: newChapterIndex,
-				toScene: newScenePosition,
-			});
-		}
+		// set selected chapter the moved one;
+		this.chapterSwitcher.switchToChapterEmitter.emit({
+			toChapter: newChapterIndex,
+			toScene: newSceneIndex,
+		});
 	}
 
 	/**
