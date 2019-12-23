@@ -24,10 +24,10 @@ export class ChapterTreeComponent {
 	public chapterPopUpMenu: ViewContainerRef;
 
 	/**  */
-	private movingChapterIndex: number | null = null;
+	private movingChapterIndex?: number;
 
 	/** */
-	private movingSceneIndex: [number | null, number | null] = [null, null];
+	private movingSceneIndex: [number?, number?] = [undefined, undefined];
 
 	/**
 	 * default constructor
@@ -152,9 +152,10 @@ export class ChapterTreeComponent {
 	 * @param chapterIndex the chapter that is dragged
 	 */
 	public onDragStartExistingChapter(chapterIndex: number): void {
+		const timeToWaitMs = 10;
 		// setTimeout prevents a bug that fires the dragleave immediately after starting to drag.
 		// may be fixed in future versions
-		setTimeout(() => (this.movingChapterIndex = chapterIndex), 10);
+		setTimeout(() => (this.movingChapterIndex = chapterIndex), timeToWaitMs);
 	}
 
 	/**
@@ -163,7 +164,7 @@ export class ChapterTreeComponent {
 	 * @param event the event itself
 	 */
 	public onDragEndExistingChapter(event): void {
-		this.movingChapterIndex = null;
+		this.movingChapterIndex = undefined;
 	}
 
 	/**
@@ -197,7 +198,7 @@ export class ChapterTreeComponent {
 
 		// set selected cover to current one
 		if (this.novelProvider.getNovel().chapters.length === 0) {
-			return (this.chapterSwitcher.currentChapter = null);
+			return (this.chapterSwitcher.currentChapter = undefined);
 		}
 
 		// determine correct scene positioning
@@ -230,7 +231,7 @@ export class ChapterTreeComponent {
 		// move, but not if moving to the next in line
 		if (!(oldChapter === newChapterIndex && newSceneIndex === oldScene + 1)) {
 			this.novelProvider.moveScene(oldChapter, oldScene, newChapterIndex, newSceneIndex);
-			this.movingSceneIndex = [null, null];
+			this.movingSceneIndex = [undefined, undefined];
 
 			// set selected chapter the moved one;
 			const scenesLength = this.novelProvider.getNovel().chapters[newChapterIndex].scenes.length;
@@ -258,7 +259,8 @@ export class ChapterTreeComponent {
 	 * @param sceneIndex the scene that is dragged
 	 */
 	public onDragStartExistingScene(event, chapterIndex: number, sceneIndex: number): void {
-		setTimeout(() => (this.movingSceneIndex = [chapterIndex, sceneIndex]), 10);
+		const timeToWaitMs = 10;
+		setTimeout(() => (this.movingSceneIndex = [chapterIndex, sceneIndex]), timeToWaitMs);
 	}
 
 	/**
@@ -266,7 +268,7 @@ export class ChapterTreeComponent {
 	 * @param event the event itself
 	 */
 	public onDragEndExistingScene(event) {
-		this.movingSceneIndex = [null, null];
+		this.movingSceneIndex = [undefined, undefined];
 	}
 
 	/**

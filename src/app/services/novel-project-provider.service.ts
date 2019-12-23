@@ -35,25 +35,34 @@ export class NovelProjectProviderService {
 	public addChapter(chapterPosition: number): void {
 		const isChapterPositionBehindLastChapter = chapterPosition > this.getNovel().chapters.length;
 		const isChapterPositionBelowZero = chapterPosition < 0;
+		const chapter: Chapter = { name: 'new chapter', scenes: [] };
 
+		// check if chapter positions are set correctly
 		if (isChapterPositionBehindLastChapter || isChapterPositionBelowZero) {
 			throw new Error('can\'t add chapter after end of novel');
 		}
 
-		const chapter: Chapter = { name: 'new chapter', scenes: [] };
+		// add the chapter and an empty scene to avoid empty chapters
 		this.getNovel().chapters.splice(chapterPosition, 0, chapter);
 		this.addScene(chapterPosition, 0);
 	}
 
 	/**
 	 * adds a scene to the novel
+	 * @param chapterNr the chapter in which the scene will be added
+	 * @param scenePosition the position the scene is added to
 	 */
-	public addScene(chapterNr: number, scenePosition: number) {
-		if (chapterNr < 0 || chapterNr >= this.getNovel().chapters.length) {
+	public addScene(chapterNr: number, scenePosition: number): void {
+		const isChapterBelowZero = chapterNr < 0;
+		const isChapterNumberAboveLastChapter = chapterNr >= this.getNovel().chapters.length;
+		const scene: Scene = { name: 'new scene', text: ''};
+
+		// check if new chapter position is in bounds
+		if (isChapterBelowZero || isChapterNumberAboveLastChapter) {
 			throw new Error('can\'t add scene to unknown chapter');
 		}
 
-		const scene: Scene = { name: 'new scene', text: ''};
+		// add the chapter
 		this.getNovel().chapters[chapterNr].scenes.splice(
 			scenePosition, 0, scene,
 		);
@@ -67,6 +76,8 @@ export class NovelProjectProviderService {
 		if (chapterNr < 0 || chapterNr > this.novel.chapters.length) {
 			throw new Error('chapterNr out of bounds');
 		}
+
+		// clamping
 		if (newPosition < 0) {
 			newPosition = 0;
 		} else if (newPosition > this.novel.chapters.length) {
@@ -75,12 +86,13 @@ export class NovelProjectProviderService {
 
 		// move chapter
 		const chapterToMove: Chapter = this.novel.chapters[chapterNr];
-		this.novel.chapters.splice(chapterNr, 1); // delete old
-		if (newPosition > chapterNr) {
-			this.novel.chapters.splice(newPosition + 1, 0, chapterToMove);
-		} else { // insert new before deleted point
-			this.novel.chapters.splice(newPosition, 0, chapterToMove);
-		}
+
+		// delete old
+		this.novel.chapters.splice(chapterNr, 1);
+
+		// insert new
+		newPosition = newPosition >= chapterNr ? newPosition : newPosition + 1;
+		this.novel.chapters.splice(newPosition, 0, chapterToMove);
 	}
 
 	/**
