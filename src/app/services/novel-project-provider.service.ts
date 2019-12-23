@@ -109,6 +109,8 @@ export class NovelProjectProviderService {
 
 		if (fromChapter === toChapter && toScenePosition > fromScene) { toScenePosition -= 1; }
 		this.novel.chapters[toChapter].scenes.splice(toScenePosition, 0, sceneToMove);
+
+		return toScenePosition;
 	}
 
 	/**

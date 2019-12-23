@@ -229,8 +229,8 @@ export class ChapterTreeComponent {
 		});
 
 		// move, but not if moving to the next in line
-		console.log(oldChapterIndex, oldSceneIndex, newChapterIndex, newSceneIndex);
-		this.novelProvider.moveScene(oldChapterIndex, oldSceneIndex, newChapterIndex, newSceneIndex);
+		newSceneIndex = this.novelProvider
+			.moveScene(oldChapterIndex, oldSceneIndex, newChapterIndex, newSceneIndex);
 		this.movingSceneIndex = [undefined, undefined];
 
 		// set selected chapter the moved one;
