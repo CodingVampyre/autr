@@ -106,29 +106,9 @@ export class NovelProjectProviderService {
 	) {
 		const sceneToMove = this.novel.chapters[fromChapter].scenes[fromScene];
 		this.novel.chapters[fromChapter].scenes.splice(fromScene, 1); // delete old
-		if (fromChapter === toChapter) {
-			// check if this chapter must be manipulated
-			if (toScenePosition > fromScene) {
-				this.novel.chapters[toChapter].scenes.splice(
-					toScenePosition + 1,
-					0,
-					sceneToMove,
-				);
-			} else {
-				this.novel.chapters[toChapter].scenes.splice(
-					toScenePosition,
-					0,
-					sceneToMove,
-				);
-			}
-		} else {
-			// just insert without doubt
-			this.novel.chapters[toChapter].scenes.splice(
-				toScenePosition,
-				0,
-				sceneToMove,
-			);
-		}
+
+		if (fromChapter === toChapter && toScenePosition < fromScene) { toScenePosition += 1; }
+		this.novel.chapters[toChapter].scenes.splice(toScenePosition, 0, sceneToMove);
 	}
 
 	/**
