@@ -245,20 +245,36 @@ export class ChapterTreeComponent {
 
 	/**
 	 * triggered when hovering something above the scene landing zone
-	 * @param event
+	 * @param event the event itself
 	 */
 	public onDragOverMoveScene(event) {
 		event.preventDefault();
 	}
 
-	public onDragStartExistingScene(event, chapterIndex: number, sceneIndex: number) {
+	/**
+	 * triggered when a scene is dragged
+	 * @param event the event itself
+	 * @param chapterIndex the chapter from which a scene derives
+	 * @param sceneIndex the scene that is dragged
+	 */
+	public onDragStartExistingScene(event, chapterIndex: number, sceneIndex: number): void {
 		setTimeout(() => (this.movingSceneIndex = [chapterIndex, sceneIndex]), 10);
 	}
 
+	/**
+	 * triggered when a scene is left fallen while dragging
+	 * @param event the event itself
+	 */
 	public onDragEndExistingScene(event) {
 		this.movingSceneIndex = [null, null];
 	}
-	public onChapterContextMenu(event, chapterIndex: number) {
+
+	/**
+	 * opens the context menu for chapters
+	 * @param event the opening event
+	 * @param chapterIndex the chapter to be edited
+	 */
+	public onChapterContextMenu(event, chapterIndex: number): void {
 		event.preventDefault();
 
 		// instantiation
@@ -276,7 +292,13 @@ export class ChapterTreeComponent {
 		});
 	}
 
-	public onSceneContextMenu(event, chapterIndex: number, sceneIndex: number) {
+	/**
+	 * opens the context menu and creates it
+	 * @param event the opening event
+	 * @param chapterIndex the chapter to edit
+	 * @param sceneIndex the scene to edit
+	 */
+	public onSceneContextMenu(event, chapterIndex: number, sceneIndex: number): void {
 		event.preventDefault();
 		const scenePopUpFactory = this.resolver.resolveComponentFactory(
 			PopUpMenuComponent,
