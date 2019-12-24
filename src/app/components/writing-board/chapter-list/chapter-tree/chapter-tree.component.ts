@@ -203,12 +203,11 @@ export class ChapterTreeComponent {
 
 		// determine correct scene positioning
 		if (chapterIndex < 0) {
-			this.chapterSwitcher.switchToChapterEmitter.emit({ toChapter: 0, toScene: 0});
-		} else if (chapterIndex >= this.novelProvider.getNovel().chapters.length) {
-			this.chapterSwitcher.switchToChapterEmitter.emit({ toChapter: chapterIndex - 1, toScene: 0});
-		} else {
-			this.chapterSwitcher.switchToChapterEmitter.emit({ toChapter: chapterIndex, toScene: 0});
+			chapterIndex = 0;
+		} else if (chapterIndex >= this.novelProvider.getNovel().chapters.length ) {
+			chapterIndex = chapterIndex - 1;
 		}
+		this.chapterSwitcher.switchToChapterEmitter.emit({ toChapter: chapterIndex, toScene: 0 });
 	}
 
 	/**
@@ -216,7 +215,6 @@ export class ChapterTreeComponent {
 	 * @param event the event itself
 	 * @param newChapterIndex index of the chapter the scene is dropped to
 	 * @param newSceneIndex index of the scene position the scene is dropped to
-	 * fixme bug with scene moving to the wrong index if dropped below its original position
 	 * it is dropped to places too deep
 	 */
 	public onDropMoveScene(event, newChapterIndex: number, newSceneIndex: number) {

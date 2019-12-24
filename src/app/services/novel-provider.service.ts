@@ -71,28 +71,28 @@ export class NovelProviderService {
 	/**
 	 *
 	 */
-	public moveChapter(chapterNr: number, newPosition: number) {
+	public moveChapter(fromChapter: number, toChapter: number) {
 		// error prevention
-		if (chapterNr < 0 || chapterNr > this.novel.chapters.length) {
+		if (fromChapter < 0 || fromChapter > this.novel.chapters.length) {
 			throw new Error('chapterNr out of bounds');
 		}
 
 		// clamping
-		if (newPosition < 0) {
-			newPosition = 0;
-		} else if (newPosition > this.novel.chapters.length) {
-			newPosition = this.novel.chapters.length;
+		if (toChapter < 0) {
+			toChapter = 0;
+		} else if (toChapter > this.novel.chapters.length) {
+			toChapter = this.novel.chapters.length;
 		}
 
 		// move chapter
-		const chapterToMove: Chapter = this.novel.chapters[chapterNr];
+		const chapterToMove: Chapter = this.novel.chapters[fromChapter];
 
 		// delete old
-		this.novel.chapters.splice(chapterNr, 1);
+		this.novel.chapters.splice(fromChapter, 1);
 
 		// insert new
-		newPosition = newPosition >= chapterNr ? newPosition : newPosition + 1;
-		this.novel.chapters.splice(newPosition, 0, chapterToMove);
+		if (toChapter > fromChapter) { toChapter -= 1; }
+		this.novel.chapters.splice(toChapter, 0, chapterToMove);
 	}
 
 	/**

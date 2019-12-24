@@ -15,7 +15,7 @@
 		<div class="chapter-move-drop-zone"
 			 (dragover)="onDragOverMoveChapter($event)"
 			 *ngIf="chapterIndex === 0 && movingChapterIndex != null"
-			 (drop)="onDropMoveChapter($event, chapterIndex - 1)">
+			 (drop)="onDropMoveChapter($event, chapterIndex)">
 		</div>
 
 		<!--Chapter Title-->
@@ -83,7 +83,7 @@
 
 		<!--Drop Zone to Move Chapters-->
 		<div class="chapter-move-drop-zone" *ngIf="movingChapterIndex != null"
-			 (dragover)="onDragOverMoveChapter($event)" (drop)="onDropMoveChapter($event, chapterIndex)">
+			 (dragover)="onDragOverMoveChapter($event)" (drop)="onDropMoveChapter($event, chapterIndex + 1)">
 		</div>
 
 	</div>
