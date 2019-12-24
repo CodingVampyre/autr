@@ -20,12 +20,15 @@ export interface INotification {
 
 			// on creation of an instance
 			transition(':enter', [
-				style({ opacity: 0 }),
+				style({ opacity: 0, transform: 'translateX(300px)' }),
 				animate(200),
 			]),
 
 			// on leave
-			transition(':leave', animate(200, style({ opacity: 0 }))),
+			transition(':leave', animate(200, style({
+				opacity: 0,
+				transform: 'translateX(300px)',
+			}))),
 		]),
 	],
 })
