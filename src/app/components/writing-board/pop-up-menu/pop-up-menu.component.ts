@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 import { NovelProviderService } from '../../../services/novel-provider.service';
 import { EventEmitter } from '@angular/core';
 import { ChapterSwitcherService } from '../../../services/chapter-switcher.service';

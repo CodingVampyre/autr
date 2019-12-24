@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {NotificationService} from '../../services/notification.service';
-import {v1 as UUID} from 'uuid';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import { Component, OnInit } from '@angular/core';
+import { NotificationService } from '../../services/notification.service';
+import { v1 as UUID } from 'uuid';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 export interface INotification {
 	id: string;
@@ -37,14 +37,15 @@ export class NotificationComponent implements OnInit {
 		private readonly notificationService: NotificationService,
 	) { }
 
-	async ngOnInit() {
-		this.notificationService.newNotificationEmitter.subscribe(text => {
+	public ngOnInit() {
+		this.notificationService.newNotificationEmitter.subscribe((text) => {
 			this.displayNotification(text);
 		});
 	}
 
 	private displayNotification(text: string): void {
 		const id: string = UUID();
+		const notificationDisplayTime = 2000;
 		this.notifications.push({ text, id });
 		setTimeout(() => {
 			// remove said notification
@@ -53,7 +54,7 @@ export class NotificationComponent implements OnInit {
 					this.notifications.splice(i, 1);
 				}
 			}
-		}, 2000);
+		}, notificationDisplayTime);
 	}
 
 }
