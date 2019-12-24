@@ -1,5 +1,5 @@
-<div id="pop-up-background" (click)="destroyMe()"></div>
-<div id="pop-up-menu" [ngStyle]="popUpStyle" [@slideBottomToTopAnimation]="'in'">
+<div id="pop-up-background" (click)="close()"></div>
+<div id="pop-up-menu" [@slideBottomToTopAnimation]="'in'">
 
     <!--Everything to edit a chapter-->
     <div *ngIf="context === 'chapter'">
@@ -26,6 +26,6 @@
     </div>
 
     <!--Common Stuff-->
-    <button class="button_dark" (click)="destroyMe()">Close</button>
+    <button class="button_dark" (click)="close()">Close</button>
 
 </div>

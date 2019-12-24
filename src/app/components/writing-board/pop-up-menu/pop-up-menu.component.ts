@@ -35,7 +35,7 @@ export class PopUpMenuComponent {
 	@Input() public sceneNr: number;
 	@Input() public context: 'chapter' | 'scene';
 
-	@Output() public destroyEmitter: EventEmitter<void> = new EventEmitter();
+	@Output() public closePopUpMenu: EventEmitter<void> = new EventEmitter();
 
 	constructor(
 		private novelProvider: NovelProviderService,
@@ -70,7 +70,7 @@ export class PopUpMenuComponent {
 			this.chapterSwitcher.switchToChapterEmitter.emit({ toChapter: 0, toScene: 0});
 		}
 
-		return this.destroyMe();
+		return this.closePopUpMenu.emit();
 	}
 
 	public onClickDeleteScene(chapterNr: number, sceneNr: number) {
@@ -90,11 +90,10 @@ export class PopUpMenuComponent {
 			this.chapterSwitcher.switchToChapterEmitter.emit({ toChapter: 0, toScene: 0});
 		}
 
-		this.destroyMe();
+		return this.closePopUpMenu.emit();
 	}
 
-	public destroyMe() {
-		this.destroyEmitter.emit();
+	public close() {
+		this.closePopUpMenu.emit();
 	}
-
 }

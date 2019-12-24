@@ -89,5 +89,9 @@
 	</div>
 </div>
 
-<!--PopUpMenu will be spawned here-->
-<div #popupMenuContainer></div>
+<app-pop-up-menu #popUpMenu
+	*ngIf="showPopUpMenu"
+	[chapterNr]="popUpChapter" [sceneNr]="popUpScene" [context]="popUpContext"
+	(closePopUpMenu)="showPopUpMenu = false">
+</app-pop-up-menu>
+

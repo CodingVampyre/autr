@@ -1,8 +1,7 @@
 import {
 	Component,
-	ComponentFactoryResolver,
+	ComponentFactoryResolver, ElementRef,
 	ViewChild,
-	ViewContainerRef,
 } from '@angular/core';
 import { NovelProviderService } from '../../../../services/novel-provider.service';
 import {
@@ -20,14 +19,17 @@ import { PopUpMenuComponent } from '../../pop-up-menu/pop-up-menu.component';
 export class ChapterTreeComponent {
 
 	/** pop up menu used to edit metadata */
-	@ViewChild('popupMenuContainer', { read: ViewContainerRef, static: true })
-	public chapterPopUpMenu: ViewContainerRef;
+	@ViewChild('popUpMenu', { read: PopUpMenuComponent, static: false })
+	public popUpMenu: ElementRef<PopUpMenuComponent>;
 
 	/**  */
 	private movingChapterIndex?: number;
 
 	/** */
 	private movingSceneIndex: [number?, number?] = [undefined, undefined];
+
+	/**  */
+	private showPopUpMenu = false;
 
 	/**
 	 * default constructor
@@ -265,6 +267,10 @@ export class ChapterTreeComponent {
 		this.movingSceneIndex = [undefined, undefined];
 	}
 
+	private popUpContext;
+	private popUpChapter;
+	private popUpScene;
+
 	/**
 	 * opens the context menu for chapters
 	 * @param event the opening event
@@ -274,18 +280,11 @@ export class ChapterTreeComponent {
 		event.preventDefault();
 
 		// instantiation
-		const chapterPopUpfactory = this.resolver.resolveComponentFactory(
-			PopUpMenuComponent,
-		);
-		const popUpMenu = this.chapterPopUpMenu.createComponent(
-			chapterPopUpfactory,
-		);
-		popUpMenu.instance.context = 'chapter';
-		popUpMenu.instance.chapterNr = chapterIndex;
+		this.popUpContext = 'chapter';
+		this.popUpChapter = chapterIndex;
+		this.popUpScene = undefined;
 
-		popUpMenu.instance.destroyEmitter.subscribe(() => {
-			popUpMenu.destroy();
-		});
+		this.showPopUpMenu = true;
 	}
 
 	/**
@@ -296,17 +295,11 @@ export class ChapterTreeComponent {
 	 */
 	public onSceneContextMenu(event, chapterIndex: number, sceneIndex: number): void {
 		event.preventDefault();
-		const scenePopUpFactory = this.resolver.resolveComponentFactory(
-			PopUpMenuComponent,
-		);
-		const popUpMenu = this.chapterPopUpMenu.createComponent(scenePopUpFactory);
 
-		popUpMenu.instance.context = 'scene';
-		popUpMenu.instance.chapterNr = chapterIndex;
-		popUpMenu.instance.sceneNr = sceneIndex;
+		this.popUpContext = 'scene';
+		this.popUpChapter = chapterIndex;
+		this.popUpScene = sceneIndex;
 
-		popUpMenu.instance.destroyEmitter.subscribe(() => {
-			popUpMenu.destroy();
-		});
+		this.showPopUpMenu = true;
 	}
 }
