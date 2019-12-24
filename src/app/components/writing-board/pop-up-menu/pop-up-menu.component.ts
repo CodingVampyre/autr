@@ -2,11 +2,32 @@ import { Component, Input, Output } from '@angular/core';
 import { NovelProviderService } from '../../../services/novel-provider.service';
 import { EventEmitter } from '@angular/core';
 import { ChapterSwitcherService } from '../../../services/chapter-switcher.service';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
 	selector: 'app-pop-up-menu',
 	templateUrl: './pop-up-menu.component.html',
 	styleUrls: ['./pop-up-menu.component.less'],
+	animations: [
+		trigger('slideBottomToTopAnimation', [
+
+			// normal state while existing
+			state('in', style({ opacity: 1 })),
+
+			// on creation of an instance
+			transition(':enter', [
+				style({ opacity: 0, transform: 'translateY(800px)' }),
+				animate('200ms ease'),
+			]),
+
+			// on leave
+			transition(':leave', [
+				// on leave
+				style({ opacity: 0, transform: 'translateY(-800px)' }),
+				animate('200ms ease'),
+			]),
+		]),
+	],
 })
 export class PopUpMenuComponent {
 
