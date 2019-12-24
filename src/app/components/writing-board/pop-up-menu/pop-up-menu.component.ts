@@ -17,14 +17,14 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 			// on creation of an instance
 			transition(':enter', [
 				style({ opacity: 0, transform: 'translateY(800px)' }),
-				animate('200ms ease'),
+				animate('200ms ease-in-out'),
 			]),
 
 			// on leave
 			transition(':leave', [
 				// on leave
 				style({ opacity: 0, transform: 'translateY(-800px)' }),
-				animate('200ms ease'),
+				animate('200ms ease-in-out'),
 			]),
 		]),
 	],
