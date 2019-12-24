@@ -90,6 +90,7 @@
 </div>
 
 <app-pop-up-menu #popUpMenu
+	[@slideBottomToTopAnimation]
 	*ngIf="showPopUpMenu"
 	[chapterNr]="popUpChapter" [sceneNr]="popUpScene" [context]="popUpContext"
 	(closePopUpMenu)="showPopUpMenu = false">

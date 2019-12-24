@@ -9,12 +9,29 @@ import {
 	DropType,
 } from '../../../../services/chapter-switcher.service';
 import { PopUpMenuComponent } from '../../pop-up-menu/pop-up-menu.component';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 /** used to order chapters and scenes */
 @Component({
 	selector: 'app-chapter-tree',
 	templateUrl: './chapter-tree.component.html',
 	styleUrls: ['./chapter-tree.component.less'],
+	animations: [
+		trigger('slideBottomToTopAnimation', [
+			// normal state while existing
+			state('in', style({ opacity: 1 })),
+			// on creation of an instance
+			transition(':enter', [
+				style({ opacity: 0 }),
+				animate('0.1s'),
+			]),
+			// on leave
+			transition(':leave', [
+				animate('0.1s'),
+				style({ opacity: 0 }),
+			]),
+		]),
+	],
 })
 export class ChapterTreeComponent {
 
