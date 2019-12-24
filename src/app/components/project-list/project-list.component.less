@@ -49,6 +49,15 @@
 
             .novel-list-entry {
                 background: @gray-darker;
+				background: linear-gradient(90deg,
+					rgba(0,0,0,1) 0%,
+					rgba(60,60,60,1) 2%,
+					rgba(20,20,20,1) 4%,
+					rgba(60,60,60,1) 5%,
+					rgba(40,40,40,1) 6%,
+					rgba(40,40,40,1) 98%,
+					rgba(60,60,60,1) 99%,
+				);
 
                 display: flex;
                 justify-content: space-around;
@@ -60,15 +69,7 @@
                 height: @book-height;
                 margin-right: 40px;
                 margin-bottom: 40px;
-
-                box-shadow:
-                    1px -1px 0px #fff,
-                    2px -2px 0px #ccc,
-                    3px -3px 0px #aaa,
-                    4px -4px 0px #777,
-                    5px -5px 0px #444,
-
-                    0 0 50px 20px rgba(0, 0, 0, 0.1) inset;
+				border-radius: 8px;
 
                 transition: 0.2s;
 
@@ -90,15 +91,8 @@
             }
 
             .novel-list-entry:hover {
-                box-shadow:
-                    2px -2px 0px #fff,
-                    4px -4px 0px #ccc,
-                    6px -6px 0px #aaa,
-                    8px -8px 0px #777,
-                    10px -10px 0px #444,
-
-                    0 0 50px 20px rgba(0, 0, 0, 0.1) inset;
-            }
+                transform: scale(1.05, 1.05);
+			}
         }
 
     }
