@@ -55,7 +55,6 @@ export class ProjectListComponent implements OnInit {
 	 * @param novelId primary key of the novel that should be loaded
 	 */
 	public async onClickLoadNovel(event, novelId: string) {
-		// navigate
 		await this.router.navigate(['/writing-board', novelId]);
 	}
 
