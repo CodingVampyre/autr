@@ -6,21 +6,23 @@
  * Created by CodingVampyre <tobiaskavse@hotmail.de>
  */
 
-import {Component, NgZone, OnInit} from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { DatabaseService } from '../../services/database.service';
 import { NovelProviderService } from '../../services/novel-provider.service';
 import { Router } from '@angular/router';
 import { IpcRenderer } from 'electron';
 import { NotificationService } from '../../services/notification.service';
-import {Chapter, Novel} from '../../data-models/novel.interface';
-import {ChapterSwitcherService} from '../../services/chapter-switcher.service';
+import { Novel } from '../../data-models/novel.interface';
+import { ChapterSwitcherService } from '../../services/chapter-switcher.service';
 
 @Component({
 	selector: 'app-project-list',
 	templateUrl: './project-list.component.html',
-	styleUrls: ['./project-list.component.less']
+	styleUrls: ['./project-list.component.less'],
 })
 export class ProjectListComponent implements OnInit {
+
+	public novels: any[] = [];
 
 	private readonly ipcRenderer: IpcRenderer;
 
@@ -35,13 +37,11 @@ export class ProjectListComponent implements OnInit {
 		if ((window as any).require) {
 			this.ipcRenderer = (window as any).require('electron').ipcRenderer;
 		} else {
-			console.warn('ipcRenderer could not load');
+			this.notificationService.newNotificationEmitter.emit('IPC renderer did not load. Stuff like export is not available.');
 		}
 	}
 
-	novels: any[] = [];
-
-	async ngOnInit() {
+	public async ngOnInit() {
 		// create index if it doesn't exist
 		await this.db.createNovelIndex();
 
@@ -72,7 +72,7 @@ export class ProjectListComponent implements OnInit {
 		await this.router.navigate(['/writing-board', novelId]);
 	}
 
-	async onClickCreateNewNovel(newNovelName: string) {
+	public async onClickCreateNewNovel(newNovelName: string) {
 		// store a new novel
 		await this.db.storeNovel({
 			name: newNovelName,
@@ -80,27 +80,27 @@ export class ProjectListComponent implements OnInit {
 				name: 'chapter 1',
 				scenes: [{
 					name: 'first scene',
-					text: 'write your scene here!'
+					text: 'write your scene here!',
 				}],
 			}],
 			cursor: {
 				currentChapter: 0,
 				currentScene: 0,
-			}
+			},
 		});
 
 		// refresh list
 		this.novels = await this.db.listNovels();
 	}
 
-	async onClickDeleteNovel(event, novelId) {
+	public async onClickDeleteNovel(event, novelId) {
 		await this.db.deleteNovel(novelId);
 		this.novels = await this.db.listNovels();
 	}
 
-	onClickImportNovel() {
+	public onClickImportNovel() {
 		this.ipcRenderer.once('showNovelImportDialogResponse', async (event, arg) => {
-			if (arg != null) {
+			if (arg !== undefined) {
 				const importedNovel: Novel = JSON.parse(arg);
 				await this.db.storeNovel(importedNovel);
 			}
