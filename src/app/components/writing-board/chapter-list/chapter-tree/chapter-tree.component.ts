@@ -48,6 +48,10 @@ export class ChapterTreeComponent {
 	/**  */
 	private showPopUpMenu = false;
 
+	private popUpContext;
+	private popUpChapter;
+	private popUpScene;
+
 	/**
 	 * default constructor
 	 * @param novelProvider provides the main data of th novel
@@ -283,10 +287,6 @@ export class ChapterTreeComponent {
 	public onDragEndExistingScene(event) {
 		this.movingSceneIndex = [undefined, undefined];
 	}
-
-	private popUpContext;
-	private popUpChapter;
-	private popUpScene;
 
 	/**
 	 * opens the context menu for chapters

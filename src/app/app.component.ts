@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
 	) { }
 
 	public async ngOnInit() {
-		await this.router.navigate(['/projects']);
+		// await this.router.navigate(['/projects']);
 	}
 
 	// prevents ctrl+s to download the document!

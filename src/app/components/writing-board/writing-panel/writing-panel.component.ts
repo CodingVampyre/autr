@@ -1,8 +1,8 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { NovelProviderService } from 'src/app/services/novel-provider.service';
-import { ChapterSwitcherService } from 'src/app/services/chapter-switcher.service';
-import { DatabaseService } from 'src/app/services/database.service';
-import { NovelTextChangeService } from 'src/app/services/novel-text-change.service';
+import { NovelProviderService } from '../../../services/novel-provider.service';
+import { ChapterSwitcherService } from '../../../services/chapter-switcher.service';
+import { DatabaseService } from '../../../services/database.service';
+import { NovelTextChangeService } from '../../../services/novel-text-change.service';
 
 @Component({
   selector: 'app-writing-panel',

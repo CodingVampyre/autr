@@ -55,19 +55,6 @@ export class ProjectListComponent implements OnInit {
 	 * @param novelId primary key of the novel that should be loaded
 	 */
 	public async onClickLoadNovel(event, novelId: string) {
-		// fetch novel from the database
-		const dbNovelEntry = await this.db.describeNovel(novelId);
-
-		// set the novel as main novel to work with
-		this.novelProvider.setNovel(dbNovelEntry);
-		this.novelProvider.novelId = novelId;
-
-		// set chapter and scene
-		this.chapterSwitcherService.switchToChapterEmitter.emit({
-			toChapter: this.novelProvider.getNovel().cursor.currentChapter,
-			toScene: this.novelProvider.getNovel().cursor.currentScene,
-		});
-
 		// navigate
 		await this.router.navigate(['/writing-board', novelId]);
 	}
