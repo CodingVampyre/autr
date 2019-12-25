@@ -54,7 +54,7 @@ export class ProjectListComponent implements OnInit {
 	 * @param event event metadata
 	 * @param novelId primary key of the novel that should be loaded
 	 */
-	async onClickLoadNovel(event, novelId: string) {
+	public async onClickLoadNovel(event, novelId: string) {
 		// fetch novel from the database
 		const dbNovelEntry = await this.db.describeNovel(novelId);
 
