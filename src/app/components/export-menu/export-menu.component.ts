@@ -1,28 +1,28 @@
-import {Component, NgZone, OnInit} from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { IpcRenderer } from 'electron';
 import { NovelProviderService } from '../../services/novel-provider.service';
 import { NovelToTextService } from '../../services/converter/novel-to-text.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../../services/notification.service';
-import {PdfRendererService} from '../../services/converter/pdf-renderer.service';
-
+import { DatabaseService } from '../../services/database.service';
 
 @Component({
 	selector: 'app-export-menu',
 	templateUrl: './export-menu.component.html',
-	styleUrls: ['./export-menu.component.less']
+	styleUrls: ['./export-menu.component.less'],
 })
 export class ExportMenuComponent implements OnInit {
 
-	// TODO to service
 	private readonly ipcRenderer: IpcRenderer;
 
 	constructor(
 		private novelProviderService: NovelProviderService,
 		private novelToTextService: NovelToTextService,
 		private router: Router,
+		private route: ActivatedRoute,
 		private notificationService: NotificationService,
 		private ngZone: NgZone,
+		private databaseService: DatabaseService,
 	) {
 		if ((window as any).require) {
 			this.ipcRenderer = (window as any).require('electron').ipcRenderer;
@@ -31,15 +31,16 @@ export class ExportMenuComponent implements OnInit {
 		}
 	}
 
-	ngOnInit() {
+	public async ngOnInit() {
+		if (this.novelProviderService.getNovel() === undefined) { await this.loadNovel(); }
 	}
 
-	async onClickGoToWritingPanel() {
-		await this.router.navigate(['/writing-board']);
+	public async onClickGoToWritingPanel() {
+		await this.router.navigate(['/writing-board', this.novelProviderService.novelId]);
 	}
 
-	onClickExportNovelAsJSON() {
-		if (this.ipcRenderer == null) {
+	public onClickExportNovelAsJSON() {
+		if (this.ipcRenderer === undefined) {
 			this.notificationService.newNotificationEmitter.emit('Electron features currently unavailable. Did you open this app using ng serve?');
 		} else {
 			this.ipcRenderer.once('showSaveDialogSyncResponse', (event, arg) => {
@@ -57,8 +58,8 @@ export class ExportMenuComponent implements OnInit {
 		}
 	}
 
-	onClickExportNovelAsTXT() {
-		if (this.ipcRenderer == null) {
+	public onClickExportNovelAsTXT() {
+		if (this.ipcRenderer === undefined) {
 			this.notificationService.newNotificationEmitter.emit('Electron features currently unavailable. Did you open this app using ng serve?');
 		} else {
 			const text: string = NovelToTextService.convertNovelToText(this.novelProviderService.getNovel());
@@ -76,7 +77,7 @@ export class ExportMenuComponent implements OnInit {
 		}
 	}
 
-	async onClickExportNovelAsPDF() {
+	public onClickExportNovelAsPDF() {
 		this.ipcRenderer.once('exportNovelAsPDFResponse', (event, arg) => {
 			this.ngZone.run(() => {
 				this.notificationService.newNotificationEmitter.emit('exported novel as PDF');
@@ -85,5 +86,15 @@ export class ExportMenuComponent implements OnInit {
 		this.ipcRenderer.send('exportNovelAsPDF', {
 			novel: this.novelProviderService.getNovel(),
 		});
+	}
+
+	private async loadNovel() {
+		const novelId = this.route.snapshot.paramMap.get('novelId');
+		// fetch novel from the database
+		const dbNovelEntry = await this.databaseService.describeNovel(novelId);
+
+		// set the novel as main novel to work with
+		this.novelProviderService.setNovel(dbNovelEntry);
+		this.novelProviderService.novelId = novelId;
 	}
 }

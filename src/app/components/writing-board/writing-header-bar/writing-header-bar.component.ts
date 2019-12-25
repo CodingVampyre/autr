@@ -28,7 +28,7 @@ export class WritingHeaderBarComponent {
 
 	/** goes to the export menu */
 	public async onClickOpenExportMenu(event) {
-		await this.router.navigate(['export']);
+		await this.router.navigate(['export', this.novelService.novelId]);
 	}
 
 	public async onClickReturnToMainMenu($event: MouseEvent) {
