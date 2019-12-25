@@ -69,7 +69,7 @@ export class ProjectListComponent implements OnInit {
 		});
 
 		// navigate
-		await this.router.navigate(['/writing-board']);
+		await this.router.navigate(['/writing-board', novelId]);
 	}
 
 	async onClickCreateNewNovel(newNovelName: string) {

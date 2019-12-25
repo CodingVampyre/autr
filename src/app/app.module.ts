@@ -40,8 +40,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 		AppRoutingModule,
 		RouterModule.forRoot([
 			{ path: 'projects', component: ProjectListComponent },
-			{ path: 'writing-board', component: WritingBoardComponent },
 			{ path: 'export', component: ExportMenuComponent },
+			{ path: 'writing-board/:novelId', component: WritingBoardComponent },
 		]),
 	],
 	providers: [],
