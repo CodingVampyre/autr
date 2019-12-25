@@ -78,14 +78,19 @@ export class ExportMenuComponent implements OnInit {
 	}
 
 	public onClickExportNovelAsPDF() {
-		this.ipcRenderer.once('exportNovelAsPDFResponse', (event, arg) => {
-			this.ngZone.run(() => {
-				this.notificationService.newNotificationEmitter.emit('exported novel as PDF');
+		if (this.ipcRenderer === undefined) {
+			this.notificationService.newNotificationEmitter.emit('Electron features currently unavailable. Did you open this app using ng serve?');
+		} else {
+			this.ipcRenderer.once('exportNovelAsPDFResponse', (event, arg) => {
+				this.ngZone.run(() => {
+					this.notificationService.newNotificationEmitter.emit('exported novel as PDF');
+				});
 			});
-		});
-		this.ipcRenderer.send('exportNovelAsPDF', {
-			novel: this.novelProviderService.getNovel(),
-		});
+			this.ipcRenderer.send('exportNovelAsPDF', {
+				novel: this.novelProviderService.getNovel(),
+			});
+		}
+
 	}
 
 	private async loadNovel() {
