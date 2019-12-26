@@ -49,22 +49,24 @@ export class PopUpMenuComponent {
 	}
 
 	public onClickDeleteScene(chapterNr: number, sceneNr: number) {
-		const isPreviousSceneExisting = this.novelProvider.getNovel().chapters[chapterNr].scenes[sceneNr - 1] !== undefined;
-		const isPreviousChapterExisting = this.novelProvider.getNovel().chapters[chapterNr - 1] !== undefined;
-		const hasPreviousChapterScenes = this.novelProvider.getNovel().chapters[chapterNr - 1].scenes.length > 0;
+		let toSceneInChapter;
 
 		this.novelProvider.deleteScene(chapterNr, sceneNr);
 
 		// switch to other scene
-		if (isPreviousSceneExisting) {
-			this.chapterSwitcher.switchToChapterEmitter.emit({ toChapter: chapterNr, toScene: sceneNr - 1});
-		} else if (isPreviousChapterExisting && hasPreviousChapterScenes) {
-			this.chapterSwitcher.switchToChapterEmitter.emit({ toChapter: chapterNr - 1, toScene: 0});
+		if (this.novelProvider.getNovel().chapters[chapterNr].scenes[sceneNr] !== undefined) {
+			toSceneInChapter = { toChapter: chapterNr, toScene: sceneNr };
+		} else if (this.novelProvider.getNovel().chapters[chapterNr].scenes[sceneNr - 1] !== undefined) {
+			toSceneInChapter = { toChapter: chapterNr, toScene: sceneNr - 1};
+		} else if (this.novelProvider.getNovel().chapters[chapterNr].scenes.length <= 0) {
+			this.novelProvider.addScene(chapterNr, 0);
+			toSceneInChapter = { toChapter: chapterNr, toScene: 0};
 		} else {
 			this.novelProvider.addScene(0, 0);
-			this.chapterSwitcher.switchToChapterEmitter.emit({ toChapter: 0, toScene: 0});
+			toSceneInChapter = { toChapter: 0, toScene: 0};
 		}
 
+		this.chapterSwitcher.switchToChapterEmitter.emit(toSceneInChapter);
 		return this.closePopUpMenu.emit();
 	}
 

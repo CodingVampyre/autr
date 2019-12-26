@@ -30,7 +30,7 @@
 		<div class="scene-drop-zone"
 			 *ngIf="chapterSwitcher.dragContent === 2"
 			 (dragover)="onDragOverScene($event)"
-			 (drop)="onDropScene($event, chapterIndex, 0)"
+			 (drop)="onDropScene($event, chapterIndex, -1)"
 			 (dragleave)="onDragLeaveScene($event)">
 		</div>
 
