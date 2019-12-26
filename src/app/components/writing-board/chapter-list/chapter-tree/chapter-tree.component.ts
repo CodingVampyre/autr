@@ -324,4 +324,12 @@ export class ChapterTreeComponent {
 
 		this.showPopUpMenu = true;
 	}
+
+	/**
+	 * toggles scenes
+	 * @param chapterIndex
+	 */
+	public onClickChapter(chapterIndex: number) {
+		this.novelProvider.getNovel().chapters[chapterIndex].areScenesVisible = !this.novelProvider.getNovel().chapters[chapterIndex].areScenesVisible;
+	}
 }

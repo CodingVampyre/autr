@@ -64,6 +64,7 @@ export class ProjectListComponent implements OnInit {
 			name: newNovelName,
 			chapters: [{
 				name: 'chapter 1',
+				areScenesVisible: true,
 				scenes: [{
 					name: 'first scene',
 					text: 'write your scene here!',

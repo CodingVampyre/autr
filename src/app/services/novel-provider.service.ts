@@ -35,7 +35,7 @@ export class NovelProviderService {
 	public addChapter(chapterPosition: number): void {
 		const isChapterPositionBehindLastChapter = chapterPosition > this.getNovel().chapters.length;
 		const isChapterPositionBelowZero = chapterPosition < 0;
-		const chapter: Chapter = { name: 'new chapter', scenes: [] };
+		const chapter: Chapter = { name: 'new chapter', scenes: [], areScenesVisible: false };
 
 		// check if chapter positions are set correctly
 		if (isChapterPositionBehindLastChapter || isChapterPositionBelowZero) {

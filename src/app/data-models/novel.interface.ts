@@ -25,6 +25,9 @@ export interface Chapter {
 
 	/** and is composed of scenes */
 	scenes: Scene[];
+
+	/** determines if the scene is toggled */
+	areScenesVisible: boolean;
 }
 
 /** c chapter is composed of scenes. A scene is an in itself closed situation in the novel */
