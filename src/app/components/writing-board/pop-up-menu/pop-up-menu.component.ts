@@ -30,19 +30,15 @@ export class PopUpMenuComponent {
 	}
 
 	public onClickDeleteChapter(chapterNr: number) {
-		const hasNovelNoMoreChapters = this.novelProvider.getNovel().chapters.length <= 0;
-		const isPreviousChapterExisting = this.novelProvider.getNovel().chapters[chapterNr - 1] !== undefined;
-		const hasPreviousChapterScenes = this.novelProvider.getNovel().chapters[chapterNr - 1].scenes.length > 0;
-		const hasFirstChapterAnyScenes = this.novelProvider.getNovel().chapters[0].scenes.length > 0;
-
 		this.novelProvider.deleteChapter(chapterNr);
 
-		if (hasNovelNoMoreChapters) {
+		if (this.novelProvider.getNovel().chapters.length <= 0) {
 			this.novelProvider.addChapter(0);
 			this.chapterSwitcher.switchToChapterEmitter.emit({ toChapter: 0, toScene: 0});
-		} else if (isPreviousChapterExisting && hasPreviousChapterScenes) {
+		} else if (this.novelProvider.getNovel().chapters[chapterNr - 1] !== undefined
+			&& this.novelProvider.getNovel().chapters[chapterNr - 1].scenes.length > 0) {
 			this.chapterSwitcher.switchToChapterEmitter.emit({ toChapter: chapterNr - 1, toScene: 0});
-		} else if (hasFirstChapterAnyScenes) {
+		} else if (this.novelProvider.getNovel().chapters[0].scenes.length > 0) {
 			this.chapterSwitcher.switchToChapterEmitter.emit({ toChapter: 0, toScene: 0});
 		} else {
 			this.novelProvider.addScene(0, 0);
