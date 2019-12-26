@@ -90,8 +90,8 @@ export class ChapterTreeComponent {
 	public onDragOverChapter(event): void {
 		event.preventDefault();
 		if (this.chapterSwitcher.dragContent === DropType.CHAPTER) {
-			if (!event.target.className.includes('chapter-drop-zone-highlight')) {
-				event.target.classList.add('chapter-drop-zone-highlight');
+			if (!event.target.className.includes('drop-zone-highlight')) {
+				event.target.classList.add('drop-zone-highlight');
 			}
 		}
 	}
@@ -102,8 +102,8 @@ export class ChapterTreeComponent {
 	 * @param event the event itself
 	 */
 	public onDragLeaveChapter(event): void {
-		if (event.target.className.includes('chapter-drop-zone-highlight')) {
-			event.target.classList.remove('chapter-drop-zone-highlight');
+		if (event.target.className.includes('drop-zone-highlight')) {
+			event.target.classList.remove('drop-zone-highlight');
 		}
 	}
 
@@ -135,8 +135,8 @@ export class ChapterTreeComponent {
 	public onDragOverScene(event) {
 		event.preventDefault();
 		if (this.chapterSwitcher.dragContent === DropType.SCENE) {
-			if (!event.target.className.includes('scene-drop-zone-highlight')) {
-				event.target.classList.add('scene-drop-zone-highlight');
+			if (!event.target.className.includes('drop-zone-highlight')) {
+				event.target.classList.add('drop-zone-highlight');
 			}
 		}
 	}
@@ -147,8 +147,8 @@ export class ChapterTreeComponent {
 	 * @param event the event itself
 	 */
 	public onDragLeaveScene(event) {
-		if (event.target.className.includes('scene-drop-zone-highlight')) {
-			event.target.classList.remove('scene-drop-zone-highlight');
+		if (event.target.className.includes('drop-zone-highlight')) {
+			event.target.classList.remove('drop-zone-highlight');
 		}
 	}
 
@@ -197,13 +197,26 @@ export class ChapterTreeComponent {
 	 */
 	public onDragOverMoveChapter(event) {
 		event.preventDefault();
+		if (!event.target.classList.contains('drop-zone-highlight')) {
+			event.target.classList.add('drop-zone-highlight');
+		}
+	}
+
+	/**
+	 * triggered when hovering something above the scene landing zone
+	 * @param event the event itself
+	 */
+	public onDragOverMoveScene(event) {
+		event.preventDefault();
+		if (!event.target.classList.contains('drop-zone-highlight')) {
+			event.target.classList.add('drop-zone-highlight');
+		}
 	}
 
 	/**
 	 * triggered when a chapter is dropped into it's landing zone
 	 * @param event the event itself
 	 * @param chapterIndex the index of the chapter it is dropped to
-	 * fixme bug with moving chapters below their original position
 	 */
 	public onDropMoveChapter(event, chapterIndex) {
 		event.preventDefault();
@@ -259,14 +272,6 @@ export class ChapterTreeComponent {
 			toChapter: newChapterIndex,
 			toScene: newSceneIndex,
 		});
-	}
-
-	/**
-	 * triggered when hovering something above the scene landing zone
-	 * @param event the event itself
-	 */
-	public onDragOverMoveScene(event) {
-		event.preventDefault();
 	}
 
 	/**

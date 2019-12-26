@@ -37,6 +37,7 @@
 		<!--Drop Zone to move Scenes-->
 		<div class="scene-drop-zone"
 			 (dragover)="onDragOverMoveScene($event)"
+			 (dragleave)="onDragLeaveScene($event)"
 			 *ngIf="movingSceneIndex[0] != null"
 			 (drop)="onDropMoveScene($event, chapterIndex, 0)">
 		</div>
@@ -64,6 +65,7 @@
 			<!--Drop Zone to move Scenes-->
 			<div class="scene-drop-zone"
 				 (dragover)="onDragOverMoveScene($event)"
+				 (dragleave)="onDragLeaveScene($event)"
 				 *ngIf="movingSceneIndex[0] != null &&
 				  ((movingSceneIndex[0] === chapterIndex)
 				  && (movingSceneIndex[1] !== sceneIndex)
@@ -83,7 +85,9 @@
 
 		<!--Drop Zone to Move Chapters-->
 		<div class="chapter-move-drop-zone" *ngIf="movingChapterIndex != null"
-			 (dragover)="onDragOverMoveChapter($event)" (drop)="onDropMoveChapter($event, chapterIndex + 1)">
+			 (dragover)="onDragOverMoveChapter($event)"
+			 (dragleave)="onDragLeaveChapter($event)"
+			 (drop)="onDropMoveChapter($event, chapterIndex + 1)">
 		</div>
 
 	</div>
