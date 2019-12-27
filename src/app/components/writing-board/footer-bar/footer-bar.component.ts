@@ -78,6 +78,7 @@ export class FooterBarComponent implements OnInit {
 		// 3. same as in chapter, but for all chapters
 		const wordsInNovel: number = novel.chapters.map((novelChapter: Chapter, index: number) => {
 			if (index === currentChapterIndex) { return wordsInChapter; }
+			if ( novelChapter.scenes.length <= 0 ) { return 0; }
 			return novelChapter.scenes
 				.map((scene: Scene) => scene.text.split(' ').length)
 				.reduce(FooterBarComponent.sumReducer);
@@ -107,6 +108,7 @@ export class FooterBarComponent implements OnInit {
 		// 3. same as in chapter, but for all chapters
 		const charactersInNovel: number = novel.chapters.map((novelChapter: Chapter, index: number) => {
 			if (index === currentChapterIndex) { return charactersInChapter; }
+			if (novelChapter.scenes.length <= 0) { return 0; }
 			return novelChapter.scenes
 				.map((scene: Scene) => scene.text.length)
 				.reduce(FooterBarComponent.sumReducer);
