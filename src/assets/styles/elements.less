@@ -40,6 +40,17 @@ h3 {
 	box-shadow: 0 0 2px 0 #242424;
 }
 
+.button_main {
+	.button;
+	color: #ddd;
+	background: linear-gradient(to right, #750080, #EA00FF);
+	transition: 200ms;
+
+	&:hover {
+		transform: scale(1.05, 1.05);
+	}
+}
+
 .button_weak {
 	border: none;
 	background: none;
@@ -49,9 +60,8 @@ h3 {
 }
 
 // INPUT
-.input_light {
+.input {
 	height: 40px;
-	border: none;
 	border-radius: 20px;
 	padding-left: 20px;
 	padding-right: 20px;
@@ -59,4 +69,18 @@ h3 {
 	letter-spacing: 1px;
 	font-family: "Mali", sans-serif;
 	cursor: text;
+}
+
+.input_light {
+	.input;
+	color: #ddd;
+	border: 2px solid #ddd;
+	background: none;
+}
+
+.input_dark {
+	.input;
+	color: #242424;
+	border: 2px solid #242424;
+	background: none;
 }
