@@ -1,40 +1,38 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { NovelProjectProviderService } from 'src/app/services/novel-project-provider.service';
-import { ChapterSwitcherService } from 'src/app/services/chapter-switcher.service';
-import { DatabaseService } from 'src/app/services/database.service';
-import { NovelTextChangeService } from 'src/app/services/novel-text-change.service';
-import { Router } from '@angular/router';
-import {NotificationService} from '../../../services/notification.service';
+import { NovelProviderService } from '../../../services/novel-provider.service';
+import { ChapterSwitcherService } from '../../../services/chapter-switcher.service';
+import { DatabaseService } from '../../../services/database.service';
+import { NovelTextChangeService } from '../../../services/novel-text-change.service';
 
 @Component({
   selector: 'app-writing-panel',
   templateUrl: './writing-panel.component.html',
-  styleUrls: ['./writing-panel.component.less']
+  styleUrls: ['./writing-panel.component.less'],
 })
 export class WritingPanelComponent implements OnInit {
 
+	/** text currently controlled by the writing board */
+	public currentSceneText: string;
+
+	/** determines when the novel is automatically saved when no key is pressed */
+	private autosaveTimer: NodeJS.Timer;
+
 	constructor(
-		private novelService: NovelProjectProviderService,
+		private novelService: NovelProviderService,
 		private chapterSwitcher: ChapterSwitcherService,
 		private database: DatabaseService,
 		private novelTextChangeService: NovelTextChangeService,
 	) { }
 
-	/** text currently controlled by the writing board */
-	currentSceneText: string;
-
-	/** determines when the novel is automatically saved when no key is pressed */
-	private autosaveTimer: NodeJS.Timer;
-
 	/** controls manual save via key combination */
 	@HostListener('document:keydown.control.s', ['$event'])
-	async onKeyDown(event) {
+	public async onKeyDown(event) {
 		event.preventDefault();
 		await this.saveNovel();
 	}
 
-	ngOnInit() {
-		if (this.novelService.getNovel() != null) {
+	public ngOnInit() {
+		if (this.novelService.getNovel() !== undefined) {
 			// load text from novel Provider to current Writing panel
 			this.currentSceneText = this.novelService.getNovel()
 				.chapters[this.chapterSwitcher.currentChapter]
@@ -60,12 +58,13 @@ export class WritingPanelComponent implements OnInit {
 	}
 
 	/** fired everytime the text is changed */
-	onChange() {
+	public onChange() {
+		const autoSaveIntervalMs = 1000;
 		this.novelTextChangeService.emit(this.currentSceneText);
 
 		// reset autosave timer and restart it again!
 		clearTimeout(this.autosaveTimer);
-		this.autosaveTimer = setTimeout(async () => await this.saveNovel(), 1000);
+		this.autosaveTimer = setTimeout(async () => this.saveNovel(), autoSaveIntervalMs);
 
 	}
 
@@ -73,7 +72,7 @@ export class WritingPanelComponent implements OnInit {
 	private async saveNovel() {
 		// fetch novel id
 		const novelId: string = this.novelService.novelId;
-		if (novelId == null) { throw new Error('currently, no novel is loaded'); }
+		if (novelId === undefined) { throw new Error('currently, no novel is loaded'); }
 
 		// save text to json
 		this.chapterSwitcher.saveTextEmitter.emit({

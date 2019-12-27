@@ -6,28 +6,30 @@
  * Created by CodingVampyre <tobiaskavse@hotmail.de>
  */
 
-import {Component, NgZone, OnInit} from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { DatabaseService } from '../../services/database.service';
-import { NovelProjectProviderService } from '../../services/novel-project-provider.service';
+import { NovelProviderService } from '../../services/novel-provider.service';
 import { Router } from '@angular/router';
 import { IpcRenderer } from 'electron';
 import { NotificationService } from '../../services/notification.service';
-import {Chapter, Novel} from '../../data-models/novel.interface';
-import {ChapterSwitcherService} from '../../services/chapter-switcher.service';
+import { Novel } from '../../data-models/novel.interface';
+import { ChapterSwitcherService } from '../../services/chapter-switcher.service';
 
 @Component({
 	selector: 'app-project-list',
 	templateUrl: './project-list.component.html',
-	styleUrls: ['./project-list.component.less']
+	styleUrls: ['./project-list.component.less'],
 })
 export class ProjectListComponent implements OnInit {
+
+	public novels: any[] = [];
 
 	private readonly ipcRenderer: IpcRenderer;
 
 	constructor(
 		private readonly db: DatabaseService,
 		private chapterSwitcherService: ChapterSwitcherService,
-		private readonly novelProvider: NovelProjectProviderService,
+		private readonly novelProvider: NovelProviderService,
 		private router: Router,
 		private notificationService: NotificationService,
 		private ngZone: NgZone,
@@ -35,13 +37,11 @@ export class ProjectListComponent implements OnInit {
 		if ((window as any).require) {
 			this.ipcRenderer = (window as any).require('electron').ipcRenderer;
 		} else {
-			console.warn('ipcRenderer could not load');
+			this.notificationService.newNotificationEmitter.emit('IPC renderer did not load. Stuff like export is not available.');
 		}
 	}
 
-	novels: any[] = [];
-
-	async ngOnInit() {
+	public async ngOnInit() {
 		// create index if it doesn't exist
 		await this.db.createNovelIndex();
 
@@ -54,53 +54,40 @@ export class ProjectListComponent implements OnInit {
 	 * @param event event metadata
 	 * @param novelId primary key of the novel that should be loaded
 	 */
-	async onClickLoadNovel(event, novelId: string) {
-		// fetch novel from the database
-		const dbNovelEntry = await this.db.describeNovel(novelId);
-
-		// set the novel as main novel to work with
-		this.novelProvider.setNovel(dbNovelEntry);
-		this.novelProvider.novelId = novelId;
-
-		// set chapter and scene
-		this.chapterSwitcherService.switchToChapterEmitter.emit({
-			toChapter: this.novelProvider.getNovel().cursor.currentChapter,
-			toScene: this.novelProvider.getNovel().cursor.currentScene,
-		});
-
-		// navigate
-		await this.router.navigate(['/writing-board']);
+	public async onClickLoadNovel(event, novelId: string) {
+		await this.router.navigate(['/writing-board', novelId]);
 	}
 
-	async onClickCreateNewNovel(newNovelName: string) {
+	public async onClickCreateNewNovel(newNovelName: string) {
 		// store a new novel
 		await this.db.storeNovel({
 			name: newNovelName,
 			chapters: [{
 				name: 'chapter 1',
+				areScenesVisible: true,
 				scenes: [{
 					name: 'first scene',
-					text: 'write your scene here!'
+					text: 'write your scene here!',
 				}],
 			}],
 			cursor: {
 				currentChapter: 0,
 				currentScene: 0,
-			}
+			},
 		});
 
 		// refresh list
 		this.novels = await this.db.listNovels();
 	}
 
-	async onClickDeleteNovel(event, novelId) {
+	public async onClickDeleteNovel(event, novelId) {
 		await this.db.deleteNovel(novelId);
 		this.novels = await this.db.listNovels();
 	}
 
-	onClickImportNovel() {
+	public onClickImportNovel() {
 		this.ipcRenderer.once('showNovelImportDialogResponse', async (event, arg) => {
-			if (arg != null) {
+			if (arg !== undefined) {
 				const importedNovel: Novel = JSON.parse(arg);
 				await this.db.storeNovel(importedNovel);
 			}

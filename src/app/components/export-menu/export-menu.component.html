@@ -1,14 +1,20 @@
-<h1>Export as</h1>
-<button class="close-button" (click)="onClickGoToWritingPanel()">X</button>
-<div id="export-grid">
+<div *ngIf="novelProviderService.getNovel() !== undefined; else elseBlock">
+	<h1>Export as</h1>
+	<button class="close-button" (click)="onClickGoToWritingPanel()">X</button>
+	<div id="export-grid">
 
-    <!--export as JSON-->
-    <div class="export-plate" id="export-as-json-plate" (click)="onClickExportNovelAsJSON()">JSON</div>
+		<!--export as JSON-->
+		<div class="export-plate" id="export-as-json-plate" (click)="onClickExportNovelAsJSON()">JSON</div>
 
-    <!--TXT export-->
-    <div class="export-plate" id="export-as-txt-plate" (click)="onClickExportNovelAsTXT()">TEXT</div>
+		<!--TXT export-->
+		<div class="export-plate" id="export-as-txt-plate" (click)="onClickExportNovelAsTXT()">TEXT</div>
 
-    <!--PDF export-->
-    <div class="export-plate" id="export-as-pdf-plate" (click)="onClickExportNovelAsPDF()">PDF</div>
+		<!--PDF export-->
+		<div class="export-plate" id="export-as-pdf-plate" (click)="onClickExportNovelAsPDF()">PDF</div>
 
+	</div>
 </div>
+
+<ng-template #elseBlock>
+	<div class="loading-screen">Loading...</div>
+</ng-template>

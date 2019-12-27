@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NovelProjectProviderService } from 'src/app/services/novel-project-provider.service';
+import { NovelProviderService } from 'src/app/services/novel-provider.service';
 import { Scene, Chapter, Novel } from '../../../data-models/novel.interface';
 import { NovelTextChangeService } from 'src/app/services/novel-text-change.service';
 import { ChapterSwitcherService } from 'src/app/services/chapter-switcher.service';
@@ -15,7 +15,7 @@ type CharacterCount = { charactersInScene: number, charactersInChapter: number, 
 export class FooterBarComponent implements OnInit {
 
 	constructor(
-		private readonly novelProvider: NovelProjectProviderService,
+		private readonly novelProvider: NovelProviderService,
 		private readonly novelTextChangeService: NovelTextChangeService,
 		private readonly chapterSwitcherService: ChapterSwitcherService,
 	) { }

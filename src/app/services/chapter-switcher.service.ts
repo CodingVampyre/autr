@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import {NovelProjectProviderService} from './novel-project-provider.service';
+import {NovelProviderService} from './novel-provider.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class ChapterSwitcherService {
   public dragContent: DropType = DropType.NONE;
 
 	constructor(
-		private novelProjectProviderService: NovelProjectProviderService,
+		private novelProjectProviderService: NovelProviderService,
 	) {
 		this.switchToChapterEmitter.subscribe((event) => {
 			this.currentChapter = event.toChapter;

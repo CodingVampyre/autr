@@ -1,3 +1,6 @@
+@import "../../../assets/styles/elements";
+@import "../../../assets/styles/colors";
+
 @gray-darkest: #121212;
 @gray-darker: #242424;
 @gray-lightest: #ddd;
@@ -21,16 +24,6 @@
     display: none;
 }
 
-input[type="text"] {
-    padding-left: 20px;
-    padding-right: 20px;
-    font-size: 18px;
-    border: none;
-    height: 40px;
-    width: 200px;
-    border-radius: 20px;
-}
-
 #background {
     overflow: scroll;
 
@@ -45,19 +38,8 @@ input[type="text"] {
         color: @gray-lightest;
     }
 
-    button {
-        border: none;
-        width: 100px;
-        height: 40px;
-        border-radius: 20px;
-    }
-
     #novel-list-wrapper {
         margin: 50px;
-
-        .novel-list-header {
-            font-size: 30px;
-        }
 
         #novel-list {
             border-radius: 8px;
@@ -65,72 +47,53 @@ input[type="text"] {
             align-items: flex-start;
             flex-wrap: wrap;
 
+			.novel-list-entry-wrapper {
+				margin-right: 40px;
+				margin-bottom: 40px;
+
+				button {
+					margin-top: 10px;
+				}
+			}
+
             .novel-list-entry {
+				cursor: pointer;
                 background: @gray-darker;
+				background: linear-gradient(90deg,
+					rgba(0,0,0,1) 0%,
+					rgba(60,60,60,1) 2%,
+					rgba(20,20,20,1) 4%,
+					rgba(60,60,60,1) 5%,
+					rgba(40,40,40,1) 6%,
+					rgba(40,40,40,1) 98%,
+					rgba(60,60,60,1) 99%,
+				);
 
                 display: flex;
-                justify-content: space-around;
+                justify-content: center;
                 align-content: center;
                 align-items: center;
                 flex-direction: column;
 
                 width: @book-width;
                 height: @book-height;
-                margin-right: 40px;
-                margin-bottom: 40px;
-
-                box-shadow: 
-                    1px -1px 0px #fff, 
-                    2px -2px 0px #ccc,
-                    3px -3px 0px #aaa,
-                    4px -4px 0px #777,
-                    5px -5px 0px #444,
-                    
-                    0 0 50px 20px rgba(0, 0, 0, 0.1) inset;
+				border-radius: 8px;
 
                 transition: 0.2s;
 
                 p {
+					padding-bottom: 80px;
                     font-size: 20px;
                     margin-top: 50px;
                     margin-left: 25px;
                     margin-right: 25px;
                     text-align: center;
                 }
-
-                #novel-buttons {
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: center;
-                    align-items: center;
-                    align-content: center;
-
-                    .important-button {
-                        cursor: pointer;
-                    }
-
-                    .unimportant-button {
-                        cursor: pointer;
-                        color: red;
-                        text-decoration: underline;
-                        background: none;
-                        margin: 10px;
-                        width: auto;
-                        height: auto;
-                    }
-                }
             }
 
             .novel-list-entry:hover {
-                box-shadow: 
-                    2px -2px 0px #fff, 
-                    4px -4px 0px #ccc,
-                    6px -6px 0px #aaa,
-                    8px -8px 0px #777,
-                    10px -10px 0px #444,
-                    
-                    0 0 50px 20px rgba(0, 0, 0, 0.1) inset;
-            }
+                transform: scale(1.05, 1.05);
+			}
         }
 
     }
