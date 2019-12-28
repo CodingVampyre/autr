@@ -15,9 +15,9 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "start:electron": "ng build --base-href ./ && electron .",
-    "build:electron:osx": "ng build --base-href ./ && electron-packager . autr --platform=darwin --arch=x64 --out=build-bin --overwrite icon=assets/icons/64x64.png",
-    "build:electron:win": "ng build --base-href ./ && electron-packager . autr --platform=win32 --arch=x64 --out=build-bin --overwrite icon=assets/icons/64x64.png",
-    "build:electron:linux": "ng build --base-href ./ && electron-packager . autr --platform=linux --arch=x64 --out=build-bin --overwrite icon=assets/icons/64x64.png",
+    "build:electron:osx": "ng build --prod --base-href ./ && electron-packager . autr --platform=darwin --arch=x64 --out=build-bin --overwrite icon=assets/icons/64x64.png",
+    "build:electron:win": "ng build --prod --base-href ./ && electron-packager . autr --platform=win32 --arch=x64 --out=build-bin --overwrite icon=assets/icons/64x64.png",
+    "build:electron:linux": "ng build --prod --base-href ./ && electron-packager . autr --platform=linux --arch=x64 --out=build-bin --overwrite icon=assets/icons/64x64.png",
     "pack:osx": "electron-installer-dmg ./build-bin/autr-darwin-x64/autr.app autr --out=build-installer icon=assets/icons/64x64 --overwrite",
     "pack:deb64": "electron-installer-debian --src build-bin/autr-linux-x64 --dest build-installer/ --arch amd64",
     "pack:win": "electron-installer-windows --src build-bin/autr-win32-x64 --dest build-installer/"
