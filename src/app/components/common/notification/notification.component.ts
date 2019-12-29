@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NotificationService } from '../../services/notification.service';
+import { NotificationService } from '../../../services/notification.service';
 import { v1 as UUID } from 'uuid';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 

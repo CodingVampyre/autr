@@ -14,7 +14,7 @@ import { ContenteditableModelDirective } from './directives/contenteditable-mode
 import { PopUpMenuComponent } from './components/writing-board/pop-up-menu/pop-up-menu.component';
 import { FooterBarComponent } from './components/writing-board/footer-bar/footer-bar.component';
 import { ExportMenuComponent } from './components/export-menu/export-menu.component';
-import { NotificationComponent } from './components/notification/notification.component';
+import { NotificationComponent } from './components/common/notification/notification.component';
 import { WritingHeaderBarComponent } from './components/writing-board/writing-header-bar/writing-header-bar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TagListComponent } from './components/common/tag-list/tag-list.component';

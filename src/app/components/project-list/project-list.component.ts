@@ -41,6 +41,7 @@ export class ProjectListComponent implements OnInit {
 		}
 	}
 
+	/** creates an index if it does not eexist and lists the novels */
 	public async ngOnInit() {
 		// create index if it doesn't exist
 		await this.db.createNovelIndex();
@@ -58,7 +59,11 @@ export class ProjectListComponent implements OnInit {
 		await this.router.navigate(['/writing-board', novelId]);
 	}
 
-	public async onClickCreateNewNovel(newNovelName: string) {
+	/**
+	 * creates a novel and stores it in the database
+	 * @param newNovelName names a novel
+	 */
+	public async onClickCreateNewNovel(newNovelName: string): Promise<void> {
 		// store a new novel
 		await this.db.storeNovel({
 			name: newNovelName,
@@ -80,11 +85,17 @@ export class ProjectListComponent implements OnInit {
 		this.novels = await this.db.listNovels();
 	}
 
-	public async onClickDeleteNovel(event, novelId) {
+	/**
+	 * deletes a novel and reloads the list
+	 * @param event the event itself
+	 * @param novelId the novelId that should be deleted
+	 */
+	public async onClickDeleteNovel(event, novelId): Promise<void> {
 		await this.db.deleteNovel(novelId);
 		this.novels = await this.db.listNovels();
 	}
 
+	/** takes a novel from the file system and converts it to internal data */
 	public onClickImportNovel() {
 		this.ipcRenderer.once('showNovelImportDialogResponse', async (event, arg) => {
 			if (arg !== undefined) {
