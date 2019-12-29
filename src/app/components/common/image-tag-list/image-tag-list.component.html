@@ -1,0 +1,9 @@
+<div class="tag-list-wrapper">
+	<div *ngFor="let imageTag of imageTagList"
+		 class="image-tag"
+		 (click)="onClickTag.emit(imageTag)">
+		<img [src]="imageTag.imgUrl" alt="image" class="tag-list-image">
+		<span>{{ imageTag.text }}</span>
+	</div>
+</div>
+

@@ -18,6 +18,7 @@ import { NotificationComponent } from './components/notification/notification.co
 import { WritingHeaderBarComponent } from './components/writing-board/writing-header-bar/writing-header-bar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TagListComponent } from './components/common/tag-list/tag-list.component';
+import { ImageTagListComponent } from './components/common/image-tag-list/image-tag-list.component';
 
 @NgModule({
 	declarations: [
@@ -35,6 +36,7 @@ import { TagListComponent } from './components/common/tag-list/tag-list.componen
 		NotificationComponent,
 		WritingHeaderBarComponent,
 		TagListComponent,
+		ImageTagListComponent,
  	],
 	imports: [
 		BrowserModule,
