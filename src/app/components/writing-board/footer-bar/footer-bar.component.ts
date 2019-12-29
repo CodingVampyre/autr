@@ -14,25 +14,25 @@ interface ICharacterCount { charactersInScene: number; charactersInChapter: numb
 })
 export class FooterBarComponent implements OnInit {
 
-	private wordCount: IWordCount = {
+	public wordCount: IWordCount = {
 		wordsInScene: -1,
 		wordsInChapter: -1,
 		wordsInNovel: -1,
 	};
 
-	private characterCount: ICharacterCount = {
+	public characterCount: ICharacterCount = {
 		charactersInScene: -1,
 		charactersInChapter: -1,
 		charactersInNovel: -1,
 	};
 
 	constructor(
-		private readonly novelProvider: NovelProviderService,
-		private readonly novelTextChangeService: NovelTextChangeService,
-		private readonly chapterSwitcherService: ChapterSwitcherService,
+		public readonly novelProvider: NovelProviderService,
+		public readonly novelTextChangeService: NovelTextChangeService,
+		public readonly chapterSwitcherService: ChapterSwitcherService,
 	) { }
 
-	private static sumReducer(previous: number, current: number) { return previous + current; }
+	public static sumReducer(previous: number, current: number) { return previous + current; }
 
 	public ngOnInit() {
 

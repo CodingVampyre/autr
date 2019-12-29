@@ -34,10 +34,10 @@ export interface INotification {
 })
 export class NotificationComponent implements OnInit {
 
-	private notifications: INotification[] = [];
+	public notifications: INotification[] = [];
 
 	constructor(
-		private readonly notificationService: NotificationService,
+		public readonly notificationService: NotificationService,
 	) { }
 
 	public ngOnInit() {

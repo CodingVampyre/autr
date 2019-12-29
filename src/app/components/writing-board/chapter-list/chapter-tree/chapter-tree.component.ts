@@ -40,17 +40,17 @@ export class ChapterTreeComponent {
 	public popUpMenu: ElementRef<PopUpMenuComponent>;
 
 	/**  */
-	private movingChapterIndex?: number;
+	public movingChapterIndex?: number;
 
 	/** */
-	private movingSceneIndex: [number?, number?] = [undefined, undefined];
+	public movingSceneIndex: [number?, number?] = [undefined, undefined];
 
 	/**  */
-	private showPopUpMenu = false;
+	public showPopUpMenu = false;
 
-	private popUpContext;
-	private popUpChapter;
-	private popUpScene;
+	public popUpContext;
+	public popUpChapter;
+	public popUpScene;
 
 	/**
 	 * default constructor
@@ -59,9 +59,9 @@ export class ChapterTreeComponent {
 	 * @param resolver used to spawn components
 	 */
 	constructor(
-		private novelProvider: NovelProviderService,
-		private chapterSwitcher: ChapterSwitcherService,
-		private resolver: ComponentFactoryResolver,
+		public novelProvider: NovelProviderService,
+		public chapterSwitcher: ChapterSwitcherService,
+		public resolver: ComponentFactoryResolver,
 	) { }
 
 	/**
