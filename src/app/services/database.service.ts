@@ -11,30 +11,18 @@ import PouchDB from 'pouchdb';
 import PouchDbFind from 'pouchdb-find';
 import { Novel } from '../data-models/novel.interface';
 import { makeUUID } from './uuid.function';
+import { INovelDbEntry } from '../data-models/novel-db-entry.interface';
 
 PouchDB.plugin(PouchDbFind);
 
-// TODO outsource this
-interface INovelDbEntry {
-	_id: string;
-	novel: Novel;
-	type: 'novel';
-	name: string;
-	createdAt: number;
-	modifiedAt: number;
-}
-
 /** manages persistent storage with level */
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class DatabaseService {
 
 	/** database instance */
 	private db = new PouchDB('autr');
-
-	/** default constructor */
-	constructor() { }
 
 	/**
 	 *
@@ -89,9 +77,9 @@ export class DatabaseService {
 	 *
 	 */
 	public async listNovels(): Promise<any> {
-		const result: PouchDB.Find.FindResponse<{}> = await this.db.find({
+		const result: PouchDB.Find.FindResponse<{ }> = await this.db.find({
 			selector: {
-				_id: {$exists: true},
+				_id: { $exists: true },
 			},
 			fields: ['_id', 'type', 'name', 'createdAt'],
 		});
@@ -100,7 +88,7 @@ export class DatabaseService {
 
 	public async deleteNovel(id: string): Promise<void> {
 		const novel = await this.db.get(id);
-		if (novel != null) {
+		if (novel !== undefined) {
 			await this.db.remove(novel);
 		}
 	}
