@@ -1,15 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-scene-world-builder',
-  templateUrl: './scene-world-builder.component.html',
-  styleUrls: ['./scene-world-builder.component.less']
+	selector: 'app-scene-world-builder',
+	templateUrl: './scene-world-builder.component.html',
+	styleUrls: ['./scene-world-builder.component.less'],
 })
-export class SceneWorldBuilderComponent implements OnInit {
+export class SceneWorldBuilderComponent {
 
-  constructor() { }
+	constructor(
+		public router: Router,
+		public route: ActivatedRoute,
+	) { }
 
-  ngOnInit() {
-  }
+	public async onClickSwitchToWorldBuilder() {
+		const novelId = this.route.snapshot.paramMap.get('novelId');
+		await this.router.navigate(['world-building', novelId]);
+	}
 
 }
