@@ -17,8 +17,8 @@ export class PopUpMenuComponent {
 	@Output() public closePopUpMenu: EventEmitter<void> = new EventEmitter();
 
 	constructor(
-		private novelProvider: NovelProviderService,
-		private chapterSwitcher: ChapterSwitcherService,
+		public novelProvider: NovelProviderService,
+		public chapterSwitcher: ChapterSwitcherService,
 	) { }
 
 	public renameChapter(chapterNewName: string) {

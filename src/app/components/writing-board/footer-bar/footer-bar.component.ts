@@ -1,40 +1,40 @@
 import { Component, OnInit } from '@angular/core';
-import { NovelProviderService } from 'src/app/services/novel-provider.service';
+import { NovelProviderService } from '../../../services/novel-provider.service';
 import { Scene, Chapter, Novel } from '../../../data-models/novel.interface';
-import { NovelTextChangeService } from 'src/app/services/novel-text-change.service';
-import { ChapterSwitcherService } from 'src/app/services/chapter-switcher.service';
+import { NovelTextChangeService } from '../../../services/novel-text-change.service';
+import { ChapterSwitcherService } from '../../../services/chapter-switcher.service';
 
-type WordCount = { wordsInScene: number, wordsInChapter: number, wordsInNovel: number }
-type CharacterCount = { charactersInScene: number, charactersInChapter: number, charactersInNovel: number }
+interface IWordCount { wordsInScene: number; wordsInChapter: number; wordsInNovel: number; }
+interface ICharacterCount { charactersInScene: number; charactersInChapter: number; charactersInNovel: number; }
 
 @Component({
-  selector: 'app-footer-bar',
+	selector: 'app-footer-bar',
 	templateUrl: './footer-bar.component.html',
-	styleUrls: ['./footer-bar.component.less']
+	styleUrls: ['./footer-bar.component.less'],
 })
 export class FooterBarComponent implements OnInit {
 
-	constructor(
-		private readonly novelProvider: NovelProviderService,
-		private readonly novelTextChangeService: NovelTextChangeService,
-		private readonly chapterSwitcherService: ChapterSwitcherService,
-	) { }
-
-	private wordCount: WordCount = {
+	public wordCount: IWordCount = {
 		wordsInScene: -1,
 		wordsInChapter: -1,
 		wordsInNovel: -1,
 	};
 
-	private characterCount: CharacterCount = {
+	public characterCount: ICharacterCount = {
 		charactersInScene: -1,
 		charactersInChapter: -1,
 		charactersInNovel: -1,
 	};
 
-	private static sumReducer(previous: number, current: number) { return previous + current; }
+	constructor(
+		public readonly novelProvider: NovelProviderService,
+		public readonly novelTextChangeService: NovelTextChangeService,
+		public readonly chapterSwitcherService: ChapterSwitcherService,
+	) { }
 
-	ngOnInit() {
+	public static sumReducer(previous: number, current: number) { return previous + current; }
+
+	public ngOnInit() {
 
 		// update word count on initialization
 		const initialisationText: string = this.novelProvider.getNovel()
@@ -50,7 +50,7 @@ export class FooterBarComponent implements OnInit {
 		});
 
 		// update on chapter switch
-		this.chapterSwitcherService.switchToChapterEmitter.subscribe((values: {toChapter: number, toScene: number}) => {
+		this.chapterSwitcherService.switchToChapterEmitter.subscribe((values: { toChapter: number; toScene: number }) => {
 			const currentSceneText: string = this.novelProvider.getNovel().chapters[values.toChapter].scenes[values.toScene].text;
 			this.wordCount = this.updateWordCount(currentSceneText);
 			this.characterCount = this.updateCharacterCount(currentSceneText);
@@ -60,7 +60,7 @@ export class FooterBarComponent implements OnInit {
 	/**
 	 *
 	 */
-	private updateWordCount(currentSceneText: string): WordCount {
+	private updateWordCount(currentSceneText: string): IWordCount {
 		const novel: Novel = this.novelProvider.getNovel();
 		const chapter: Chapter = novel.chapters[this.chapterSwitcherService.currentChapter];
 		const currentChapterIndex: number = this.chapterSwitcherService.currentChapter;
@@ -71,21 +71,17 @@ export class FooterBarComponent implements OnInit {
 
 		// 2. subsctract word count of database and an own wordcount
 		const wordsInChapter: number = chapter.scenes.map((scene: Scene, index: number) => {
-			if (index === currentSceneIndex) {
-				return wordsInScene;
-			} else {
-				return scene.text.split(' ').length;
-			}
+			if (index === currentSceneIndex) { return wordsInScene; }
+			return scene.text.split(' ').length;
 		}).reduce(FooterBarComponent.sumReducer);
 
 		// 3. same as in chapter, but for all chapters
 		const wordsInNovel: number = novel.chapters.map((novelChapter: Chapter, index: number) => {
-			if (index === currentChapterIndex) {
-				return wordsInChapter;
-			} else {
-				return novelChapter.scenes.map((scene: Scene) => scene.text.split(' ').length)
-					.reduce(FooterBarComponent.sumReducer);
-			}
+			if (index === currentChapterIndex) { return wordsInChapter; }
+			if ( novelChapter.scenes.length <= 0 ) { return 0; }
+			return novelChapter.scenes
+				.map((scene: Scene) => scene.text.split(' ').length)
+				.reduce(FooterBarComponent.sumReducer);
 		}).reduce(FooterBarComponent.sumReducer);
 
 		return { wordsInScene, wordsInChapter, wordsInNovel };
@@ -94,7 +90,7 @@ export class FooterBarComponent implements OnInit {
 	/**
 	 *
 	 */
-	private updateCharacterCount(currentSceneText: string): CharacterCount {
+	private updateCharacterCount(currentSceneText: string): ICharacterCount {
 		const novel: Novel = this.novelProvider.getNovel();
 		const chapter: Chapter = novel.chapters[this.chapterSwitcherService.currentChapter];
 		const currentChapterIndex: number = this.chapterSwitcherService.currentChapter;
@@ -103,23 +99,20 @@ export class FooterBarComponent implements OnInit {
 		// 1. just count this scene easily
 		const charactersInScene: number = currentSceneText.length;
 
-		// 2. subsctract word count of database and an own wordcount
+		// 2. subtract word count of database and an own wordcount
 		const charactersInChapter: number = chapter.scenes.map((scene: Scene, index: number) => {
-			if (index === currentSceneIndex) {
-				return charactersInScene;
-			} else {
-				return scene.text.length;
-			}
+			if (index === currentSceneIndex) { return charactersInScene; }
+			return scene.text.length;
 		}).reduce(FooterBarComponent.sumReducer);
 
 		// 3. same as in chapter, but for all chapters
 		const charactersInNovel: number = novel.chapters.map((novelChapter: Chapter, index: number) => {
-			if (index === currentChapterIndex) {
-				return charactersInChapter;
-			} else {
-				return novelChapter.scenes.map((scene: Scene) => scene.text.length)
-					.reduce(FooterBarComponent.sumReducer);
-			}
+			if (index === currentChapterIndex) { return charactersInChapter; }
+			if (novelChapter.scenes.length <= 0) { return 0; }
+			return novelChapter.scenes
+				.map((scene: Scene) => scene.text.length)
+				.reduce(FooterBarComponent.sumReducer);
+
 		}).reduce(FooterBarComponent.sumReducer);
 
 		return { charactersInScene, charactersInChapter, charactersInNovel };

@@ -3,12 +3,12 @@
 
     <!--Everything to edit a chapter-->
     <div *ngIf="context === 'chapter'">
-        <h2>Edit: "{{novelProvider.getNovel().chapters[chapterNr].name}}"</h2>
+        <h2 class="text-light">Edit: "{{novelProvider.getNovel().chapters[chapterNr].name}}"</h2>
 
         <!--Rename and delete chapters-->
         <div class="pop-up-box">
             <input type="text" #renameChapterInput class="input_light pop-up-element" placeholder="new chapter name">
-            <button (click)="renameChapter(renameChapterInput.value)" class="button_dark">Rename</button>
+            <button (click)="renameChapter(renameChapterInput.value)" class="button_light">Rename</button>
             <button class="button_weak" (click)="onClickDeleteChapter(chapterNr)"
                 id="delete-chapter-button">Delete Chapter</button>
         </div>
@@ -16,16 +16,16 @@
 
     <!--Everything to edit a scene-->
     <div *ngIf="context === 'scene'">
-        <h2>Edit: "{{  novelProvider.getNovel().chapters[chapterNr].name + ': ' + novelProvider.getNovel().chapters[chapterNr].scenes[sceneNr].name }}"
+        <h2 class="text-light">Edit: "{{  novelProvider.getNovel().chapters[chapterNr].name + ': ' + novelProvider.getNovel().chapters[chapterNr].scenes[sceneNr].name }}"
         </h2>
         <div class="pop-up-box">
             <input type="text" #renameSceneInput class="input_light pop-up-element" placeholder="new scene name">
-            <button (click)="renameScene(renameSceneInput.value)" class="button_dark">Rename</button>
+            <button (click)="renameScene(renameSceneInput.value)" class="button_light">Rename</button>
             <button class="button_weak" id="delete-scene-button" (click)="onClickDeleteScene(chapterNr, sceneNr)">Delete Scene</button>
         </div>
     </div>
 
     <!--Common Stuff-->
-    <button class="button_dark" (click)="close()">Close</button>
+    <button class="button_light" (click)="close()">Close</button>
 
 </div>

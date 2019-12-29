@@ -16,7 +16,7 @@ export class ExportMenuComponent implements OnInit {
 	private readonly ipcRenderer: IpcRenderer;
 
 	constructor(
-		private novelProviderService: NovelProviderService,
+		public novelProviderService: NovelProviderService,
 		private novelToTextService: NovelToTextService,
 		private router: Router,
 		private route: ActivatedRoute,

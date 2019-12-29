@@ -1,0 +1,41 @@
+.tag-list-wrapper {
+
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	align-content: flex-start;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+
+	.image-tag {
+		cursor: pointer;
+		background: #484848;
+		width: 80px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		align-content: flex-start;
+		margin: 5px;
+		border-radius: 8px;
+		transition: 0.2s;
+
+		&:hover {
+			transform: scale(1.05);
+		}
+
+		img {
+			user-select: none;
+			width: 80px;
+			height: 80px;
+			border-radius: 5px;
+			object-fit: cover;
+		}
+
+		span {
+			user-select: none;
+			font-size: 12px;
+			color: #ddd;
+			padding: 10px;
+		}
+	}
+}

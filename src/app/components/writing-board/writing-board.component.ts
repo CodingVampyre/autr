@@ -13,7 +13,7 @@ export class WritingBoardComponent implements OnInit {
 
 	constructor(
 		private route: ActivatedRoute,
-		private novelProvider: NovelProviderService,
+		public novelProvider: NovelProviderService,
 		private databaseService: DatabaseService,
 		private chapterSwitcherService: ChapterSwitcherService,
 	) { }
