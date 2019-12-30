@@ -1,1 +1,6 @@
-<p>world-building works!</p>
+<h2 class="text-light">Characters</h2>
+<app-image-tag-list id="character-tag-list" [imageTagList]="worldBuilderService.listCharacters()"></app-image-tag-list>
+<h2 class="text-light">Places</h2>
+<app-tag-list id="place-tag-list" [tagList]="worldBuilderService.listPlaces()"></app-tag-list>
+<h2 class="text-light">Objects</h2>
+<app-tag-list id="object-tag-list" [tagList]="worldBuilderService.listObjects()"></app-tag-list>
