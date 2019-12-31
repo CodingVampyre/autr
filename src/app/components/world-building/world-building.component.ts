@@ -12,4 +12,8 @@ export class WorldBuildingComponent {
 		public worldBuilderService: WorldBuilderService,
 	) { }
 
+	public onClickCreateCharacter() {
+		// TODO open character creation component
+	}
+
 }

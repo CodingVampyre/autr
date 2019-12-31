@@ -3,6 +3,8 @@ import { Nanograph } from 'nanograph';
 import { DatabaseService } from './database.service';
 import { IImageTag } from '../data-models/image-tag.interface';
 import { ITag } from '../data-models/tag.interface';
+// tslint:disable-next-line:no-submodule-imports
+import { Vertex } from 'nanograph/build/graph/vertex.class';
 
 @Injectable({
 	providedIn: 'root',
@@ -10,7 +12,7 @@ import { ITag } from '../data-models/tag.interface';
 export class WorldBuilderService {
 
 	/** contains all metadata */
-	private graph: Nanograph;
+	private graph: Nanograph = new Nanograph();
 
 	constructor(
 		public databaseService: DatabaseService,
@@ -21,7 +23,14 @@ export class WorldBuilderService {
 	 * @return a list if Image Tags containing ids of all characters
 	 */
 	public listCharacters(): IImageTag[] {
-		return [];
+		const characterList = this.graph.findVertices('CHARACTER').getAll() as Vertex[];
+		return characterList.map((character: Vertex) => {
+			return {
+				id: character._id,
+				text: character.properties.name,
+				imgUrl: character.properties.imgUrl,
+			};
+		});
 	}
 
 	/**
@@ -39,4 +48,24 @@ export class WorldBuilderService {
 	public listObjects(): ITag[] {
 		return [];
 	}
+
+	/**
+	 * creates a character and returns it's unqiue ID
+	 * @param character the character to create
+	 * @return the character id
+	 */
+	public createCharacter(character: ICharacter): string {
+		const { _id: characterId } = this.graph.createVertex('CHARACTER', character);
+		return characterId;
+	}
+}
+
+// FIXME needs own file
+/** used for characters */
+interface ICharacter {
+	/** full name of your character */
+	name: string;
+
+	/** url to an image describing how the character looks */
+	imgUrl: string;
 }
