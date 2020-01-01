@@ -1,0 +1,5 @@
+<div *ngFor="let entry of entity" class="entity-entry">
+	<p class="entity-key" contenteditable="true" [(contenteditableModel)]="entry.name"></p>
+	<p class="text-light" contenteditable="true" [(contenteditableModel)]="entry.value"></p>
+</div>
+<button class="button_mini" (click)="addEntry()">+</button>

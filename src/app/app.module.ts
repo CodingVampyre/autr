@@ -21,6 +21,7 @@ import { TagListComponent } from './components/common/tag-list/tag-list.componen
 import { ImageTagListComponent } from './components/common/image-tag-list/image-tag-list.component';
 import { WorldBuildingComponent } from './components/world-building/world-building.component';
 import { SceneWorldBuilderComponent } from './components/writing-board/scene-world-builder/scene-world-builder.component';
+import { EntityDescriptorComponent } from './components/common/entity-descriptor/entity-descriptor.component';
 
 @NgModule({
 	declarations: [
@@ -41,6 +42,7 @@ import { SceneWorldBuilderComponent } from './components/writing-board/scene-wor
 		ImageTagListComponent,
 		WorldBuildingComponent,
 		SceneWorldBuilderComponent,
+		EntityDescriptorComponent,
  	],
 	imports: [
 		BrowserModule,
