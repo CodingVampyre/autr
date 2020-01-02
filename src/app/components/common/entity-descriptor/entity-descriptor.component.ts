@@ -7,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class EntityDescriptorComponent {
 
-	@Input() public entity: KeyValueEntity;
+	@Input() public entity: IKeyValueEntity[];
 
 	public addEntry() {
 		this.entity.push({ name: 'new entry', value: 'write something' });
@@ -15,4 +15,4 @@ export class EntityDescriptorComponent {
 
 }
 
-export type KeyValueEntity = Array<{ name: string; value: string }>;
+export interface IKeyValueEntity { name: string; value: string; }

@@ -1,10 +1,21 @@
-<h2 class="text-light">Characters</h2>
-<p *ngIf="worldBuilderService.listCharacters().length === 0" class="text-light">No characters yet.</p>
-<button class="button_light" (click)="onClickCreateCharacter()">create one</button>
-<app-image-tag-list id="character-tag-list" [imageTagList]="worldBuilderService.listCharacters()"></app-image-tag-list>
+<div class="layout-two-columns">
+	<div class="wrapper-padding-column">
+		<h2 class="text-light">Characters</h2>
+		<p *ngIf="worldBuilderService.listCharacters().length === 0" class="text-light">No characters yet.</p>
+		<button class="button_light" (click)="onClickCreateCharacter()">create one</button>
+		<app-image-tag-list id="character-tag-list" [imageTagList]="worldBuilderService.listCharacters()"></app-image-tag-list>
 
-<h2 class="text-light">Places</h2>
-<app-tag-list id="place-tag-list" [tagList]="worldBuilderService.listPlaces()"></app-tag-list>
+		<h2 class="text-light">Places</h2>
+		<app-tag-list id="place-tag-list" [tagList]="worldBuilderService.listPlaces()"></app-tag-list>
 
-<h2 class="text-light">Objects</h2>
-<app-tag-list id="object-tag-list" [tagList]="worldBuilderService.listObjects()"></app-tag-list>
+		<h2 class="text-light">Objects</h2>
+		<app-tag-list id="object-tag-list" [tagList]="worldBuilderService.listObjects()"></app-tag-list>
+	</div>
+	<div class="wrapper-padding-column">
+		<app-entity-details
+			[categories]="[{id:'appearance',text:'appearance'},{id:'mindset',text:'mindset'}]"
+			[contents]="[]">
+		</app-entity-details>
+	</div>
+</div>
+

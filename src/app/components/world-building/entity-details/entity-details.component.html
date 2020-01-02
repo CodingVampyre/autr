@@ -1,0 +1,6 @@
+<div class="wrapper-entity-details">
+	<h2 class="text-light">{{ title }}</h2>
+	<app-tag-list [tagList]="categories" (onClickTag)="onClickChangeCategory($event)"></app-tag-list>
+	<app-entity-descriptor [entity]="contents"></app-entity-descriptor>
+</div>
+
