@@ -9,13 +9,7 @@ import { IEntityCategory } from './entity-details/entity-details.component';
 })
 export class WorldBuildingComponent {
 
-	public contentToEdit: IEntityCategory[] = [
-		{
-			category: { id: 'hello', text: 'hello' }, entity: [
-				{ name: 'hello', value: 'world' },
-			],
-		},
-	];
+	public contentToEdit: IEntityCategory[];
 
 	/***/
 	private currentlySelectedCharacter;
@@ -28,15 +22,17 @@ export class WorldBuildingComponent {
 	) { }
 
 	public onClickCreateCharacter() {
-		const newCharacterid = this.worldBuilderService.createCharacter({
+		const newCharacterId = this.worldBuilderService.createCharacter({
 			name: 'New Character',
 			imgUrl: 'http://nightmare.mit.edu/static/faces/4a58b263dff079c4c6f23a0ad8bba719.png',
 			data: [
 				{ category: { id: 'appearance', text: 'appearance' }, entity: [] },
+				{ category: { id: 'mindset', text: 'mindset' }, entity: [] },
+				{ category: { id: 'story', text: 'story' }, entity: [] },
 			],
 		});
 
-		const character = this.worldBuilderService.retrieveCharacter(newCharacterid);
+		const character = this.worldBuilderService.retrieveCharacter(newCharacterId);
 		this.contentToEdit = character.properties.data;
 		this.currentlySelectedCharacter = character.properties.name;
 		this.currentlySelectedCharacterId = character._id;
