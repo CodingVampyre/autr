@@ -59,6 +59,14 @@ export class WorldBuilderService {
 		const { _id: characterId } = this.graph.createVertex('CHARACTER', character);
 		return characterId;
 	}
+
+	/**
+	 *
+	 * @param characterId
+	 */
+	public retrieveCharacter(characterId: string): Vertex {
+		return this.graph.findVertices('CHARACTER', characterId).getFirst();
+	}
 }
 
 // FIXME needs own file
