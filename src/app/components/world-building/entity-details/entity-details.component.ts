@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ITag } from '../../../data-models/tag.interface';
 import { IKeyValueEntity } from '../../common/entity-descriptor/entity-descriptor.component';
 
@@ -7,16 +7,28 @@ import { IKeyValueEntity } from '../../common/entity-descriptor/entity-descripto
 	templateUrl: './entity-details.component.html',
 	styleUrls: ['./entity-details.component.less'],
 })
-export class EntityDetailsComponent {
-
-	/** used to select categories */
-	@Input() public categories: ITag[];
+export class EntityDetailsComponent implements OnInit {
 
 	/** contents */
-	@Input() public contents: IKeyValueEntity[];
+	@Input() public contents: IEntityCategory[];
 
 	/** used as title */
 	@Input() public title: string = 'Untitled Entity';
+
+	/** the category that currently is selected */
+	private currentlySelectedCategory: ITag;
+
+	/** the entities that currently can be edited */
+	private currentlySelectedEntities: IKeyValueEntity[];
+
+	public ngOnInit() {
+		this.currentlySelectedCategory = this.contents[0].category;
+		this.currentlySelectedEntities = this.contents[0].entity;
+	}
+
+	public listCategories(): ITag[] {
+		return this.contents.map((content) => content.category);
+	}
 
 	/**
 	 *
@@ -24,7 +36,12 @@ export class EntityDetailsComponent {
 	 * @todo take an object containing multiple arrays to let categories switch dynamically
 	 */
 	public onClickChangeCategory(category: ITag): void {
-		console.log(category);
+		this.currentlySelectedCategory = category;
+		for (const entities of this.contents) {
+			if (entities.category.id === category.id) { this.currentlySelectedEntities = entities.entity; }
+		}
 	}
 
 }
+
+interface IEntityCategory { category: ITag; entity: IKeyValueEntity[]; }

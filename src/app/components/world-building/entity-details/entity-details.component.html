@@ -1,6 +1,9 @@
-<div class="wrapper-entity-details">
+<div class="wrapper-entity-details" *ngIf="contents !== undefined">
 	<h2 class="text-light">{{ title }}</h2>
-	<app-tag-list [tagList]="categories" (onClickTag)="onClickChangeCategory($event)"></app-tag-list>
-	<app-entity-descriptor [entity]="contents"></app-entity-descriptor>
+	<app-tag-list
+		[tagList]="listCategories()"
+		(onClickTag)="onClickChangeCategory($event)"></app-tag-list>
+	<app-entity-descriptor
+		[entity]="currentlySelectedEntities"></app-entity-descriptor>
 </div>
 

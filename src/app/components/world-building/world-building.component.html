@@ -13,8 +13,12 @@
 	</div>
 	<div class="wrapper-padding-column">
 		<app-entity-details
-			[categories]="[{id:'appearance',text:'appearance'},{id:'mindset',text:'mindset'}]"
-			[contents]="[]">
+			[title]="'Character: John Doe'"
+			[contents]="[
+				{ category: { id: 'appearance', text: 'appearance' }, entity: [{ name: 'name', value: 'John Doe'}] },
+				{ category: { id: 'psychology', text: 'psychology' }, entity: [] },
+				{ category: { id: 'story', text: 'story' }, entity: [{ name: 'role', value: 'protagonist'}] }
+			]">
 		</app-entity-details>
 	</div>
 </div>
