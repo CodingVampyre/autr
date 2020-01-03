@@ -22,8 +22,10 @@ export class EntityDetailsComponent implements OnInit {
 	private currentlySelectedEntities: IKeyValueEntity[];
 
 	public ngOnInit() {
-		this.currentlySelectedCategory = this.contents[0].category;
-		this.currentlySelectedEntities = this.contents[0].entity;
+		if (this.currentlySelectedCategory !== undefined) {
+			this.currentlySelectedCategory = this.contents[0].category;
+			this.currentlySelectedEntities = this.contents[0].entity;
+		}
 	}
 
 	public listCategories(): ITag[] {
@@ -44,4 +46,4 @@ export class EntityDetailsComponent implements OnInit {
 
 }
 
-interface IEntityCategory { category: ITag; entity: IKeyValueEntity[]; }
+export interface IEntityCategory { category: ITag; entity: IKeyValueEntity[]; }

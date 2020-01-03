@@ -5,6 +5,7 @@ import { IImageTag } from '../data-models/image-tag.interface';
 import { ITag } from '../data-models/tag.interface';
 // tslint:disable-next-line:no-submodule-imports
 import { Vertex } from 'nanograph/build/graph/vertex.class';
+import { IEntityCategory } from '../components/world-building/entity-details/entity-details.component';
 
 @Injectable({
 	providedIn: 'root',
@@ -68,4 +69,7 @@ interface ICharacter {
 
 	/** url to an image describing how the character looks */
 	imgUrl: string;
+
+	/***/
+	data: IEntityCategory[];
 }
