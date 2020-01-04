@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Nanograph } from 'nanograph';
 import { DatabaseService } from './database.service';
 import { IImageTag } from '../data-models/image-tag.interface';
 import { ITag } from '../data-models/tag.interface';
-// tslint:disable-next-line:no-submodule-imports
-import { Vertex } from 'nanograph/build/graph/vertex.class';
 import { IEntityCategory } from '../components/world-building/entity-details/entity-details.component';
 
 @Injectable({
@@ -12,8 +9,8 @@ import { IEntityCategory } from '../components/world-building/entity-details/ent
 })
 export class WorldBuilderService {
 
-	/** contains all metadata */
-	private graph: Nanograph = new Nanograph();
+	/** contains all characters */
+	private characters: ICharacter[] = [];
 
 	constructor(
 		public databaseService: DatabaseService,
@@ -24,12 +21,11 @@ export class WorldBuilderService {
 	 * @return a list if Image Tags containing ids of all characters
 	 */
 	public listCharacters(): IImageTag[] {
-		const characterList = this.graph.findVertices('CHARACTER').getAll() as Vertex[];
-		return characterList.map((character: Vertex) => {
+		return this.characters.map((character: ICharacter) => {
 			return {
-				id: character._id,
-				text: character.properties.name,
-				imgUrl: character.properties.imgUrl,
+				id: character.id,
+				text: character.name,
+				imgUrl: character.imgUrl,
 			};
 		});
 	}
@@ -55,23 +51,28 @@ export class WorldBuilderService {
 	 * @param character the character to create
 	 * @return the character id
 	 */
-	public createCharacter(character: ICharacter): string {
-		const { _id: characterId } = this.graph.createVertex('CHARACTER', character);
-		return characterId;
+	public createCharacter(character: ICharacter): void {
+		this.characters.push(character);
 	}
 
 	/**
 	 *
 	 * @param characterId
 	 */
-	public retrieveCharacter(characterId: string): Vertex {
-		return this.graph.findVertices('CHARACTER', characterId).getFirst();
+	public retrieveCharacter(characterId: string): ICharacter {
+		for (const character of this.characters) {
+			if (character.id === characterId) { return character; }
+		}
 	}
 }
 
 // FIXME needs own file
 /** used for characters */
 interface ICharacter {
+
+	/** uuid */
+	id: string;
+
 	/** full name of your character */
 	name: string;
 

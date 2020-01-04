@@ -3,7 +3,9 @@
 		<h2 class="text-light">Characters</h2>
 		<p *ngIf="worldBuilderService.listCharacters().length === 0" class="text-light">No characters yet.</p>
 		<button class="button_light" (click)="onClickCreateCharacter()">create one</button>
-		<app-image-tag-list id="character-tag-list" [imageTagList]="worldBuilderService.listCharacters()"></app-image-tag-list>
+		<app-image-tag-list id="character-tag-list"
+			(onClickTag)="activateCharacter($event.id)"
+			[imageTagList]="onLoadListCharacters()"></app-image-tag-list>
 
 		<h2 class="text-light">Places</h2>
 		<app-tag-list id="place-tag-list" [tagList]="worldBuilderService.listPlaces()"></app-tag-list>
@@ -13,7 +15,7 @@
 	</div>
 	<div class="wrapper-padding-column">
 		<app-entity-details
-			[title]="currentlySelectedCharacter"
+			[title]="currentlySelectedCharacterName"
 			[contents]="contentToEdit">
 		</app-entity-details>
 	</div>

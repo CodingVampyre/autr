@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { WorldBuilderService } from '../../services/world-builder.service';
 import { IEntityCategory } from './entity-details/entity-details.component';
+import { v1 as UUID } from 'uuid';
 
 @Component({
 	selector: 'app-world-building',
@@ -12,17 +13,21 @@ export class WorldBuildingComponent {
 	public contentToEdit: IEntityCategory[];
 
 	/***/
-	private currentlySelectedCharacter;
+	private currentlySelectedCharacterName: string;
 
 	/***/
-	private currentlySelectedCharacterId;
+	private currentlySelectedCharacterId: string;
 
 	constructor(
 		public worldBuilderService: WorldBuilderService,
 	) { }
 
-	public onClickCreateCharacter() {
-		const newCharacterId = this.worldBuilderService.createCharacter({
+	/** creates a new character and sets thee focus on editing that one */
+	public onClickCreateCharacter(): void {
+		const newCharacterId = UUID();
+
+		this.worldBuilderService.createCharacter({
+			id: newCharacterId,
 			name: 'New Character',
 			imgUrl: 'http://nightmare.mit.edu/static/faces/4a58b263dff079c4c6f23a0ad8bba719.png',
 			data: [
@@ -32,10 +37,26 @@ export class WorldBuildingComponent {
 			],
 		});
 
-		const character = this.worldBuilderService.retrieveCharacter(newCharacterId);
-		this.contentToEdit = character.properties.data;
-		this.currentlySelectedCharacter = character.properties.name;
-		this.currentlySelectedCharacterId = character._id;
+		this.activateCharacter(newCharacterId);
+	}
+
+	public onLoadListCharacters() {
+		return this.worldBuilderService.listCharacters();
+	}
+
+	/**
+	 *
+	 * @param characterId
+	 */
+	public activateCharacter(characterId: string) {
+		const character = this.worldBuilderService.retrieveCharacter(characterId);
+		if (character !== undefined) {
+			this.contentToEdit = character.data;
+			this.currentlySelectedCharacterName = character.name;
+			this.currentlySelectedCharacterId = character.id;
+		} else {
+			console.error('character not found');
+		}
 	}
 
 }
