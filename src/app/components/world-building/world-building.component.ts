@@ -23,12 +23,12 @@ export class WorldBuildingComponent {
 	) { }
 
 	/** creates a new character and sets thee focus on editing that one */
-	public onClickCreateCharacter(): void {
+	public onClickCreateCharacter(newCharacterName: string): void {
 		const newCharacterId = UUID();
 
 		this.worldBuilderService.createCharacter({
 			id: newCharacterId,
-			name: 'New Character',
+			name: newCharacterName,
 			imgUrl: 'http://nightmare.mit.edu/static/faces/4a58b263dff079c4c6f23a0ad8bba719.png',
 			data: [
 				{ category: { id: 'appearance', text: 'appearance' }, entity: [] },

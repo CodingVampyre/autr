@@ -1,8 +1,13 @@
 <div class="layout-two-columns">
 	<div class="wrapper-padding-column">
+
+		<!-- Character management -->
 		<h2 class="text-light">Characters</h2>
 		<p *ngIf="worldBuilderService.listCharacters().length === 0" class="text-light">No characters yet.</p>
-		<button class="button_light" (click)="onClickCreateCharacter()">create one</button>
+		<label>
+			<input type="text" class="input_light" placeholder="character name" #newCharacterName>
+		</label>
+		<button class="button_light" (click)="onClickCreateCharacter(newCharacterName.value)">create one</button>
 		<app-image-tag-list id="character-tag-list"
 			(onClickTag)="activateCharacter($event.id)"
 			[imageTagList]="onLoadListCharacters()"></app-image-tag-list>
