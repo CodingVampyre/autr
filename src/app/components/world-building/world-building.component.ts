@@ -13,8 +13,6 @@ export class WorldBuildingComponent {
 	@ViewChild('entityDetailsComponent', { static: true, read: EntityDetailsComponent })
 	public entityDetailsComponent: EntityDetailsComponent;
 
-	public contentToEdit: IEntityCategory[];
-
 	/***/
 	private currentlySelectedCharacterName: string;
 
@@ -55,13 +53,9 @@ export class WorldBuildingComponent {
 		if (character !== undefined) {
 
 			// set metadata
-			this.contentToEdit = character.data;
 			this.currentlySelectedCharacterName = character.name;
 			this.currentlySelectedCharacterId = character.id;
-
-			// select first category
-			const category = this.contentToEdit[0].category;
-			if (category !== undefined) { this.entityDetailsComponent.onClickChangeCategory(category); }
+			this.entityDetailsComponent.passContents(character.data);
 
 		} else {
 			console.error('character not found');

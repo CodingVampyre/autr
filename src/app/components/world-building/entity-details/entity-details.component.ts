@@ -9,11 +9,11 @@ import { IKeyValueEntity } from '../../common/entity-descriptor/entity-descripto
 })
 export class EntityDetailsComponent {
 
-	/** contents */
-	@Input() public contents: IEntityCategory[];
-
 	/** used as title */
 	@Input() public title: string = 'Untitled Entity';
+
+	/** contents */
+	public contents: IEntityCategory[];
 
 	/** the category that currently is selected */
 	private currentlySelectedCategory: ITag;
@@ -42,6 +42,20 @@ export class EntityDetailsComponent {
 				return;
 			}
 		}
+	}
+
+	/**
+	 *
+	 * @param contents
+	 */
+	public passContents(contents: IEntityCategory[]) {
+		this.contents = contents;
+		const category = this.contents[0].category;
+		if (category !== undefined) {
+			console.log('changing');
+			this.onClickChangeCategory(this.contents[0].category);
+		}
+
 	}
 
 }
