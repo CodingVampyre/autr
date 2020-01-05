@@ -7,7 +7,7 @@ import { IKeyValueEntity } from '../../common/entity-descriptor/entity-descripto
 	templateUrl: './entity-details.component.html',
 	styleUrls: ['./entity-details.component.less'],
 })
-export class EntityDetailsComponent implements OnInit {
+export class EntityDetailsComponent {
 
 	/** contents */
 	@Input() public contents: IEntityCategory[];
@@ -21,13 +21,9 @@ export class EntityDetailsComponent implements OnInit {
 	/** the entities that currently can be edited */
 	private currentlySelectedEntities: IKeyValueEntity[];
 
-	public ngOnInit() {
-		if (this.currentlySelectedCategory !== undefined) {
-			this.currentlySelectedCategory = this.contents[0].category;
-			this.currentlySelectedEntities = this.contents[0].entity;
-		}
-	}
-
+	/**
+	 * @return a tag list of categories
+	 */
 	public listCategories(): ITag[] {
 		return this.contents.map((content) => content.category);
 	}
@@ -35,12 +31,16 @@ export class EntityDetailsComponent implements OnInit {
 	/**
 	 *
 	 * @param category
-	 * @todo take an object containing multiple arrays to let categories switch dynamically
 	 */
 	public onClickChangeCategory(category: ITag): void {
-		this.currentlySelectedCategory = category;
+		if (this.contents === undefined) { return; }
+
 		for (const entities of this.contents) {
-			if (entities.category.id === category.id) { this.currentlySelectedEntities = entities.entity; }
+			if (entities.category.id === category.id) {
+				this.currentlySelectedCategory = category;
+				this.currentlySelectedEntities = entities.entity;
+				return;
+			}
 		}
 	}
 

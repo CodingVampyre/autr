@@ -18,8 +18,10 @@
 		<h2 class="text-light">Objects</h2>
 		<app-tag-list id="object-tag-list" [tagList]="worldBuilderService.listObjects()"></app-tag-list>
 	</div>
+
+	<!-- Details Panel TODO update when contents are updated -->
 	<div class="wrapper-padding-column">
-		<app-entity-details
+		<app-entity-details #entityDetailsComponent
 			[title]="currentlySelectedCharacterName"
 			[contents]="contentToEdit">
 		</app-entity-details>
