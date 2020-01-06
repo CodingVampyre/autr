@@ -20,3 +20,9 @@ Just download the binaries provided in this repository or on http://autr-writing
     * `osx` for MacOS
 1. Move to the binary folder: `cd build-bin/autr-<os>-x64`; with os being either linux, win32 or darwin for MacOS
 1. run `./autr`
+
+## Legacy Code
+see: http://coding-vampyre.tech/index.php/2020/01/03/legacy-code-a-geek-code-for-your-source/
++++ BEGIN LEGACY CODE BLOCK +++
+O++S++I+CEMV+!PSD-
++++ END LEGACY CODE BLOCK +++
