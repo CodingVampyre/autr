@@ -1,12 +1,34 @@
 @import "../../../../assets/styles/colors";
 @import "../../../../assets/styles/elements";
+@import "../../../../styles";
 
 .entity-key {
+	cursor: pointer;
 	color: #EA00FF;
+	width: 100%;
+}
+
+.entity-value {
+	cursor: pointer;
+	text-align: justify;
 }
 
 .entity-entry {
-	margin-bottom: 20px;
+	margin-bottom: 10px;
+	background: @violet-darker;
+	border-radius: 16px;
+	box-sizing: border-box;
+	padding: 20px;
+
+	.one-row {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+
+	p {
+		margin: 0;
+	}
 }
 
 .full-block {
