@@ -52,7 +52,6 @@ export class EntityDetailsComponent {
 		this.contents = contents;
 		const category = this.contents[0].category;
 		if (category !== undefined) {
-			console.log('changing');
 			this.onClickChangeCategory(this.contents[0].category);
 		}
 
