@@ -6,11 +6,27 @@
 	display: grid;
 	grid-template-columns: 50% 50%;
 	grid-template-rows: 1fr;
+	margin: 0;
 }
 
 .wrapper-padding-column {
 	padding: 40px;
 	box-sizing: border-box;
-	overflow: scroll;
+	overflow-y: auto;
 	height: 100vh;
+}
+
+::-webkit-scrollbar {
+	background: #242424;
+	width: 8px;
+
+	&:hover {
+		width: 12px;
+	}
+}
+
+::-webkit-scrollbar-thumb {
+	background: #484848;
+	border-radius: 8px;
+	width: 8px;
 }
