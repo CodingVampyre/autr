@@ -1,5 +1,8 @@
 <div class="tag-list-wrapper">
 	<div *ngFor="let imageTag of imageTagList"
+		 draggable="true"
+		 (dragstart)="onDragStart($event, imageTag.id)"
+		 (dragend)="onDragEnd($event, imageTag.id)"
 		 class="image-tag"
 		 (click)="onClickTag.emit(imageTag)">
 		<img [src]="imageTag.imgUrl" alt="image" class="tag-list-image">

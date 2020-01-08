@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { WorldBuilderService } from '../../services/world-builder.service';
 import { EntityDetailsComponent, IEntityCategory } from './entity-details/entity-details.component';
 import { v1 as UUID } from 'uuid';
+import { IImageTag } from '../../data-models/image-tag.interface';
 
 @Component({
 	selector: 'app-world-building',
@@ -9,6 +10,8 @@ import { v1 as UUID } from 'uuid';
 	styleUrls: ['./world-building.component.less'],
 })
 export class WorldBuildingComponent {
+
+	public characters: IImageTag[] = [];
 
 	@ViewChild('entityDetailsComponent', { static: true, read: EntityDetailsComponent })
 	public entityDetailsComponent: EntityDetailsComponent;
@@ -22,6 +25,13 @@ export class WorldBuildingComponent {
 	constructor(
 		public worldBuilderService: WorldBuilderService,
 	) { }
+
+	/** recreates the tag list to fetch characters from world builder service */
+	public updateCharacterList() {
+		this.characters = this.worldBuilderService.characters.map((character) => {
+			return { id: character.id, text: character.name, imgUrl: character.imgUrl };
+		});
+	}
 
 	/** creates a new character and sets thee focus on editing that one */
 	public onClickCreateCharacter(newCharacterName: string): void {
@@ -38,10 +48,8 @@ export class WorldBuildingComponent {
 			imgUrl: 'http://nightmare.mit.edu/static/faces/4a58b263dff079c4c6f23a0ad8bba719.png',
 			data: categoryTemplate,
 		});
-	}
 
-	public onLoadListCharacters() {
-		return this.worldBuilderService.listCharacters();
+		this.updateCharacterList();
 	}
 
 	/**
@@ -57,8 +65,6 @@ export class WorldBuildingComponent {
 			this.currentlySelectedCharacterId = character.id;
 			this.entityDetailsComponent.passContents(character.data);
 
-		} else {
-			console.error('character not found');
 		}
 	}
 

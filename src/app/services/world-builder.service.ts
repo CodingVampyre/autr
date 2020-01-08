@@ -10,25 +10,11 @@ import { IEntityCategory } from '../components/world-building/entity-details/ent
 export class WorldBuilderService {
 
 	/** contains all characters */
-	private characters: ICharacter[] = [];
+	public characters: ICharacter[] = [];
 
 	constructor(
 		public databaseService: DatabaseService,
 	) { }
-
-	/**
-	 * list all characters
-	 * @return a list if Image Tags containing ids of all characters
-	 */
-	public listCharacters(): IImageTag[] {
-		return this.characters.map((character: ICharacter) => {
-			return {
-				id: character.id,
-				text: character.name,
-				imgUrl: character.imgUrl,
-			};
-		});
-	}
 
 	/**
 	 * lists all places
