@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ITag } from '../../../data-models/tag.interface';
 import { IKeyValueEntity } from '../../common/entity-descriptor/entity-descriptor.component';
 
@@ -11,6 +11,9 @@ export class EntityDetailsComponent {
 
 	/** used as title */
 	@Input() public title: string = 'Untitled Entity';
+
+	/** fired when the delete button was pressed */
+	@Output() public deleteButtonClick = new EventEmitter();
 
 	/** contents */
 	public contents: IEntityCategory[];
@@ -57,6 +60,9 @@ export class EntityDetailsComponent {
 
 	}
 
+	public close() {
+		this.contents = undefined;
+	}
 }
 
 export interface IEntityCategory { category: ITag; entity: IKeyValueEntity[]; }

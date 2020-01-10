@@ -68,4 +68,15 @@ export class WorldBuildingComponent {
 		}
 	}
 
+	public deleteCharacter() {
+		const id = this.currentlySelectedCharacterId;
+		this.currentlySelectedCharacterId = undefined;
+		this.currentlySelectedCharacterName = undefined;
+		// close details panel
+		this.entityDetailsComponent.close();
+		// delete out of list
+		this.worldBuilderService.deleteCharacter(id);
+		// update list
+		this.updateCharacterList();
+	}
 }

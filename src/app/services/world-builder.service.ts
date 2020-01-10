@@ -50,6 +50,12 @@ export class WorldBuilderService {
 			if (character.id === characterId) { return character; }
 		}
 	}
+
+	public deleteCharacter(id: string) {
+		for (let index = 0; index < this.characters.length; ++index) {
+			if (this.characters[index].id === id) { this.characters.splice(index, 1); }
+		}
+	}
 }
 
 // FIXME needs own file

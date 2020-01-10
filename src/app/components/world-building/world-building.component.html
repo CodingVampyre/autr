@@ -22,8 +22,10 @@
 	<!-- Details Panel TODO update when contents are updated -->
 	<div class="wrapper-padding-column">
 		<app-entity-details #entityDetailsComponent
-			[title]="currentlySelectedCharacterName">
+			[title]="currentlySelectedCharacterName"
+			(deleteButtonClick)="deleteCharacter()">
 		</app-entity-details>
 	</div>
+
 </div>
 

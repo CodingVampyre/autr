@@ -24,13 +24,11 @@ export class ImageTagListComponent {
 		// setTimeout prevents a bug that fires the dragleave immediately after starting to drag.
 		// may be fixed in future versions
 		setTimeout(() => {
-			console.log('starting', imageTagId);
 			this.draggedTag = imageTagId;
 		}, timeToWaitMs);
 	}
 
 	public onDragEnd(event: DragEvent, id: string) {
-		console.log('ended', id);
 		this.draggedTag = undefined;
 	}
 }
