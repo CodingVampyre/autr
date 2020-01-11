@@ -43,7 +43,7 @@ export class WorldBuilderService {
 	 * @param id
 	 */
 	public deletePlace(id: string): void {
-		for (let index = 0; index < this.characters.length; ++index) {
+		for (let index = 0; index < this.places.length; ++index) {
 			if (this.places[index].id === id) { this.places.splice(index, 1); }
 		}
 	}

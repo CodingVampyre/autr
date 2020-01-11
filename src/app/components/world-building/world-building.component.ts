@@ -27,6 +27,7 @@ export class WorldBuildingComponent implements OnInit {
 	/***/
 	private currentlySelectedName: string;
 	private currentlySelectedId: string;
+	private currentlySelectedType: 'character' | 'place' | 'object';
 
 	/**
 	 *
@@ -101,18 +102,9 @@ export class WorldBuildingComponent implements OnInit {
 		this.updateLists();
 	}
 
-	public deleteCharacter() {
-		const id = this.currentlySelectedId;
-		this.currentlySelectedId = undefined;
-		this.currentlySelectedName = undefined;
-		// close details panel
-		this.entityDetailsComponent.close();
-		// delete out of list
-		this.worldBuilderService.deleteCharacter(id);
-		// update list
-		this.updateLists();
-	}
-
+	/**
+	 *
+	 */
 	public async navigateToWritingPanel() {
 		const routerId = this.route.snapshot.paramMap.get('novelId');
 		await this.router.navigate(['writing-board', routerId]);
@@ -129,6 +121,7 @@ export class WorldBuildingComponent implements OnInit {
 			// set metadata
 			this.currentlySelectedName = character.name;
 			this.currentlySelectedId = character.id;
+			this.currentlySelectedType = 'character';
 			this.entityDetailsComponent.passContents(character.data);
 
 		}
@@ -145,6 +138,7 @@ export class WorldBuildingComponent implements OnInit {
 			// set metadata
 			this.currentlySelectedName = place.name;
 			this.currentlySelectedId = place.id;
+			this.currentlySelectedType = 'place';
 			this.entityDetailsComponent.passContents(place.data);
 
 		}
@@ -161,9 +155,26 @@ export class WorldBuildingComponent implements OnInit {
 			// set metadata
 			this.currentlySelectedName = object.name;
 			this.currentlySelectedId = object.id;
+			this.currentlySelectedType = 'object';
 			this.entityDetailsComponent.passContents(object.data);
 
 		}
+	}
+
+	public deleteCurrentlySelectedEntity() {
+		const id = this.currentlySelectedId;
+		this.currentlySelectedId = undefined;
+		this.currentlySelectedName = undefined;
+		// close details panel
+		this.entityDetailsComponent.close();
+		// delete out of list
+		switch (this.currentlySelectedType) {
+			case 'character': this.worldBuilderService.deleteCharacter(id); break;
+			case 'place': this.worldBuilderService.deletePlace(id); break;
+			case 'object': this.worldBuilderService.deleteObject(id); break;
+		}
+		// update list
+		this.updateLists();
 	}
 
 	private updateLists() {
