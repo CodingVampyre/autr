@@ -38,11 +38,11 @@
 			[imageTagList]="objects"></app-image-tag-list>
 	</div>
 
-	<!-- Details Panel TODO update when contents are updated -->
+	<!-- details panel -->
 	<div class="wrapper-padding-column">
 		<app-entity-details #entityDetailsComponent
-			[title]="currentlySelectedCharacterName"
-			(deleteButtonClick)="deleteCharacter()">
+			[title]="currentlySelectedName"
+			(deleteButtonClick)="deleteCharacter()"><!-- delete currently selected entity -->
 		</app-entity-details>
 	</div>
 

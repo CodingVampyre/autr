@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 	templateUrl: './world-building.component.html',
 	styleUrls: ['./world-building.component.less'],
 })
-export class WorldBuildingComponent implements OnInit{
+export class WorldBuildingComponent implements OnInit {
 
 	// representation of the entities as imagTags to have lists
 	/***/
@@ -25,10 +25,8 @@ export class WorldBuildingComponent implements OnInit{
 	public entityDetailsComponent: EntityDetailsComponent;
 
 	/***/
-	private currentlySelectedCharacterName: string;
-
-	/***/
-	private currentlySelectedCharacterId: string;
+	private currentlySelectedName: string;
+	private currentlySelectedId: string;
 
 	/**
 	 *
@@ -104,9 +102,9 @@ export class WorldBuildingComponent implements OnInit{
 	}
 
 	public deleteCharacter() {
-		const id = this.currentlySelectedCharacterId;
-		this.currentlySelectedCharacterId = undefined;
-		this.currentlySelectedCharacterName = undefined;
+		const id = this.currentlySelectedId;
+		this.currentlySelectedId = undefined;
+		this.currentlySelectedName = undefined;
 		// close details panel
 		this.entityDetailsComponent.close();
 		// delete out of list
@@ -129,8 +127,8 @@ export class WorldBuildingComponent implements OnInit{
 		if (character !== undefined) {
 
 			// set metadata
-			this.currentlySelectedCharacterName = character.name;
-			this.currentlySelectedCharacterId = character.id;
+			this.currentlySelectedName = character.name;
+			this.currentlySelectedId = character.id;
 			this.entityDetailsComponent.passContents(character.data);
 
 		}
@@ -145,8 +143,8 @@ export class WorldBuildingComponent implements OnInit{
 		if (place !== undefined) {
 
 			// set metadata
-			this.currentlySelectedCharacterName = place.name;
-			this.currentlySelectedCharacterId = place.id;
+			this.currentlySelectedName = place.name;
+			this.currentlySelectedId = place.id;
 			this.entityDetailsComponent.passContents(place.data);
 
 		}
@@ -157,12 +155,12 @@ export class WorldBuildingComponent implements OnInit{
 	 * @param objectId
 	 */
 	public activateObject(objectId: string) {
-		const object = this.worldBuilderService.retrievePlace(objectId);
+		const object = this.worldBuilderService.retrieveObject(objectId);
 		if (object !== undefined) {
 
 			// set metadata
-			this.currentlySelectedCharacterName = object.name;
-			this.currentlySelectedCharacterId = object.id;
+			this.currentlySelectedName = object.name;
+			this.currentlySelectedId = object.id;
 			this.entityDetailsComponent.passContents(object.data);
 
 		}
