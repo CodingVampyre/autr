@@ -74,7 +74,7 @@ export class WorldBuildingComponent implements OnInit{
 			{ category: { id: 'story', text: 'story' }, entity: [] },
 		];
 
-		this.worldBuilderService.createCharacter({
+		this.worldBuilderService.createPlace({
 			id: newPlaceId,
 			name: newPlaceName,
 			imgUrl: 'http://nightmare.mit.edu/static/faces/4a58b263dff079c4c6f23a0ad8bba719.png',
@@ -93,7 +93,7 @@ export class WorldBuildingComponent implements OnInit{
 			{ category: { id: 'story', text: 'story' }, entity: [] },
 		];
 
-		this.worldBuilderService.createCharacter({
+		this.worldBuilderService.createObject({
 			id: newObjectId,
 			name: newObjectName,
 			imgUrl: 'http://nightmare.mit.edu/static/faces/4a58b263dff079c4c6f23a0ad8bba719.png',
