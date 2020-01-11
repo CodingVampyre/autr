@@ -12,8 +12,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class WorldBuildingComponent implements OnInit{
 
+	// representation of the entities as imagTags to have lists
+	/***/
 	public characters: IImageTag[] = [];
+	/***/
+	public objects: IImageTag[] = [];
+	/***/
+	public places: IImageTag[] = [];
 
+	/***/
 	@ViewChild('entityDetailsComponent', { static: true, read: EntityDetailsComponent })
 	public entityDetailsComponent: EntityDetailsComponent;
 
@@ -23,6 +30,12 @@ export class WorldBuildingComponent implements OnInit{
 	/***/
 	private currentlySelectedCharacterId: string;
 
+	/**
+	 *
+	 * @param worldBuilderService
+	 * @param router
+	 * @param route
+	 */
 	constructor(
 		public worldBuilderService: WorldBuilderService,
 		public router: Router,
@@ -30,14 +43,7 @@ export class WorldBuildingComponent implements OnInit{
 	) { }
 
 	public ngOnInit() {
-		this.updateCharacterList();
-	}
-
-	/** recreates the tag list to fetch characters from world builder service */
-	public updateCharacterList() {
-		this.characters = this.worldBuilderService.characters.map((character) => {
-			return { id: character.id, text: character.name, imgUrl: character.imgUrl };
-		});
+		this.updateLists();
 	}
 
 	/** creates a new character and sets thee focus on editing that one */
@@ -56,7 +62,24 @@ export class WorldBuildingComponent implements OnInit{
 			data: categoryTemplate,
 		});
 
-		this.updateCharacterList();
+		this.updateLists();
+	}
+
+	public deleteCharacter() {
+		const id = this.currentlySelectedCharacterId;
+		this.currentlySelectedCharacterId = undefined;
+		this.currentlySelectedCharacterName = undefined;
+		// close details panel
+		this.entityDetailsComponent.close();
+		// delete out of list
+		this.worldBuilderService.deleteCharacter(id);
+		// update list
+		this.updateLists();
+	}
+
+	public async navigateToWritingPanel() {
+		const routerId = this.route.snapshot.paramMap.get('novelId');
+		await this.router.navigate(['writing-board', routerId]);
 	}
 
 	/**
@@ -75,20 +98,39 @@ export class WorldBuildingComponent implements OnInit{
 		}
 	}
 
-	public deleteCharacter() {
-		const id = this.currentlySelectedCharacterId;
-		this.currentlySelectedCharacterId = undefined;
-		this.currentlySelectedCharacterName = undefined;
-		// close details panel
-		this.entityDetailsComponent.close();
-		// delete out of list
-		this.worldBuilderService.deleteCharacter(id);
-		// update list
-		this.updateCharacterList();
+	public activatePlace(placeId: string) {
+		const place = this.worldBuilderService.retrievePlace(placeId);
+		if (place !== undefined) {
+
+			// set metadata
+			this.currentlySelectedCharacterName = place.name;
+			this.currentlySelectedCharacterId = place.id;
+			this.entityDetailsComponent.passContents(place.data);
+
+		}
 	}
 
-	public async navigateToWritingPanel() {
-		const routerId = this.route.snapshot.paramMap.get('novelId');
-		await this.router.navigate(['writing-board', routerId]);
+	public activateObject(objectId: string) {
+		const object = this.worldBuilderService.retrievePlace(objectId);
+		if (object !== undefined) {
+
+			// set metadata
+			this.currentlySelectedCharacterName = object.name;
+			this.currentlySelectedCharacterId = object.id;
+			this.entityDetailsComponent.passContents(object.data);
+
+		}
+	}
+
+	private updateLists() {
+		this.characters = this.worldBuilderService.characters.map((character) => {
+			return { id: character.id, text: character.name, imgUrl: character.imgUrl };
+		});
+		this.places = this.worldBuilderService.places.map((place) => {
+			return { id: place.id, text: place.name, imgUrl: place.imgUrl };
+		});
+		this.objects = this.worldBuilderService.objects.map((object) => {
+			return { id: object.id, text: object.name, imgUrl: object.imgUrl };
+		});
 	}
 }

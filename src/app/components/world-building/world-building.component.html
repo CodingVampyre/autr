@@ -16,10 +16,14 @@
 			[imageTagList]="characters"></app-image-tag-list>
 
 		<h2 class="text-light">Places</h2>
-		<app-tag-list id="place-tag-list" [tagList]="worldBuilderService.listPlaces()"></app-tag-list>
+		<app-image-tag-list id="place-tag-list"
+			(onClickTag)="activatePlace($event.id)"
+			[imageTagList]="places"></app-image-tag-list>
 
 		<h2 class="text-light">Objects</h2>
-		<app-tag-list id="object-tag-list" [tagList]="worldBuilderService.listObjects()"></app-tag-list>
+		<app-image-tag-list id="object-tag-list"
+			(onClickTag)="activateObject($event.id)"
+			[imageTagList]="places"></app-image-tag-list>
 	</div>
 
 	<!-- Details Panel TODO update when contents are updated -->
