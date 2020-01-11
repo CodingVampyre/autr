@@ -1,8 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { WorldBuilderService } from '../../services/world-builder.service';
-import { EntityDetailsComponent, IEntityCategory } from './entity-details/entity-details.component';
+import { EntityDetailsComponent } from './entity-details/entity-details.component';
 import { v1 as UUID } from 'uuid';
 import { IImageTag } from '../../data-models/image-tag.interface';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
 	selector: 'app-world-building',
@@ -24,6 +25,8 @@ export class WorldBuildingComponent {
 
 	constructor(
 		public worldBuilderService: WorldBuilderService,
+		public router: Router,
+		public route: ActivatedRoute,
 	) { }
 
 	/** recreates the tag list to fetch characters from world builder service */
@@ -78,5 +81,10 @@ export class WorldBuildingComponent {
 		this.worldBuilderService.deleteCharacter(id);
 		// update list
 		this.updateCharacterList();
+	}
+
+	public async navigateToWritingPanel() {
+		const routerId = this.route.snapshot.paramMap.get('novelId');
+		await this.router.navigate(['writing-board', routerId]);
 	}
 }

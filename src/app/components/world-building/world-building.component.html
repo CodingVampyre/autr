@@ -1,6 +1,9 @@
 <div class="layout-two-columns">
 	<div class="wrapper-padding-column">
 
+		<!-- back button -->
+		<button class="button_light" (click)="navigateToWritingPanel()"><-- Back to writing</button>
+
 		<!-- Character management -->
 		<h2 class="text-light">Characters</h2>
 		<p *ngIf="characters.length === 0" class="text-light">No characters yet.</p>
