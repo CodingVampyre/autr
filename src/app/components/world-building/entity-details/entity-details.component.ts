@@ -38,6 +38,7 @@ export class EntityDetailsComponent {
 	public onClickChangeCategory(category: ITag): void {
 		if (this.contents === undefined) { return; }
 
+		// set contents for details panel
 		for (const entities of this.contents) {
 			if (entities.category.id === category.id) {
 				this.currentlySelectedCategory = category;
