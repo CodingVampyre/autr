@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { WorldBuilderService } from '../../services/world-builder.service';
 import { EntityDetailsComponent } from './entity-details/entity-details.component';
 import { v1 as UUID } from 'uuid';
@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 	templateUrl: './world-building.component.html',
 	styleUrls: ['./world-building.component.less'],
 })
-export class WorldBuildingComponent {
+export class WorldBuildingComponent implements OnInit{
 
 	public characters: IImageTag[] = [];
 
@@ -28,6 +28,10 @@ export class WorldBuildingComponent {
 		public router: Router,
 		public route: ActivatedRoute,
 	) { }
+
+	public ngOnInit() {
+		this.updateCharacterList();
+	}
 
 	/** recreates the tag list to fetch characters from world builder service */
 	public updateCharacterList() {
