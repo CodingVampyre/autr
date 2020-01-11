@@ -15,12 +15,24 @@
 			(onClickTag)="activateCharacter($event.id)"
 			[imageTagList]="characters"></app-image-tag-list>
 
+		<!-- place management -->
 		<h2 class="text-light">Places</h2>
+		<p *ngIf="places.length === 0" class="text-light">No places yet.</p>
+		<label>
+			<input type="text" class="input_light" placeholder="place name" #newPlaceName>
+		</label>
+		<button class="button_light" (click)="onClickCreatePlace(newPlaceName.value)">create one</button>
 		<app-image-tag-list id="place-tag-list"
 			(onClickTag)="activatePlace($event.id)"
 			[imageTagList]="places"></app-image-tag-list>
 
+		<!-- object management -->
 		<h2 class="text-light">Objects</h2>
+		<p *ngIf="objects.length === 0" class="text-light">No objects yet.</p>
+		<label>
+			<input type="text" class="input_light" placeholder="object name" #newObjectName>
+		</label>
+		<button class="button_light" (click)="onClickCreateObject(newObjectName.value)">create one</button>
 		<app-image-tag-list id="object-tag-list"
 			(onClickTag)="activateObject($event.id)"
 			[imageTagList]="places"></app-image-tag-list>
