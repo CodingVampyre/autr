@@ -1,8 +1,12 @@
-<div *ngFor="let entry of entity; let i = index" class="entity-entry">
-	<div class="one-row">
-		<p class="entity-key" contenteditable="true" [(contenteditableModel)]="entry.name"></p>
-		<button class="button_weak" (click)="deleteEntry(i)">Delete</button>
+<div id="entity-details-wrapper" *ngIf="entity.length > 0">
+	<div *ngFor="let entry of entity; let i = index" class="entity-entry">
+		<div class="one-row">
+			<p class="entity-key" contenteditable="true" [(contenteditableModel)]="entry.name"></p>
+			<button class="button_weak" (click)="deleteEntry(i)">Delete</button>
+		</div>
+		<p class="text-light entity-value" contenteditable="true" [(contenteditableModel)]="entry.value"></p>
 	</div>
-	<p class="text-light entity-value" contenteditable="true" [(contenteditableModel)]="entry.value"></p>
 </div>
-<button class="button_mini full-block" (click)="addEntry()">+</button>
+<div id="detail-adder-button">
+	<button class="button_mini full-block" (click)="addEntry()">+</button>
+</div>
