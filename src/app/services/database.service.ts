@@ -12,6 +12,7 @@ import PouchDbFind from 'pouchdb-find';
 import { Novel } from '../data-models/novel.interface';
 import { v1 as UUID } from 'uuid';
 import { INovelDbEntry } from '../data-models/novel-db-entry.interface';
+import { ICharacter, IObject, IPlace } from './world-builder.service';
 
 PouchDB.plugin(PouchDbFind);
 
@@ -91,5 +92,44 @@ export class DatabaseService {
 		if (novel !== undefined) {
 			await this.db.remove(novel);
 		}
+	}
+
+	/**
+	 * TODO test
+	 * @param novelId
+	 * @param worldBuilding
+	 */
+	public async storeNovelWorldBuilding(
+		novelId: string,
+		worldBuilding: { characters: ICharacter[]; places: IPlace[]; objects: IObject[] },
+		) {
+
+		// look if an entry exists or create one
+		const key = novelId + ':worldBuilding';
+		const worldBuildingData = await this.db.get(key) as any;
+
+		// update if entry exists
+		if (worldBuildingData._id === key) {
+			worldBuildingData.worldBuilding = worldBuilding;
+			worldBuildingData.modifiedAt = Date.now();
+			return this.db.put(worldBuildingData);
+		}
+
+		// create an entry if none exists
+		return this.db.put({
+			_id: novelId + ':world-building',
+			type: 'world-building-data',
+			worldBuilding,
+			createdAt: Date.now(),
+			modifiedAt: Date.now(),
+		});
+	}
+
+	/**
+	 * retrieve worldBuilding
+	 * @param novelId
+	 */
+	public async describeWorldBuilding(novelId: string) {
+		return ((await this.db.get(novelId + ':worldBuilding')) as any).worldBuilding;
 	}
 }

@@ -161,6 +161,9 @@ export class WorldBuildingComponent implements OnInit {
 		}
 	}
 
+	/**
+	 *
+	 */
 	public deleteCurrentlySelectedEntity() {
 		const id = this.currentlySelectedId;
 		this.currentlySelectedId = undefined;
@@ -177,6 +180,9 @@ export class WorldBuildingComponent implements OnInit {
 		this.updateLists();
 	}
 
+	/**
+	 *
+	 */
 	private updateLists() {
 		this.characters = this.worldBuilderService.characters.map((character) => {
 			return { id: character.id, text: character.name, imgUrl: character.imgUrl };

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DatabaseService } from './database.service';
 import { IEntityCategory } from '../components/world-building/entity-details/entity-details.component';
+import { NovelProviderService } from './novel-provider.service';
 
 @Injectable({
 	providedIn: 'root',
@@ -18,6 +19,7 @@ export class WorldBuilderService {
 
 	constructor(
 		public databaseService: DatabaseService,
+		public novelProviderService: NovelProviderService,
 	) { }
 
 	/**
@@ -104,11 +106,22 @@ export class WorldBuilderService {
 			if (this.characters[index].id === id) { this.characters.splice(index, 1); }
 		}
 	}
+
+	/**
+	 *
+	 */
+	public async saveToDatabase() {
+		await this.databaseService.storeNovelWorldBuilding(this.novelProviderService.novelId, {
+			characters: this.characters,
+			places: this.places,
+			objects: this.objects,
+		});
+	}
 }
 
 // FIXME needs own file
 /** used for characters */
-interface ICharacter {
+export interface ICharacter {
 
 	/** uuid */
 	id: string;
@@ -123,7 +136,7 @@ interface ICharacter {
 	data: IEntityCategory[];
 }
 
-interface IPlace {
+export interface IPlace {
 
 	/***/
 	id: string;
@@ -138,7 +151,7 @@ interface IPlace {
 	data: IEntityCategory[];
 }
 
-interface IObject {
+export interface IObject {
 
 	/***/
 	id: string;
