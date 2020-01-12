@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { DatabaseService } from './database.service';
 import { IEntityCategory } from '../components/world-building/entity-details/entity-details.component';
 import { NovelProviderService } from './novel-provider.service';
@@ -116,6 +116,18 @@ export class WorldBuilderService {
 			places: this.places,
 			objects: this.objects,
 		});
+	}
+
+	/**
+	 *
+	 */
+	public async retrieveFromDatabase() {
+		const wbData = await this.databaseService.describeWorldBuilding(this.novelProviderService.novelId);
+		if (wbData !== undefined) {
+			this.characters = wbData.characters;
+			this.objects = wbData.objects;
+			this.places = wbData.places;
+		}
 	}
 }
 

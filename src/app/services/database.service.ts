@@ -105,24 +105,32 @@ export class DatabaseService {
 		) {
 
 		// look if an entry exists or create one
-		const key = novelId + ':worldBuilding';
-		const worldBuildingData = await this.db.get(key) as any;
+		const key = novelId + ':world-building';
 
-		// update if entry exists
-		if (worldBuildingData._id === key) {
-			worldBuildingData.worldBuilding = worldBuilding;
-			worldBuildingData.modifiedAt = Date.now();
-			return this.db.put(worldBuildingData);
+		try {
+			const worldBuildingData = await this.db.get(key) as any;
+			// update if entry exists
+			if (worldBuildingData._id === key) {
+				worldBuildingData.worldBuilding = worldBuilding;
+				worldBuildingData.modifiedAt = Date.now();
+				return this.db.put(worldBuildingData);
+			}
+		} catch (error) {
+			console.error(error.message);
+
+			if (error.message === 'missing') {
+				// create an entry if none exists
+				console.log('crate new entry');
+				return this.db.put({
+					_id: novelId + ':world-building',
+					type: 'world-building-data',
+					worldBuilding,
+					createdAt: Date.now(),
+					modifiedAt: Date.now(),
+				});
+			}
+
 		}
-
-		// create an entry if none exists
-		return this.db.put({
-			_id: novelId + ':world-building',
-			type: 'world-building-data',
-			worldBuilding,
-			createdAt: Date.now(),
-			modifiedAt: Date.now(),
-		});
 	}
 
 	/**
@@ -130,6 +138,11 @@ export class DatabaseService {
 	 * @param novelId
 	 */
 	public async describeWorldBuilding(novelId: string) {
-		return ((await this.db.get(novelId + ':worldBuilding')) as any).worldBuilding;
+		try {
+			return ((await this.db.get(novelId + ':world-building')) as any).worldBuilding;
+		} catch (error) {
+			console.error('describeWorldBuilding: ', error.message);
+		}
+
 	}
 }

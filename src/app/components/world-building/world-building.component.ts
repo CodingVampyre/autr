@@ -41,7 +41,8 @@ export class WorldBuildingComponent implements OnInit {
 		public route: ActivatedRoute,
 	) { }
 
-	public ngOnInit() {
+	public async ngOnInit() {
+		await this.worldBuilderService.retrieveFromDatabase();
 		this.updateLists();
 	}
 
