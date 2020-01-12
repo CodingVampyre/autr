@@ -78,9 +78,10 @@ export class DatabaseService {
 	 *
 	 */
 	public async listNovels(): Promise<any> {
-		const result: PouchDB.Find.FindResponse<{ }> = await this.db.find({
+		const result = await this.db.find({
 			selector: {
-				_id: { $exists: true },
+				// _id: { $exists: true }, TODO this leads to an error
+				type: { $eq: 'novel' },
 			},
 			fields: ['_id', 'type', 'name', 'createdAt'],
 		});
@@ -116,11 +117,9 @@ export class DatabaseService {
 				return this.db.put(worldBuildingData);
 			}
 		} catch (error) {
-			console.error(error.message);
 
 			if (error.message === 'missing') {
 				// create an entry if none exists
-				console.log('crate new entry');
 				return this.db.put({
 					_id: novelId + ':world-building',
 					type: 'world-building-data',
@@ -141,7 +140,7 @@ export class DatabaseService {
 		try {
 			return ((await this.db.get(novelId + ':world-building')) as any).worldBuilding;
 		} catch (error) {
-			console.error('describeWorldBuilding: ', error.message);
+			return;
 		}
 
 	}
