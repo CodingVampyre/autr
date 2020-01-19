@@ -9,6 +9,7 @@
 
 	<app-entity-descriptor
 		*ngIf="currentlySelectedCategory !== undefined"
+		(onContentEdited)="onContentEdited.emit()"
 		[entity]="currentlySelectedEntities"></app-entity-descriptor>
 	<button class="button_weak" id="entity-delete-button" (click)="deleteButtonClick.emit()">Delete</button>
 </div>

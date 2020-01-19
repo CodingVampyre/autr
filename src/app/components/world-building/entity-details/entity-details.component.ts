@@ -18,6 +18,9 @@ export class EntityDetailsComponent {
 	/** contents */
 	public contents: IEntityCategory[];
 
+	/***/
+	@Output() public onContentEdited = new EventEmitter();
+
 	/** the category that currently is selected */
 	private currentlySelectedCategory: ITag;
 

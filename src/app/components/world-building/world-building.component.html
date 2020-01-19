@@ -3,7 +3,6 @@
 
 		<!-- back button -->
 		<button class="button_light" (click)="navigateToWritingPanel()"><-- Back to writing</button>
-		<button class="button_light" (click)="worldBuilderService.saveToDatabase()">Save</button>
 
 		<!-- Character management -->
 		<h2 class="text-light">Characters</h2>
@@ -42,6 +41,7 @@
 	<!-- details panel -->
 	<div class="wrapper-padding-column">
 		<app-entity-details #entityDetailsComponent
+							(onContentEdited)="onContentEdited()"
 			[title]="currentlySelectedName"
 			(deleteButtonClick)="deleteCurrentlySelectedEntity()">
 		</app-entity-details>

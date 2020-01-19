@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
 	selector: 'app-entity-descriptor',
@@ -8,6 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class EntityDescriptorComponent {
 
 	@Input() public entity: IKeyValueEntity[];
+	@Output() public onContentEdited = new EventEmitter();
 
 	public addEntry() {
 		this.entity.push({ name: 'new entry', value: 'write something' });

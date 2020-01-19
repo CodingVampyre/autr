@@ -29,6 +29,9 @@ export class WorldBuildingComponent implements OnInit {
 	private currentlySelectedId: string;
 	private currentlySelectedType: 'character' | 'place' | 'object';
 
+	/** allows to save only when stopped typing */
+	private autosaveTimer: NodeJS.Timer;
+
 	/**
 	 *
 	 * @param worldBuilderService
@@ -47,7 +50,7 @@ export class WorldBuildingComponent implements OnInit {
 	}
 
 	/** creates a new character and sets thee focus on editing that one */
-	public onClickCreateCharacter(newCharacterName: string): void {
+	public async onClickCreateCharacter(newCharacterName: string): Promise<void> {
 		const newCharacterId = UUID();
 		const categoryTemplate = [
 			{ category: { id: 'appearance', text: 'appearance' }, entity: [] },
@@ -62,11 +65,12 @@ export class WorldBuildingComponent implements OnInit {
 			data: categoryTemplate,
 		});
 
+		await this.worldBuilderService.saveToDatabase();
 		this.updateLists();
 	}
 
 	/** creates a new place and sets thee focus on editing that one */
-	public onClickCreatePlace(newPlaceName: string): void {
+	public async onClickCreatePlace(newPlaceName: string): Promise<void> {
 		const newPlaceId = UUID();
 		const categoryTemplate = [
 			{ category: { id: 'lore', text: 'lore' }, entity: [] },
@@ -81,11 +85,12 @@ export class WorldBuildingComponent implements OnInit {
 			data: categoryTemplate,
 		});
 
+		await this.worldBuilderService.saveToDatabase();
 		this.updateLists();
 	}
 
 	/** creates a new place and sets thee focus on editing that one */
-	public onClickCreateObject(newObjectName: string): void {
+	public async onClickCreateObject(newObjectName: string): Promise<void> {
 		const newObjectId = UUID();
 		const categoryTemplate = [
 			{ category: { id: 'lore', text: 'lore' }, entity: [] },
@@ -100,6 +105,7 @@ export class WorldBuildingComponent implements OnInit {
 			data: categoryTemplate,
 		});
 
+		await this.worldBuilderService.saveToDatabase();
 		this.updateLists();
 	}
 
@@ -107,6 +113,8 @@ export class WorldBuildingComponent implements OnInit {
 	 *
 	 */
 	public async navigateToWritingPanel() {
+		await this.worldBuilderService.saveToDatabase();
+
 		const routerId = this.route.snapshot.paramMap.get('novelId');
 		await this.router.navigate(['writing-board', routerId]);
 	}
@@ -165,7 +173,7 @@ export class WorldBuildingComponent implements OnInit {
 	/**
 	 *
 	 */
-	public deleteCurrentlySelectedEntity() {
+	public async deleteCurrentlySelectedEntity() {
 		const id = this.currentlySelectedId;
 		this.currentlySelectedId = undefined;
 		this.currentlySelectedName = undefined;
@@ -178,7 +186,18 @@ export class WorldBuildingComponent implements OnInit {
 			case 'object': this.worldBuilderService.deleteObject(id); break;
 		}
 		// update list
+		await this.worldBuilderService.saveToDatabase();
 		this.updateLists();
+	}
+
+	/**
+	 *
+	 */
+	public onContentEdited() {
+		const autosaveIntervalMs = 1000;
+
+		clearTimeout(this.autosaveTimer);
+		this.autosaveTimer = setTimeout(() => this.worldBuilderService.saveToDatabase(), autosaveIntervalMs);
 	}
 
 	/**
