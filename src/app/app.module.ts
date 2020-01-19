@@ -23,6 +23,7 @@ import { WorldBuildingComponent } from './components/world-building/world-buildi
 import { SceneWorldBuilderComponent } from './components/writing-board/scene-world-builder/scene-world-builder.component';
 import { EntityDescriptorComponent } from './components/common/entity-descriptor/entity-descriptor.component';
 import { EntityDetailsComponent } from './components/world-building/entity-details/entity-details.component';
+import { TextButtonComponent } from './components/common/text-button/text-button.component';
 
 @NgModule({
 	declarations: [
@@ -45,6 +46,7 @@ import { EntityDetailsComponent } from './components/world-building/entity-detai
 		SceneWorldBuilderComponent,
 		EntityDescriptorComponent,
 		EntityDetailsComponent,
+		TextButtonComponent,
  	],
 	imports: [
 		BrowserModule,
