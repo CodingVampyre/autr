@@ -18,10 +18,10 @@ h3 {
 
 // BUTTONS
 .button {
-	height: 25px;
+	height: 30px;
 	border-radius: 8px;
-	padding-left: 20px;
-	padding-right: 20px;
+	padding-left: 10px;
+	padding-right: 10px;
 	font-size: 16px;
 	text-transform: lowercase;
 	letter-spacing: 1px;
@@ -29,31 +29,38 @@ h3 {
 	cursor: pointer;
 	border: none;
 	user-select: none;
+	box-shadow: 0 2px 0 0 rgba(255, 255, 255, 0.4);
+	transition: 200ms;
+	outline: 0;
+
+	&:hover {
+		// transform: scale(1.05, 1.05);
+		transform: translateY(-2px);
+		box-shadow: 0 4px 0 0 rgba(255, 255, 255, 0.4);
+	}
+
+	&:active {
+		transform: translateY(4px);
+		box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+	}
 }
 
 .button_light {
 	.button;
 	color: #121212;
 	background: #dddddd;
-	box-shadow: 0 0 2px 0 #ddd;
 }
 
 .button_dark {
 	.button;
 	color: #dddddd;
 	background: #121212;
-	box-shadow: 0 0 2px 0 #242424;
 }
 
 .button_main {
 	.button;
 	color: #ddd;
 	background: linear-gradient(to right, #750080, #EA00FF);
-	transition: 200ms;
-
-	&:hover {
-		transform: scale(1.05, 1.05);
-	}
 }
 
 .button_weak {
