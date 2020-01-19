@@ -1,1 +1,5 @@
-<p>text-button works!</p>
+<div class="text-button-wrapper">
+	<input type="text" id="text-input" [placeholder]="label" #textInput>
+	<label for="text-input" class="text-button-label">{{ label }}</label>
+	<button (click)="createText(textInput.value)">{{ buttonText }}</button>
+</div>

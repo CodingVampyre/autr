@@ -1,15 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
+/** */
 @Component({
-  selector: 'app-text-button',
-  templateUrl: './text-button.component.html',
-  styleUrls: ['./text-button.component.less']
+	selector: 'app-text-button',
+	templateUrl: './text-button.component.html',
+	styleUrls: ['./text-button.component.less'],
 })
-export class TextButtonComponent implements OnInit {
+export class TextButtonComponent {
 
-  constructor() { }
+	/**  */
+	@Output() public onExecute = new EventEmitter();
 
-  ngOnInit() {
-  }
+	@Input() public label = 'text';
+	@Input() public buttonText = 'go';
 
+	/**
+	 * creates the text if the filed is not empty
+	 * @param value text to be emitted
+	 */
+	public createText(value: string) {
+		if (value === '') { return; }
+		this.onExecute.emit(value);
+	}
 }

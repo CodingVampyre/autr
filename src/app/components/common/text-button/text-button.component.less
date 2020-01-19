@@ -1,0 +1,54 @@
+@import "../../../../styles";
+
+.text-button-wrapper {
+	box-shadow: 0 0 0 2px #ddd;
+	border-radius: 8px;
+	display: inline-block;
+	position: relative;
+	padding: 20px 10px 10px;
+
+	label {
+		color: #ddd;
+		font-size: 12px;
+		position: absolute;
+		margin-top: -14px;
+		margin-left: 10px;
+		left: 0;
+		transition: 0.2s;
+		opacity: 0;
+		transform: translateY(12px);
+	}
+
+	input {
+		font-size: 18px;
+		outline: none;
+		width: 300px;
+		height: 20px;
+		color: #ddd;
+		background: none;
+		border: none;
+		transition: 0.2s;
+		transform: translateY(-5px);
+	}
+
+	input:focus {
+		transform: translateY(5px);
+	}
+
+	input:focus + label {
+		opacity: 1;
+		color: @violet-strong;
+		transform: translateY(0px);
+	}
+
+	button {
+		outline: none;
+		position: absolute;
+		top: 5px;
+		right: 5px;
+		bottom: 5px;
+		border-radius: 8px;
+		border: none;
+		background: #ddd;
+	}
+}
