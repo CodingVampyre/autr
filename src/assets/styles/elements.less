@@ -18,42 +18,49 @@ h3 {
 
 // BUTTONS
 .button {
-	height: 40px;
-	border-radius: 20px;
-	padding-left: 20px;
-	padding-right: 20px;
-	font-size: 20px;
+	height: 30px;
+	border-radius: 8px;
+	padding-left: 10px;
+	padding-right: 10px;
+	font-size: 16px;
 	text-transform: lowercase;
 	letter-spacing: 1px;
 	font-family: "Mali", sans-serif;
 	cursor: pointer;
 	border: none;
 	user-select: none;
+	box-shadow: 0 2px 0 0 rgba(255, 255, 255, 0.4);
+	transition: 200ms;
+	outline: 0;
+
+	&:hover {
+		// transform: scale(1.05, 1.05);
+		transform: translateY(-2px);
+		box-shadow: 0 4px 0 0 rgba(255, 255, 255, 0.4);
+	}
+
+	&:active {
+		transform: translateY(4px);
+		box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+	}
 }
 
 .button_light {
 	.button;
 	color: #121212;
 	background: #dddddd;
-	box-shadow: 0 0 2px 0 #ddd;
 }
 
 .button_dark {
 	.button;
 	color: #dddddd;
 	background: #121212;
-	box-shadow: 0 0 2px 0 #242424;
 }
 
 .button_main {
 	.button;
 	color: #ddd;
 	background: linear-gradient(to right, #750080, #EA00FF);
-	transition: 200ms;
-
-	&:hover {
-		transform: scale(1.05, 1.05);
-	}
 }
 
 .button_weak {
@@ -64,13 +71,23 @@ h3 {
 	font-size: 16px;
 }
 
+.button_mini {
+	width: 40px;
+	height: 40px;
+	border: 1px solid #484848;
+	background: none;
+	color: #484848;
+	border-radius: 20px;
+	font-size: 20px;
+}
+
 // INPUT
 .input {
-	height: 40px;
-	border-radius: 20px;
+	height: 25px;
+	border-radius: 8px;
 	padding-left: 20px;
 	padding-right: 20px;
-	font-size: 20px;
+	font-size: 16px;
 	letter-spacing: 1px;
 	font-family: "Mali", sans-serif;
 	cursor: text;

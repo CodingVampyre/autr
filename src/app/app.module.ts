@@ -19,6 +19,11 @@ import { WritingHeaderBarComponent } from './components/writing-board/writing-he
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TagListComponent } from './components/common/tag-list/tag-list.component';
 import { ImageTagListComponent } from './components/common/image-tag-list/image-tag-list.component';
+import { WorldBuildingComponent } from './components/world-building/world-building.component';
+import { SceneWorldBuilderComponent } from './components/writing-board/scene-world-builder/scene-world-builder.component';
+import { EntityDescriptorComponent } from './components/common/entity-descriptor/entity-descriptor.component';
+import { EntityDetailsComponent } from './components/world-building/entity-details/entity-details.component';
+import { TextButtonComponent } from './components/common/text-button/text-button.component';
 
 @NgModule({
 	declarations: [
@@ -37,6 +42,11 @@ import { ImageTagListComponent } from './components/common/image-tag-list/image-
 		WritingHeaderBarComponent,
 		TagListComponent,
 		ImageTagListComponent,
+		WorldBuildingComponent,
+		SceneWorldBuilderComponent,
+		EntityDescriptorComponent,
+		EntityDetailsComponent,
+		TextButtonComponent,
  	],
 	imports: [
 		BrowserModule,
@@ -46,6 +56,7 @@ import { ImageTagListComponent } from './components/common/image-tag-list/image-
 			{ path: 'projects', component: ProjectListComponent },
 			{ path: 'export/:novelId', component: ExportMenuComponent },
 			{ path: 'writing-board/:novelId', component: WritingBoardComponent },
+			{ path: 'world-building/:novelId', component: WorldBuildingComponent },
 		]),
 	],
 	providers: [],

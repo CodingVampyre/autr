@@ -12,6 +12,9 @@ export class TagListComponent {
 	/** a list of tags */
 	@Input() public tagList: ITag[];
 
+	/** if provided, this tag should be marked as active */
+	@Input() public highlightedTag: ITag;
+
 	/** fired when a tag is clicked */
 	@Output() public onClickTag = new EventEmitter();
 

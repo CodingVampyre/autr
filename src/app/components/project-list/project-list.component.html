@@ -4,9 +4,8 @@
 		<h2 class="text-light">Create a novel</h2>
 		<div class="all-in-row">
 			<button class="button_light" (click)="onClickImportNovel()">Import</button>
-			<p>or</p>
-			<input #newNovelName class="input_light" type="text" placeholder="new novel name">
-			<button class="button_main" (click)="onClickCreateNewNovel(newNovelName.value)">Create</button>
+			<span class="text-light">or</span>
+			<app-text-button label="novel name" buttonText="create" (onExecute)="onClickCreateNewNovel($event)"></app-text-button>
 		</div>
 
 		<h2 class="text-light">Load a novel</h2>

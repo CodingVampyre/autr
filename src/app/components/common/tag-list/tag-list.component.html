@@ -1,1 +1,6 @@
-<span *ngFor="let tag of tagList" class="tag" (click)="onClickTag.emit(tag)">{{ tag.text }}</span>
+<span *ngFor="let tag of tagList"
+	  class="tag"
+	  [ngClass]="{ 'tag-active': highlightedTag?.id === tag.id }"
+	  (click)="onClickTag.emit(tag)">
+	{{ tag.text }}
+</span>

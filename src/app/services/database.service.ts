@@ -10,31 +10,20 @@ import { Injectable } from '@angular/core';
 import PouchDB from 'pouchdb';
 import PouchDbFind from 'pouchdb-find';
 import { Novel } from '../data-models/novel.interface';
-import { makeUUID } from './uuid.function';
+import { v1 as UUID } from 'uuid';
+import { INovelDbEntry } from '../data-models/novel-db-entry.interface';
+import { ICharacter, IObject, IPlace } from './world-builder.service';
 
 PouchDB.plugin(PouchDbFind);
 
-// TODO outsource this
-interface INovelDbEntry {
-	_id: string;
-	novel: Novel;
-	type: 'novel';
-	name: string;
-	createdAt: number;
-	modifiedAt: number;
-}
-
 /** manages persistent storage with level */
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class DatabaseService {
 
 	/** database instance */
 	private db = new PouchDB('autr');
-
-	/** default constructor */
-	constructor() { }
 
 	/**
 	 *
@@ -54,7 +43,7 @@ export class DatabaseService {
 	 * @returns the key of the created novel
 	 */
 	public async storeNovel(novel: Novel): Promise<string> {
-		const key: string = makeUUID();
+		const key: string = UUID();
 		await this.db.put<INovelDbEntry>({
 			_id: key,
 			type: 'novel',
@@ -89,9 +78,10 @@ export class DatabaseService {
 	 *
 	 */
 	public async listNovels(): Promise<any> {
-		const result: PouchDB.Find.FindResponse<{}> = await this.db.find({
+		const result = await this.db.find({
 			selector: {
-				_id: {$exists: true},
+				// _id: { $exists: true }, TODO this leads to an error
+				type: { $eq: 'novel' },
 			},
 			fields: ['_id', 'type', 'name', 'createdAt'],
 		});
@@ -100,8 +90,58 @@ export class DatabaseService {
 
 	public async deleteNovel(id: string): Promise<void> {
 		const novel = await this.db.get(id);
-		if (novel != null) {
+		if (novel !== undefined) {
 			await this.db.remove(novel);
 		}
+	}
+
+	/**
+	 * TODO test
+	 * @param novelId
+	 * @param worldBuilding
+	 */
+	public async storeNovelWorldBuilding(
+		novelId: string,
+		worldBuilding: { characters: ICharacter[]; places: IPlace[]; objects: IObject[] },
+		) {
+
+		// look if an entry exists or create one
+		const key = novelId + ':world-building';
+
+		try {
+			const worldBuildingData = await this.db.get(key) as any;
+			// update if entry exists
+			if (worldBuildingData._id === key) {
+				worldBuildingData.worldBuilding = worldBuilding;
+				worldBuildingData.modifiedAt = Date.now();
+				return this.db.put(worldBuildingData);
+			}
+		} catch (error) {
+
+			if (error.message === 'missing') {
+				// create an entry if none exists
+				return this.db.put({
+					_id: novelId + ':world-building',
+					type: 'world-building-data',
+					worldBuilding,
+					createdAt: Date.now(),
+					modifiedAt: Date.now(),
+				});
+			}
+
+		}
+	}
+
+	/**
+	 * retrieve worldBuilding
+	 * @param novelId
+	 */
+	public async describeWorldBuilding(novelId: string) {
+		try {
+			return ((await this.db.get(novelId + ':world-building')) as any).worldBuilding;
+		} catch (error) {
+			return;
+		}
+
 	}
 }

@@ -1,0 +1,47 @@
+@import "../../../../assets/styles/colors";
+@import "../../../../assets/styles/elements";
+@import "../../../../styles";
+
+.entity-key {
+	cursor: pointer;
+	color: #EA00FF;
+	width: 100%;
+}
+
+.entity-value {
+	cursor: pointer;
+	text-align: justify;
+}
+
+.entity-entry {
+	box-sizing: border-box;
+	margin-bottom: 20px;
+
+	.one-row {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+
+	p {
+		margin: 0;
+	}
+}
+
+.full-block {
+	display: block;
+}
+
+#entity-details-wrapper {
+	margin-top: 20px;
+	background: @violet-darker;
+	border-radius: 8px;
+	padding: 20px;
+	box-sizing: border-box;
+}
+
+#detail-adder-button {
+	margin-top: 20px;
+	display: flex;
+	justify-content: center;
+}
