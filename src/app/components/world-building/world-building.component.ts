@@ -25,9 +25,9 @@ export class WorldBuildingComponent implements OnInit {
 	public entityDetailsComponent: EntityDetailsComponent;
 
 	/***/
-	private currentlySelectedName: string;
-	private currentlySelectedId: string;
-	private currentlySelectedType: 'character' | 'place' | 'object';
+	public currentlySelectedName: string;
+	public currentlySelectedId: string;
+	public currentlySelectedType: 'character' | 'place' | 'object';
 
 	/** allows to save only when stopped typing */
 	private autosaveTimer: NodeJS.Timer;

@@ -21,11 +21,11 @@ export class EntityDetailsComponent {
 	/***/
 	@Output() public onContentEdited = new EventEmitter();
 
-	/** the category that currently is selected */
-	private currentlySelectedCategory: ITag;
-
 	/** the entities that currently can be edited */
-	private currentlySelectedEntities: IKeyValueEntity[];
+	public currentlySelectedEntities: IKeyValueEntity[];
+
+	/** the category that currently is selected */
+	public currentlySelectedCategory: ITag;
 
 	/**
 	 * @return a tag list of categories
